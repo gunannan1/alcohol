@@ -1,6 +1,8 @@
 package com.app.alcohol.enums;
 
 
+import com.app.alcohol.vo.LoginVO;
+
 /**
  * result messages
  */
@@ -10,12 +12,15 @@ public enum  ResultEnum {
     FAILD(500, "failure"),
 
 
-    //register failure message
+    //register or login failure message
     Register_Failed(500,"register failed"),
     Empty_Username(500,"Username can't be empty"),
     Empty_Password(500,"Password can't be empty"),
     Empty_Email(500,"Email can't be empty"),
-    Repeated_Username(500,"Username is repeated");
+    Repeated_Username(500,"Username is repeated"),
+    Login_Failed(500,"login failed,wrong username or password");
+
+
 
 
 

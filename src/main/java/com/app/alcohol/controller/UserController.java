@@ -2,6 +2,7 @@ package com.app.alcohol.controller;
 
 import com.app.alcohol.enums.ResultEnum;
 import com.app.alcohol.service.UserService;
+import com.app.alcohol.vo.LoginVO;
 import com.app.alcohol.vo.ResponseVO;
 import com.app.alcohol.vo.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,7 +49,6 @@ public class UserController {
             return ResponseVO.error(ResultEnum.Repeated_Username);
         }
 
-
         //return the userVo entity to the mobile since they may need cache it locally
         if(isSuccess){
             return ResponseVO.success(userVO);
@@ -59,7 +59,7 @@ public class UserController {
 
 
     /**
-     *test if we need add @Response
+     * test if we need add @RequestBody
      * @param userVO the parameter for user register
      * @return
      */
@@ -88,7 +88,6 @@ public class UserController {
             return ResponseVO.error(ResultEnum.Repeated_Username);
         }
 
-
         //return the userVo entity to the mobile since they may need cache it locally
         if(isSuccess){
             return ResponseVO.success(userVO);
@@ -96,6 +95,40 @@ public class UserController {
             return ResponseVO.error(ResultEnum.Register_Failed);
         }
     }
+
+
+    /**
+     * login
+     * @param loginVO
+     * @return
+     */
+    @RequestMapping(value="login",method = RequestMethod.POST)
+    public ResponseVO login(LoginVO loginVO){
+        String username=loginVO.getUsername();
+        String password=loginVO.getPassword();
+
+        if(username==null||username.trim().length()==0){
+            return ResponseVO.error(ResultEnum.Empty_Username);
+        }
+
+        if(password==null||password.trim().length()==0){
+            return ResponseVO.error(ResultEnum.Empty_Password);
+        }
+
+        UserVO userVO=userService.login(loginVO);
+        if(userVO==null){
+            return ResponseVO.error(ResultEnum.Login_Failed);
+        }
+
+        return ResponseVO.success(userVO);
+
+    }
+
+
+
+
+
+
 
 
 

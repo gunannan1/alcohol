@@ -29,10 +29,10 @@ public class UserVO {
     /**
      * sex 0-male，1-female
      */
-    private int sex;
+    private Integer sex;
 
     /**
      * age
      */
-    private int age;
+    private Integer age;
 }
