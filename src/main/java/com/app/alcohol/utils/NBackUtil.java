@@ -11,8 +11,8 @@ public class NBackUtil {
     }
 
     public static void main(String[] args) {
-        List<String> list=new LinkedList<>();
-        List<Integer> list2=new ArrayList<>();
+        List<String> characters=new LinkedList<>();
+        List<Integer> nums=new ArrayList<>();
         List<Integer> result=new ArrayList<>();
         String[] traits=new String[20];
         Arrays.fill(traits,"A");
@@ -20,21 +20,21 @@ public class NBackUtil {
         int nback=2;
 
         for (int i=0;i<20;i++){
-            list2.add(i);
+            nums.add(i);
         }
 
-        list.add("P");
-        list.add("Q");
-        list.add("L");
-        list.add("K");
-        list.add("W");
-        list.add("C");
-        list.add("V");
-        list.add("Z");
+        characters.add("P");
+        characters.add("Q");
+        characters.add("L");
+        characters.add("K");
+        characters.add("W");
+        characters.add("C");
+        characters.add("V");
+        characters.add("Z");
 
 
 //        for(int i=0;i<20;i++){
-//            traits[i]=list.get(random.nextInt(list.size()));
+//            traits[i]=characters.get(random.nextInt(characters.size()));
 //        }
 //
 //        System.out.println(Arrays.toString(traits));
@@ -58,40 +58,54 @@ public class NBackUtil {
 
         int count=0;
 
-
-        while (true){
-            int out=0;
-            for(int i=2;i<20;i++){
-                if(!traits[i].equals("A")&&traits[i].equals(traits[i-2])){
-                    out++;
+        try {
+            while (true){
+                int out=0;
+                for(int i=2;i<20;i++){
+                    if(!traits[i].equals("A")&&traits[i].equals(traits[i-2])){
+                        out++;
+                    }
                 }
-            }
 
-            System.out.println(Arrays.toString(traits));
-            System.out.println(out);
+                System.out.println(Arrays.toString(traits));
+                System.out.println(out);
 
-            if(out==7){
-                break;
-            }
-
-            int index=random.nextInt(list2.size());
-            int num=list2.get(index);
-            String character=list.get(random.nextInt(list.size()));
-
-            if(traits[num].equals("A")||traits[num].equals(character)){
-                if(num+nback<20&&traits[num+nback].equals("A")){
-                    traits[num]=character;
-                    traits[num+nback]=character;
-                    list2.remove(index);
-                    count++;
+                if(out==7){
+                    break;
                 }
-                else if(num-nback>=0&&traits[num-nback].equals("A")){
-                    traits[num]=character;
-                    traits[num-nback]=character;
-                    list2.remove(index);
-                    count++;
+                if (out>7){
+                    throw new Exception("more than 7");
                 }
-            }
+
+                int index=random.nextInt(nums.size());
+                int num=nums.get(index);
+                String character=characters.get(random.nextInt(characters.size()));
+
+                if(traits[num].equals("A")||traits[num].equals(character)){
+
+                    if(num+nback<20&&traits[num+nback].equals("A")){
+                        if(out==6){
+                            if((num+2*nback<20&&traits[num+2*nback].equals(character))||(num-nback>=0&&traits[num-nback].equals(character))){
+                                continue;
+                            }
+                        }
+                        traits[num]=character;
+                        traits[num+nback]=character;
+                        nums.remove(index);
+                        count++;
+                    }
+                    else if(num-nback>=0&&traits[num-nback].equals("A")){
+                        if(out==6){
+                            if((num-2*nback>=0&&traits[num-2*nback].equals(character))||(num+nback<20&&traits[num+nback].equals(character))){
+                                continue;
+                            }
+                        }
+                        traits[num]=character;
+                        traits[num-nback]=character;
+                        nums.remove(index);
+                        count++;
+                    }
+                }
 
 
 
@@ -99,7 +113,7 @@ public class NBackUtil {
 //                if(num-nback>=0&&traits[num-nback].equals("A")){
 //                    traits[num]=character;
 //                    traits[num-nback]=character;
-//                    list2.remove(index);
+//                    nums.remove(index);
 //                    count++;
 //                }
 //            }
@@ -108,18 +122,42 @@ public class NBackUtil {
 //            }
 
 
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
         }
 
-        count=0;
+
+        for(int i=0;i<20;i++){
+
+            if(traits[i].equals("A")){
+                while (traits[i].equals("A")){
+                    String insert=characters.get(random.nextInt(characters.size()));
+                    if(i<nback&&!insert.equals(traits[i+nback])){
+                        traits[i]=insert;
+                    }
+                    else if(i+nback>19&&!insert.equals(traits[i-nback])){
+                        traits[i]=insert;
+                    }
+                    else if(!insert.equals(traits[i-nback])&&!insert.equals(traits[i+nback])){
+                        traits[i]=insert;
+                    }
+                }
+
+            }
+        }
+
 
         for(int i=2;i<20;i++){
-            if(!traits[i].equals("A")&&traits[i].equals(traits[i-2])){
-                count++;
+            if(traits[i].equals(traits[i-2])){
                 result.add(i);
             }
         }
-//        System.out.println(result.size());
-//        System.out.println(result);
+
+
+        System.out.println(result.size());
+        System.out.println(result);
         System.out.println(Arrays.toString(traits));
 
 
