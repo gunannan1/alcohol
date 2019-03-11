@@ -4,8 +4,13 @@ import java.util.*;
 
 public class NBackUtil {
 
-    public void generateOneBack(){
-        Set<String> set=new HashSet<>();
+
+    //this algorithm is stupid and may have some bugs,i'm not sure
+    //so i recommend to generate thousands of theses character string before experiment and save them to the database
+    //when doing the experiments, we can randomly choose the strings in the database, it also saves time
+    public void generateOneBack(int nback) throws Exception{
+
+
 
 
     }
@@ -33,36 +38,12 @@ public class NBackUtil {
         characters.add("Z");
 
 
-//        for(int i=0;i<20;i++){
-//            traits[i]=characters.get(random.nextInt(characters.size()));
-//        }
-//
-//        System.out.println(Arrays.toString(traits));
-//
-//        int num=0;
-//
-//        for(int i=2;i<20;i++){
-//            if(traits[i].equals(traits[i-2])){
-//                num++;
-//                result.add(i);
-//            }
-//        }
-//        System.out.println(result);
-//        System.out.println(num);
-//
-
-
-
-        System.out.println(Arrays.toString(traits));
-
-
-        int count=0;
 
         try {
             while (true){
                 int out=0;
-                for(int i=2;i<20;i++){
-                    if(!traits[i].equals("A")&&traits[i].equals(traits[i-2])){
+                for(int i=nback;i<20;i++){
+                    if(!traits[i].equals("A")&&traits[i].equals(traits[i-nback])){
                         out++;
                     }
                 }
@@ -74,6 +55,7 @@ public class NBackUtil {
                     break;
                 }
                 if (out>7){
+                    System.err.println("There is a bug");
                     throw new Exception("more than 7");
                 }
 
@@ -92,7 +74,7 @@ public class NBackUtil {
                         traits[num]=character;
                         traits[num+nback]=character;
                         nums.remove(index);
-                        count++;
+
                     }
                     else if(num-nback>=0&&traits[num-nback].equals("A")){
                         if(out==6){
@@ -103,28 +85,13 @@ public class NBackUtil {
                         traits[num]=character;
                         traits[num-nback]=character;
                         nums.remove(index);
-                        count++;
                     }
                 }
-
-
-
-//            else if(traits[num].equals(character)){
-//                if(num-nback>=0&&traits[num-nback].equals("A")){
-//                    traits[num]=character;
-//                    traits[num-nback]=character;
-//                    nums.remove(index);
-//                    count++;
-//                }
-//            }
-//            else {
-//
-//            }
-
 
             }
 
         }catch (Exception e){
+            System.err.println("there is a exception");
             e.printStackTrace();
         }
 
@@ -134,11 +101,18 @@ public class NBackUtil {
             if(traits[i].equals("A")){
                 while (traits[i].equals("A")){
                     String insert=characters.get(random.nextInt(characters.size()));
-                    if(i<nback&&!insert.equals(traits[i+nback])){
-                        traits[i]=insert;
+
+                    if(i<nback){
+                        if(!insert.equals(traits[i+nback])){
+                            traits[i]=insert;
+                        }
+
                     }
-                    else if(i+nback>19&&!insert.equals(traits[i-nback])){
-                        traits[i]=insert;
+                    else if(i+nback>19){
+                        if(!insert.equals(traits[i-nback])){
+                            traits[i]=insert;
+                        }
+
                     }
                     else if(!insert.equals(traits[i-nback])&&!insert.equals(traits[i+nback])){
                         traits[i]=insert;
@@ -149,8 +123,8 @@ public class NBackUtil {
         }
 
 
-        for(int i=2;i<20;i++){
-            if(traits[i].equals(traits[i-2])){
+        for(int i=nback;i<20;i++){
+            if(traits[i].equals(traits[i-nback])){
                 result.add(i);
             }
         }
