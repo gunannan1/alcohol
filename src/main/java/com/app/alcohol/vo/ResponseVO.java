@@ -23,7 +23,7 @@ public class ResponseVO<M> {
 
     public static<M> ResponseVO success(M m){
         ResponseVO responseVO = new ResponseVO();
-        responseVO.setStatus(ResultEnum.SUCCESS.getCode());
+        responseVO.setStatus(ResultEnum.SUCCESS.getStatus());
         responseVO.setMsg(ResultEnum.SUCCESS.getMessage());
         responseVO.setData(m);
         return responseVO;
@@ -33,7 +33,7 @@ public class ResponseVO<M> {
 
     public static<M> ResponseVO success(ResultEnum resultEnum){
         ResponseVO responseVO = new ResponseVO();
-        responseVO.setStatus(resultEnum.getCode());
+        responseVO.setStatus(resultEnum.getStatus());
         responseVO.setMsg(resultEnum.getMessage());
 
         return responseVO;
@@ -41,8 +41,16 @@ public class ResponseVO<M> {
 
     public static<M> ResponseVO error(ResultEnum resultEnum){
         ResponseVO responseVO = new ResponseVO();
-        responseVO.setStatus(resultEnum.getCode());
+        responseVO.setStatus(resultEnum.getStatus());
         responseVO.setMsg(resultEnum.getMessage());
+
+        return responseVO;
+    }
+
+    public static<M> ResponseVO error(int status, String msg){
+        ResponseVO responseVO = new ResponseVO();
+        responseVO.setStatus(status);
+        responseVO.setMsg(msg);
 
         return responseVO;
     }

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.app.alcohol.dao.SSTRecordMapper">
+
+    <resultMap id="BaseResultMap" type="com.app.alcohol.entity.SSTRecord">
+        <id column="id" property="id" />
+        <result column="username" property="username" />
+        <result column="block" property="block" />
+        <result column="trials" property="trials" />
+        <result column="incorrect" property="incorrect" />
+        <result column="missed" property="missed" />
+        <result column="reactionTime" property="reaction_time" />
+        <result column="percentage" property="percentage" />
+    </resultMap>
+
+
+
+</mapper>

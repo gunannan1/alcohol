@@ -6,7 +6,7 @@ public class NBackUtil {
 
 
     /**
-     * this algorithm is stupid and may have some bugs,i'm not sure
+     * this algorithm is stupid and  have some bugs
      * so i recommend to generate thousands of theses character string before experiment and save them to the database
      * when doing the experiments, we can randomly choose the strings in the database, it also saves time
      * @param nback 1 or 2 or 3
@@ -38,8 +38,9 @@ public class NBackUtil {
             }
 
 
-            System.out.println(Arrays.toString(traits));
-            System.out.println(count);
+//            System.out.println(Arrays.toString(traits));
+//            System.out.println(nums);
+//            System.out.println(count);
 
 
             //if count of targets equals to 7, break. if it is larger than 7, it means bug appears
@@ -64,9 +65,16 @@ public class NBackUtil {
                             continue;
                         }
                     }
+                    if(count==target-2){
+                        if((num+2*nback<max&&traits[num+2*nback].equals(character))&&(num-nback>=0&&traits[num-nback].equals(character))){
+                            continue;
+                        }
+
+                    }
                     traits[num]=character;
                     traits[num+nback]=character;
                     nums.remove(index);
+                    nums.remove((Object)(num+nback));
 
                 }
                 else if(num-nback>=0&&traits[num-nback].equals("A")){
@@ -75,14 +83,40 @@ public class NBackUtil {
                             continue;
                         }
                     }
+                    if(count==target-2){
+                        if((num-2*nback>=0&&traits[num-2*nback].equals(character))&&(num+nback<max&&traits[num+nback].equals(character))){
+                            continue;
+                        }
+                    }
+
                     traits[num]=character;
                     traits[num-nback]=character;
                     nums.remove(index);
+                    nums.remove((Object)(num-nback));
                 }
+                else if(traits[num].equals("A")&&num+nback<max&&character.equals(traits[num+nback])){
+                    if(count==target-1){
+                        if((num-nback>=0&&traits[num-nback].equals(character))){
+                            continue;
+                        }
+                    }
+                    traits[num]=character;
+                    nums.remove(index);
+                }
+                else if(traits[num].equals("A")&&num-nback>=0&&character.equals(traits[num-nback])){
+                    if(count==target-1){
+                        if((num-nback>=0&&traits[num-nback].equals(character))){
+                            continue;
+                        }
+                    }
+                    traits[num]=character;
+                    nums.remove(index);
+                }
+
             }
-//            else {
-//                nums.remove((Object)index);
-//            }
+            else {
+                nums.remove(index);
+            }
 
 
         }
@@ -144,13 +178,10 @@ public class NBackUtil {
 
 
 //
-//        System.out.println(targets.size());
-//        System.out.println(targets);
-//        System.out.println(Arrays.toString(traits));
-//        System.out.println(result);
-
-
-
+        System.out.println(targets.size());
+        System.out.println(targets);
+        System.out.println(Arrays.toString(traits));
+        System.out.println(result);
 
 
 
@@ -169,12 +200,8 @@ public class NBackUtil {
         characters.add("Z");
 
 
-
-
-
-
         try {
-            for (int i=0;i<1000;i++){
+            for (int i=0;i<100000;i++){
                 generateOneBack(3,7,20,characters);
                 System.out.println(i);
 
@@ -184,8 +211,6 @@ public class NBackUtil {
             System.err.println("bug appear");
             e.printStackTrace();
         }
-
-
 
 
 

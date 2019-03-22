@@ -1,15 +1,13 @@
 package com.app.alcohol.enums;
 
 
-import com.app.alcohol.vo.LoginVO;
-
 /**
  * result messages
  */
 public enum  ResultEnum {
 
     SUCCESS(200, "success"),
-    FAILD(500, "failure"),
+    Error(500, "system error"),
 
 
     //register or login failure message
@@ -24,21 +22,21 @@ public enum  ResultEnum {
 
 
 
-    private int code;
+    private int status;
     private String message;
 
-    private ResultEnum(int code, String message) {
-        this.code = code;
+    private ResultEnum(int status, String message) {
+        this.status = status;
         this.message = message;
     }
 
 
-    public int getCode() {
-        return this.code;
+    public int getStatus() {
+        return this.status;
     }
 
-    public void setCode(int code) {
-        this.code = code;
+    public void setStatus(int status) {
+        this.status = status;
     }
 
     public String getMessage() {

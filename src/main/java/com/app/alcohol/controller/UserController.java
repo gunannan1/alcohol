@@ -1,6 +1,7 @@
 package com.app.alcohol.controller;
 
 import com.app.alcohol.enums.ResultEnum;
+import com.app.alcohol.exception.GlobalException;
 import com.app.alcohol.service.UserService;
 import com.app.alcohol.vo.LoginVO;
 import com.app.alcohol.vo.ResponseVO;
@@ -27,13 +28,13 @@ public class UserController {
     @RequestMapping(value="register",method = RequestMethod.POST)
     public ResponseVO register(@RequestBody UserVO userVO){
         if(userVO.getUsername() == null || userVO.getUsername().trim().length()==0){
-            return ResponseVO.error(ResultEnum.Empty_Username);
+            throw new GlobalException(ResultEnum.Empty_Username);
         }
         if(userVO.getPassword() == null || userVO.getPassword().trim().length()==0){
-            return ResponseVO.error(ResultEnum.Empty_Password);
+            throw new GlobalException(ResultEnum.Empty_Password);
         }
         if(userVO.getEmail() == null || userVO.getEmail().trim().length()==0){
-            return ResponseVO.error(ResultEnum.Empty_Email);
+            throw new GlobalException(ResultEnum.Empty_Email);
         }
 
         //if username is repeated,return true
@@ -46,16 +47,18 @@ public class UserController {
             isSuccess = userService.register(userVO);
         }
         else {
-            return ResponseVO.error(ResultEnum.Repeated_Username);
+            throw new GlobalException(ResultEnum.Repeated_Username);
         }
 
         //return the userVo entity to the mobile since they may need cache it locally
         if(isSuccess){
             return ResponseVO.success(userVO);
         }else{
-            return ResponseVO.error(ResultEnum.Register_Failed);
+            throw new GlobalException(ResultEnum.Register_Failed);
+
         }
     }
+
 
 
     /**
@@ -66,13 +69,13 @@ public class UserController {
     @RequestMapping(value="register2",method = RequestMethod.POST)
     public ResponseVO register2(UserVO userVO){
         if(userVO.getUsername() == null || userVO.getUsername().trim().length()==0){
-            return ResponseVO.error(ResultEnum.Empty_Username);
+            throw new GlobalException(ResultEnum.Empty_Username);
         }
         if(userVO.getPassword() == null || userVO.getPassword().trim().length()==0){
-            return ResponseVO.error(ResultEnum.Empty_Password);
+            throw new GlobalException(ResultEnum.Empty_Password);
         }
         if(userVO.getEmail() == null || userVO.getEmail().trim().length()==0){
-            return ResponseVO.error(ResultEnum.Empty_Email);
+            throw new GlobalException(ResultEnum.Empty_Email);
         }
 
         //if username is repeated,return true
@@ -85,14 +88,14 @@ public class UserController {
             isSuccess = userService.register(userVO);
         }
         else {
-            return ResponseVO.error(ResultEnum.Repeated_Username);
+            throw new GlobalException(ResultEnum.Repeated_Username);
         }
 
         //return the userVo entity to the mobile since they may need cache it locally
         if(isSuccess){
             return ResponseVO.success(userVO);
         }else{
-            return ResponseVO.error(ResultEnum.Register_Failed);
+            throw new GlobalException(ResultEnum.Register_Failed);
         }
     }
 
@@ -108,16 +111,16 @@ public class UserController {
         String password=loginVO.getPassword();
 
         if(username==null||username.trim().length()==0){
-            return ResponseVO.error(ResultEnum.Empty_Username);
+            throw new GlobalException(ResultEnum.Empty_Username);
         }
 
         if(password==null||password.trim().length()==0){
-            return ResponseVO.error(ResultEnum.Empty_Password);
+            throw new GlobalException(ResultEnum.Empty_Password);
         }
 
         UserVO userVO=userService.login(loginVO);
         if(userVO==null){
-            return ResponseVO.error(ResultEnum.Login_Failed);
+            throw new GlobalException(ResultEnum.Login_Failed);
         }
 
         return ResponseVO.success(userVO);
