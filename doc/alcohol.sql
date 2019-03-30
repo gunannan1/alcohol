@@ -19,7 +19,7 @@ CREATE TABLE `user` (
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='user table';
 
 -- insert one user for test
-INSERT INTO user(username,password,name,email,sex,age) VALUES('admin','admin','admin','admin@gmail.com',0,100);
+INSERT INTO user(username,password,name,email,sex,age) VALUES('test','test','test','test@gmail.com',0,30);
 
 
 
@@ -122,11 +122,45 @@ CREATE TABLE `SST_Record` (
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='SST_Record table';
 
 
+--
+-- -- NBack_Record table
+--
+-- DROP TABLE IF EXISTS `NBack_Record`;
+-- CREATE TABLE `NBack_Record` (
+--   `id` bigint(20) NOT NULL AUTO_INCREMENT ,
+--   `username` varchar(20) NOT NULL COMMENT 'username of user',
+--   `block` int NOT NULL  COMMENT '0 - practice block, 1- first experiment block, 2- second, 3 third,4 fourth  ',
+--   `trials` INT  NOT NULL COMMENT 'trails of every block, in practice it is 10, in experiment it is 20',
+--   `incorrect` INT NOT NULL  COMMENT 'num of incorrect response of the test',
+--   `missed` INT NOT NULL  COMMENT 'num of missed response of the test',
+--   `reaction_time` FLOAT NOT NULL  COMMENT 'Mean reaction time to go stimuli',
+--   `percentage` FLOAT NOT NULL  COMMENT 'Percentage of correctly suppressed responses on stop trials',
+--
+--   PRIMARY KEY (`id`)
+-- ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='NBack_Record table';
+--
 
 
 
 
 
+-- create Researcher Table
+
+DROP TABLE IF EXISTS `researcher`;
+CREATE TABLE `researcher` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT ,
+  `username` varchar(20) NOT NULL COMMENT 'username',
+  `password` varchar(20) NOT NULL COMMENT 'password',
+  `name` varchar(20) NOT NULL  COMMENT 'name',
+  `email` varchar(50) NOT NULL COMMENT 'email address',
+  `researcher_id` varchar(50) NOT NULL COMMENT ' the special id number for researcher',
+  `access_token` varchar(50)  COMMENT 'access token for dropbox',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `username` (`username`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='researcher table';
+
+-- insert one researcher for test
+INSERT INTO researcher(username,password,name,email,researcher_id,access_token) VALUES('admin','alcoholadmin','admin','admin@gmail.com','admin000','admin');
 
 
 

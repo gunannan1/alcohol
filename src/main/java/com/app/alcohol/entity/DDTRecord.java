@@ -12,6 +12,7 @@ import lombok.Data;
 @Data
 @TableName("DDT_Record")
 public class DDTRecord {
+
     /**
      * id, auto increment
      */

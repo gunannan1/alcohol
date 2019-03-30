@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.app.alcohol.dao.DDTRecordMapper">
+
+    <resultMap id="BaseResultMap" type="com.app.alcohol.entity.DDTRecord">
+        <id column="id" property="id" />
+        <result column="username" property="username" />
+        <result column="question_1" property="question_1" />
+        <result column="question_2" property="question_2" />
+        <result column="question_3" property="question_3" />
+        <result column="question_4" property="question_4" />
+        <result column="question_5" property="question_5" />
+        <result column="question_6" property="question_6" />
+        <result column="question_7" property="question_7" />
+        <result column="question_8" property="question_8" />
+        <result column="question_9" property="question_9" />
+        <result column="question_10" property="question_10" />
+        <result column="question_11" property="question_11" />
+        <result column="question_12" property="question_12" />
+        <result column="question_13" property="question_13" />
+        <result column="question_14" property="question_14" />
+        <result column="question_15" property="question_15" />
+        <result column="question_16" property="question_16" />
+        <result column="question_17" property="question_17" />
+        <result column="question_18" property="question_18" />
+        <result column="question_19" property="question_19" />
+        <result column="question_20" property="question_20" />
+        <result column="question_21" property="question_21" />
+        <result column="question_22" property="question_22" />
+        <result column="question_23" property="question_23" />
+        <result column="question_24" property="question_24" />
+        <result column="question_25" property="question_25" />
+        <result column="question_26" property="question_26" />
+        <result column="question_27" property="question_27" />
+
+
+    </resultMap>
+
+
+
+</mapper>

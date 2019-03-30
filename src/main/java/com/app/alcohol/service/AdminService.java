@@ -3,6 +3,5 @@ package com.app.alcohol.service;
 import org.springframework.stereotype.Service;
 
 @Service
-public class NBackService {
-
+public class AdminService {
 }
