@@ -4,27 +4,32 @@ import com.app.alcohol.enums.ResultEnum;
 import lombok.Data;
 
 /**
- * response
- *
+ * response message
  */
 @Data
 public class ResponseVO<M> {
 
-    //response status
-    private int status;
+    /**
+     * response code
+     */
+    private Integer code;
 
-    // response message
-    private String msg;
+    /**
+     * response message
+     */
+    private String message;
 
-    // response data
+    /**
+     * response data
+     */
     private M data;
 
     private ResponseVO(){}
 
     public static<M> ResponseVO success(M m){
         ResponseVO responseVO = new ResponseVO();
-        responseVO.setStatus(ResultEnum.SUCCESS.getStatus());
-        responseVO.setMsg(ResultEnum.SUCCESS.getMessage());
+        responseVO.setCode(ResultEnum.SUCCESS.getStatus());
+        responseVO.setMessage(ResultEnum.SUCCESS.getMessage());
         responseVO.setData(m);
         return responseVO;
     }
@@ -33,24 +38,24 @@ public class ResponseVO<M> {
 
     public static<M> ResponseVO success(ResultEnum resultEnum){
         ResponseVO responseVO = new ResponseVO();
-        responseVO.setStatus(resultEnum.getStatus());
-        responseVO.setMsg(resultEnum.getMessage());
+        responseVO.setCode(resultEnum.getStatus());
+        responseVO.setMessage(resultEnum.getMessage());
 
         return responseVO;
     }
 
     public static<M> ResponseVO error(ResultEnum resultEnum){
         ResponseVO responseVO = new ResponseVO();
-        responseVO.setStatus(resultEnum.getStatus());
-        responseVO.setMsg(resultEnum.getMessage());
+        responseVO.setCode(resultEnum.getStatus());
+        responseVO.setMessage(resultEnum.getMessage());
 
         return responseVO;
     }
 
     public static<M> ResponseVO error(int status, String msg){
         ResponseVO responseVO = new ResponseVO();
-        responseVO.setStatus(status);
-        responseVO.setMsg(msg);
+        responseVO.setCode(status);
+        responseVO.setMessage(msg);
 
         return responseVO;
     }

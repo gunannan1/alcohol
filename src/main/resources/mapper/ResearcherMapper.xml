@@ -8,7 +8,7 @@
         <result column="password" property="password" />
         <result column="name" property="name" />
         <result column="email" property="email" />
-        <result column="researcher_id" property="researcherID" />
+        <result column="researcher" property="researcherId" />
         <result column="access_token" property="accessToken" />
     </resultMap>
 

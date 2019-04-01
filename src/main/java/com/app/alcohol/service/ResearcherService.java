@@ -10,9 +10,6 @@ public class ResearcherService {
     ResearcherMapper researcherMapper;
 
 
-    public void login(String username,String password){
-
-    }
 
 
 }

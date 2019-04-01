@@ -40,7 +40,7 @@ public class Researcher {
     /**
      * unique researcher id
      */
-    private String researcherID;
+    private String researcherId;
 
     /**
      * access token for dropbox
