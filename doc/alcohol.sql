@@ -36,7 +36,7 @@ CREATE TABLE `DDT_questions` (
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='ddt_questions table';
 
 
--- insert the 27 questions to ddt_questions table
+-- insert the 27 answers to ddt_questions table
 INSERT INTO DDT_questions(one_day_money,more_days_money,days) VALUES(54,55,117);
 INSERT INTO DDT_questions(one_day_money,more_days_money,days) VALUES(55,75,61);
 INSERT INTO DDT_questions(one_day_money,more_days_money,days) VALUES(19,25,53);
@@ -71,7 +71,7 @@ INSERT INTO DDT_questions(one_day_money,more_days_money,days) VALUES(20,55,7);
 DROP TABLE IF EXISTS `DDT_Record`;
 CREATE TABLE `DDT_Record` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT ,
-  `user_id` INT NOT NULL COMMENT 'the id of who answers these questions',
+  `username` varchar(20) NOT NULL COMMENT 'the username of who answers these answers',
   `question_1`  INT  COMMENT ' answer for the question,0/null -no answer,1 - choose 1 day, 2 - choose more days',
   `question_2`  INT  COMMENT ' answer for the question,0/null -no answer,1 - choose 1 day, 2 - choose more days',
   `question_3`  INT  COMMENT ' answer for the question,0/null -no answer,1 - choose 1 day, 2 - choose more days',
@@ -150,7 +150,7 @@ DROP TABLE IF EXISTS `researcher`;
 CREATE TABLE `researcher` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT ,
   `username` varchar(20) NOT NULL COMMENT 'username',
-  `password` varchar(20) NOT NULL COMMENT 'password',
+  `password` varchar(20) COMMENT 'password，here only admin can access the system,so other researchers do not have it',
   `name` varchar(20) NOT NULL  COMMENT 'name',
   `email` varchar(50) NOT NULL COMMENT 'email address',
   `researcher_id` varchar(50) NOT NULL COMMENT ' the special id number for researcher',

@@ -201,8 +201,8 @@ public class NBackUtil {
 
 
         try {
-            for (int i=0;i<100000;i++){
-                generateOneBack(3,7,20,characters);
+            for (int i=0;i<12;i++){
+                generateOneBack(1,7,20,characters);
                 System.out.println(i);
 
             }

@@ -19,4 +19,6 @@ public class JwtProperties {
 
     private String md5Key;
 
+    private String filterUrl;
+
 }

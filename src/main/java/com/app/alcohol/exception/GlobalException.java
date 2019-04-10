@@ -11,7 +11,7 @@ public class GlobalException extends RuntimeException {
 
     public GlobalException(ResultEnum resultEnum) {
         super(resultEnum.getMessage());
-        this.status = resultEnum.getStatus();
+        this.status = resultEnum.getCode();
         this.msg=resultEnum.getMessage();
     }
 

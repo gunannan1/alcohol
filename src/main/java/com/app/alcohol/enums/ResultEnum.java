@@ -16,27 +16,31 @@ public enum  ResultEnum {
     Empty_Password(500,"Password can't be empty"),
     Empty_Email(500,"Email can't be empty"),
     Repeated_Username(500,"Username is repeated"),
-    Login_Failed(500,"login failed,wrong username or password");
+    Login_Failed(500,"login failed,wrong username or password"),
 
 
 
 
+    Write_Error(500,"Write Error"),
+    TOKEN_EXPIRED(700, "token expired"),
+    TOKEN_ERROR(700, "token validate error");
 
-    private int status;
+
+    private int code;
     private String message;
 
-    private ResultEnum(int status, String message) {
-        this.status = status;
+    private ResultEnum(int code, String message) {
+        this.code = code;
         this.message = message;
     }
 
 
-    public int getStatus() {
-        return this.status;
+    public int getCode() {
+        return this.code;
     }
 
-    public void setStatus(int status) {
-        this.status = status;
+    public void setCode(int code) {
+        this.code = code;
     }
 
     public String getMessage() {

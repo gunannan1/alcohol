@@ -15,6 +15,6 @@ public class DDTRecordVO {
     /**
      * answer for question_1,0 means no answer,1 means choose 1 day, 2 means choose more days
      */
-    private List<Integer> questions;
+    private List<List<Integer>> answers;
 
 }
