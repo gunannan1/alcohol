@@ -6,6 +6,7 @@ import com.app.alcohol.service.SSTRecordService;
 import com.app.alcohol.vo.ResponseVO;
 import com.app.alcohol.vo.SSTRecordVO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,7 +19,7 @@ public class SSTController {
     SSTRecordService sstRecordService;
 
     @RequestMapping(value = "save",method = RequestMethod.POST)
-    public ResponseVO save(SSTRecordVO sstRecordVO){
+    public ResponseVO save(@RequestBody SSTRecordVO sstRecordVO){
        boolean isSuccess= sstRecordService.save(sstRecordVO);
        if(isSuccess){
            return ResponseVO.success(ResultEnum.SUCCESS);

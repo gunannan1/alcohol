@@ -106,7 +106,7 @@ public class UserController {
      * @return
      */
     @RequestMapping(value="login",method = RequestMethod.POST)
-    public ResponseVO login( LoginVO loginVO){
+    public ResponseVO login(@RequestBody LoginVO loginVO){
         String username=loginVO.getUsername();
         String password=loginVO.getPassword();
 

@@ -123,23 +123,20 @@ CREATE TABLE `SST_Record` (
 
 
 --
--- -- NBack_Record table
+-- NBack_Record table
 --
--- DROP TABLE IF EXISTS `NBack_Record`;
--- CREATE TABLE `NBack_Record` (
---   `id` bigint(20) NOT NULL AUTO_INCREMENT ,
---   `username` varchar(20) NOT NULL COMMENT 'username of user',
---   `block` int NOT NULL  COMMENT '0 - practice block, 1- first experiment block, 2- second, 3 third,4 fourth  ',
---   `trials` INT  NOT NULL COMMENT 'trails of every block, in practice it is 10, in experiment it is 20',
---   `incorrect` INT NOT NULL  COMMENT 'num of incorrect response of the test',
---   `missed` INT NOT NULL  COMMENT 'num of missed response of the test',
---   `reaction_time` FLOAT NOT NULL  COMMENT 'Mean reaction time to go stimuli',
---   `percentage` FLOAT NOT NULL  COMMENT 'Percentage of correctly suppressed responses on stop trials',
---
---   PRIMARY KEY (`id`)
--- ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='NBack_Record table';
+DROP TABLE IF EXISTS `NBack_Record`;
+CREATE TABLE `NBack_Record` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT ,
+  `username` varchar(20) NOT NULL COMMENT 'username of user',
+  `level` int NOT NULL  COMMENT '1 -back，2-back or 3-back',
+  `percentage` FLOAT NOT NULL  COMMENT 'Percentage of correct answer',
+  `create_time` DATETIME COMMENT 'create time',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='NBack_Record table';
 --
 
+INSERT INTO NBack_Record(username,level,percentage) VALUES('test','1','0.5');
 
 
 

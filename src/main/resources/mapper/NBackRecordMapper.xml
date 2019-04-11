@@ -5,6 +5,9 @@
     <resultMap id="BaseResultMap" type="com.app.alcohol.entity.NBackRecord">
         <id column="id" property="id" />
         <result column="username" property="username" />
+        <result column="level" property="level" />
+        <result column="percentage" property="percentage" />
+        <result column="createTime" property="create_time" />
     </resultMap>
 
 
