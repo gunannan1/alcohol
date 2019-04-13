@@ -10,6 +10,9 @@
         <result column="email" property="email" />
         <result column="sex" property="sex" />
         <result column="age" property="age" />
+        <result column="researcherId" property="researcher_id" />
+        <result column="userId" property="user_id" />
+        <result column="createTime" property="create_time" />
     </resultMap>
 
 

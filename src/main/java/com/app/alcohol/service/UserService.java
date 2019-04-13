@@ -77,6 +77,15 @@ public class UserService {
 
     }
 
+    public String getResearcherId(String username){
+        User user=new User();
+        user.setUsername(username);
+
+        user=userMapper.selectOne(user);
+
+        return user.getResearcherId();
+    }
+
     /**
      * convert User to UserVO
      * @param user
@@ -108,6 +117,8 @@ public class UserService {
         user.setAge(userVO.getAge());
         return user;
     }
+
+
 
 
 

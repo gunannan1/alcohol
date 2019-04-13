@@ -32,6 +32,8 @@
         <result column="question_25" property="question_25" />
         <result column="question_26" property="question_26" />
         <result column="question_27" property="question_27" />
+        <result column="createTime" property="create_time" />
+
 
 
     </resultMap>

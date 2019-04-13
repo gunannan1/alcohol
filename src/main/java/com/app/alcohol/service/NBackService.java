@@ -21,7 +21,6 @@ public class NBackService {
         nBackRecord.setCreateTime(new Date());
         Integer insert=nBackRecordMapper.insert(nBackRecord);
         return insert>0;
-
     }
 
 }

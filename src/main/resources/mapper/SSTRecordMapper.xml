@@ -11,6 +11,8 @@
         <result column="missed" property="missed" />
         <result column="reactionTime" property="reaction_time" />
         <result column="percentage" property="percentage" />
+        <result column="createTime" property="create_time" />
+
     </resultMap>
 
 

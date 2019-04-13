@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.annotations.TableName;
 import com.baomidou.mybatisplus.enums.IdType;
 import lombok.Data;
 
+import java.util.Date;
+
 /**
  * User entity
  */
@@ -47,6 +49,22 @@ public class User {
      * age
      */
     private Integer age;
+
+    /**
+     * unique researcher id
+     */
+    private String researcherId;
+
+    /**
+     * unique researcher id
+     */
+    private String userId;
+
+    /**
+     * time to register
+     */
+    private Date createTime;
+
 
 
 

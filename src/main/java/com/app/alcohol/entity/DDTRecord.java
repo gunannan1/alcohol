@@ -6,6 +6,8 @@ import com.baomidou.mybatisplus.annotations.TableName;
 import com.baomidou.mybatisplus.enums.IdType;
 import lombok.Data;
 
+import java.util.Date;
+
 /**
  *DDT-Record entity
  */
@@ -81,6 +83,12 @@ public class DDTRecord {
     private int question_26;
 
     private int question_27;
+
+    /**
+     * time to create this record
+     */
+    private Date createTime;
+
 
 
 

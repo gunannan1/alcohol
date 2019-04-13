@@ -50,6 +50,15 @@ public class ResearcherService {
         return result!=null && result>0;
     }
 
+    public String getToken(String researcherId){
+        Researcher researcher=new Researcher();
+        researcher.setResearcherId(researcherId);
+        researcher=researcherMapper.selectOne(researcher);
+
+        return researcher.getAccessToken();
+
+    }
+
 
 
 

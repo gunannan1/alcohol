@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.annotations.TableName;
 import com.baomidou.mybatisplus.enums.IdType;
 import lombok.Data;
 
+import java.util.Date;
+
 /**
  *SST-Record entity
  */
@@ -56,5 +58,11 @@ public class SSTRecord {
      *Percentage of correctly suppressed responses on stop trials
      */
     private float percentage;
+
+    /**
+     * time to create this record
+     */
+    private Date createTime;
+
 
 }

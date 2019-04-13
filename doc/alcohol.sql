@@ -14,8 +14,12 @@ CREATE TABLE `user` (
   `email` varchar(50) NOT NULL COMMENT 'email address',
   `sex` INT NOT NULL COMMENT ' 0-male，1-female',
   `age` INT NOT NULL  COMMENT 'age',
+  `researcher_id` varchar(50)  COMMENT ' the special id  for researcher',
+  `user_id` varchar(50)  COMMENT ' the special id  for user',
+  `create_time` DATETIME COMMENT 'create time',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `username` (`username`)
+  UNIQUE KEY `username` (`username`),
+  UNIQUE KEY `user_id` (`user_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='user table';
 
 -- insert one user for test
@@ -32,6 +36,7 @@ CREATE TABLE `DDT_questions` (
   `one_day_money` INT NOT NULL COMMENT 'the choice of money for one day',
   `more_days_money` INT NOT NULL  COMMENT 'the choice of money for more days',
   `days` INT NOT NULL  COMMENT 'exact days for more days choice',
+
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='ddt_questions table';
 
@@ -99,6 +104,7 @@ CREATE TABLE `DDT_Record` (
   `question_25` INT  COMMENT ' answer for the question,0/null -no answer,1 - choose 1 day, 2 - choose more days',
   `question_26` INT  COMMENT ' answer for the question,0/null -no answer,1 - choose 1 day, 2 - choose more days',
   `question_27` INT  COMMENT ' answer for the question,0/null -no answer,1 - choose 1 day, 2 - choose more days',
+  `create_time` DATETIME COMMENT 'create time',
 
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='ddt_answer_records table';
@@ -117,6 +123,7 @@ CREATE TABLE `SST_Record` (
   `missed` INT NOT NULL  COMMENT 'num of missed response of the test',
   `reaction_time` FLOAT NOT NULL  COMMENT 'Mean reaction time to go stimuli',
   `percentage` FLOAT NOT NULL  COMMENT 'Percentage of correctly suppressed responses on stop trials',
+  `create_time` DATETIME COMMENT 'create time',
 
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='SST_Record table';
@@ -151,13 +158,15 @@ CREATE TABLE `researcher` (
   `name` varchar(20) NOT NULL  COMMENT 'name',
   `email` varchar(50) NOT NULL COMMENT 'email address',
   `researcher_id` varchar(50) NOT NULL COMMENT ' the special id number for researcher',
-  `access_token` varchar(50)  COMMENT 'access token for dropbox',
+  `access_token` varchar(100)  COMMENT 'access token for dropbox',
+  `create_time` DATETIME COMMENT 'create time',
+
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='researcher table';
 
 -- insert one researcher for test
-INSERT INTO researcher(username,password,name,email,researcher_id,access_token) VALUES('admin','alcoholadmin','admin','admin@gmail.com','admin000','admin');
+INSERT INTO researcher(username,password,name,email,researcher_id,access_token) VALUES('admin','alcoholadmin','admin','admin@gmail.com','12345','aEmzSeB1A9AAAAAAAAAAI3gGJH4Z5kmVIOr0F52x9WjwoIe_NgBbDJtvGSO1kyDJ');
 
 
 
