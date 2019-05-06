@@ -15,7 +15,6 @@ CREATE TABLE `user` (
   `sex` INT NOT NULL COMMENT ' 0-male，1-female',
   `age` INT NOT NULL  COMMENT 'age',
   `researcher_id` varchar(50)  COMMENT ' the special id  for researcher',
-  `user_id` varchar(50)  COMMENT ' the special id  for user',
   `create_time` DATETIME COMMENT 'create time',
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`),
@@ -23,7 +22,7 @@ CREATE TABLE `user` (
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='user table';
 
 -- insert one user for test
-INSERT INTO user(username,password,name,email,sex,age) VALUES('test','test','test','test@gmail.com',0,30);
+INSERT INTO user(username,password,name,email,sex,age,researcher_id,user_id) VALUES('test','test','test','test@gmail.com',0,30,'12345');
 
 
 

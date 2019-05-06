@@ -35,4 +35,10 @@ public class UserVO {
      * age
      */
     private Integer age;
+
+
+    /**
+     * unique researcher id
+     */
+    private String researcherId;
 }

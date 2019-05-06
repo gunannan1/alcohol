@@ -19,6 +19,9 @@ public enum  ResultEnum {
     Login_Failed(500,"login failed,wrong username or password"),
 
 
+    NO_UPLOAD_TOKEN(500,"no token for upload the file"),
+
+
 
 
     Write_Error(500,"Write Error"),

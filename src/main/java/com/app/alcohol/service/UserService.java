@@ -80,10 +80,11 @@ public class UserService {
     public String getResearcherId(String username){
         User user=new User();
         user.setUsername(username);
-
         user=userMapper.selectOne(user);
-
-        return user.getResearcherId();
+        if(user!=null){
+            return user.getResearcherId();
+        }
+        return null;
     }
 
     /**
@@ -99,6 +100,7 @@ public class UserService {
         userVO.setEmail(user.getEmail());
         userVO.setSex(user.getSex());
         userVO.setAge(user.getAge());
+        userVO.setResearcherId(user.getResearcherId());
         return userVO;
     }
 
@@ -115,6 +117,7 @@ public class UserService {
         user.setEmail(userVO.getEmail());
         user.setSex(userVO.getSex());
         user.setAge(userVO.getAge());
+        user.setResearcherId(userVO.getResearcherId());
         return user;
     }
 

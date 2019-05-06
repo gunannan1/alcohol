@@ -1,5 +1,6 @@
 package com.app.alcohol.test;
 
+import com.app.alcohol.entity.User;
 import com.app.alcohol.utils.DateUtil;
 
 import java.io.BufferedWriter;
@@ -61,27 +62,122 @@ public class test {
 //        String dateString = formatter.format(currentTime);
 //        System.out.println(dateString);
 
-        String path = "/Users/gunannan/AlcoholProject/data/" + "44345" + "/" + "dhehr" + "/" + "ddt/" + DateUtil.getCurrentTime()+".txt";
-        System.out.println(path);
-        try {
-            File file = new File(path);
-            if (!file.getParentFile().exists())
-                file.getParentFile().mkdirs();
-            if (!file.exists())
-                file.createNewFile();
-            BufferedWriter out = new BufferedWriter(new FileWriter(file));
-            out.write("username,"+"q1,"+"q2\r\n");
-            out.write("nannan,"+"2,"+"3\r\n");
-            out.flush();
-            out.close();
-        }catch (Exception e){
-            e.printStackTrace();
+//        String path = "/Users/gunannan/AlcoholProject/data/" + "44345" + "/" + "dhehr" + "/" + "ddt/" + DateUtil.getCurrentTime()+".txt";
+//        System.out.println(path);
+//        try {
+//            File file = new File(path);
+//            if (!file.getParentFile().exists())
+//                file.getParentFile().mkdirs();
+//            if (!file.exists())
+//                file.createNewFile();
+//            BufferedWriter out = new BufferedWriter(new FileWriter(file));
+//            out.write("username,"+"q1,"+"q2\r\n");
+//            out.write("nannan,"+"2,"+"3\r\n");
+//            out.flush();
+//            out.close();
+//        }catch (Exception e){
+//            e.printStackTrace();
+//        }
+//
+//
+//        String a = "abc";
+////        String b = "ab";
+////        System.out.println(a.length());
+//////        System.out.println(a.compareTo(b));
+//////        PriorityQueue<String> priorityQueue=new PriorityQueue<>((o1, o2) -> o1.compareTo(o2));
+//////        priorityQueue.add(a);
+//////        priorityQueue.add(b);
+//////        System.out.println(priorityQueue.peek());
+//////        System.out.println("abc".substring(0,"abc".length()));
+////        System.out.println(a.substring(0,a.length()));
+
+//        ArrayList<Integer> l1=new ArrayList<>();
+//        l1.add(2);
+//
+//        ArrayList<Integer> l2=new ArrayList<>();
+//        l2.add(1);
+//        l2.add(7);
+//        l2.add(9);
+//
+//        ArrayList<Integer> delta=new ArrayList<>();
+//        int len1=l1.size();
+//        int len2=l2.size();
+//        int size=Math.max(len1,len2);
+//        StringBuilder sb1=new StringBuilder();
+//        StringBuilder sb2=new StringBuilder();
+//        for(int i=0;i<size;i++){
+//            if(i<len1&&i<len2){
+//                sb1.append(l1.get(i));
+//                sb2.append(l2.get(i));
+//            }
+//            else if(i>=len1){
+//                l1.add(0);
+//                sb1.append(0);
+//                sb2.append(l2.get(i));
+//            }
+//            else {
+//                l2.add(0);
+//                sb1.append(l1.get(i));
+//                sb2.append(0);
+//            }
+//        }
+//        int i1=Integer.valueOf(sb1.toString());
+//        int i2=Integer.valueOf(sb2.toString());
+//
+//        String dif=String.valueOf(i1-i2);
+//        for(int i=0;i<size-dif.length();i++){
+//            delta.add(0);
+//        }
+//        for(int i=0;i<dif.length();i++){
+//            delta.add( Integer.parseInt(String.valueOf(dif.charAt(i))));
+//        }
+//        System.out.println(delta.toString());
+
+
+        ArrayList<Integer> l=new ArrayList<>();
+        l.add(1);
+        l.add(5);
+        l.add(9);
+        l.add(3);
+        ArrayList<Integer> inc=new ArrayList<>();
+        inc.add(0);
+        inc.add(1);
+        ArrayList<Integer> res=new ArrayList<>();
+
+        if(inc.size()>l.size()){
+            l.add(1);
+
+        }
+        else {
+            int dif=l.size()-inc.size();
+            for(int i=0;i<dif;i++){
+                inc.add(0);
+            }
+            System.out.println(inc.toString());
+            StringBuilder sb1=new StringBuilder();
+            StringBuilder sb2=new StringBuilder();
+            for(int i=0;i<l.size();i++){
+                sb1.append(l.get(i));
+                sb2.append(inc.get(i));
+            }
+            int i1=Integer.valueOf(sb1.toString());
+            int i2=Integer.valueOf(sb2.toString());
+            String add=String.valueOf(i1+i2);
+            for(int i=0;i<add.length();i++){
+                res.add(Integer.parseInt(String.valueOf(add.charAt(i))));
+            }
         }
 
+        System.out.println(res.toString());
 
 
+        ArrayList<Integer> b=new ArrayList<>();
+        b.add(1);
+        b.addAll(l);
+        System.out.println(b.toString());
 
 
 
     }
+
 }

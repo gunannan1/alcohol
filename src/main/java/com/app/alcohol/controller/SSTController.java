@@ -28,4 +28,17 @@ public class SSTController {
            throw new GlobalException(ResultEnum.Error);
        }
     }
+
+    @RequestMapping(value = "save2",method = RequestMethod.POST)
+    public ResponseVO save2(SSTRecordVO sstRecordVO){
+        boolean isSuccess= sstRecordService.save(sstRecordVO);
+        if(isSuccess){
+            return ResponseVO.success(ResultEnum.SUCCESS);
+        }
+        else {
+            throw new GlobalException(ResultEnum.Error);
+        }
+    }
+
+
 }

@@ -12,6 +12,7 @@ public class NBackUtil {
      * @param nback 1 or 2 or 3
      * @param target As required,it is 33% of max size, 33% * 20 =7
      * @param max As required it is 20
+     * @param characters
      * @throws Exception
      */
     public static void generateOneBack(int nback,int target,int max,List<String> characters) throws Exception{

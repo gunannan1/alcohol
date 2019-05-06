@@ -90,8 +90,9 @@ public class DDTService {
         //create local file and upload it to dropbox
         String researcherId = userService.getResearcherId(ddtRecordVO.getUsername());
         String path=createLocalFile(ddtRecordVO.getUsername(),researcherId,list,currentTime);
-        dropBoxService.upload(path,researcherId);
-
+        if(researcherId!=null){
+            dropBoxService.upload(path,researcherId);
+        }
         return insert>0;
 
     }

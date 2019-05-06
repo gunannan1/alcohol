@@ -56,11 +56,6 @@ public class User {
     private String researcherId;
 
     /**
-     * unique researcher id
-     */
-    private String userId;
-
-    /**
      * time to register
      */
     private Date createTime;
