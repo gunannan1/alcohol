@@ -42,7 +42,15 @@ public class DropBoxService {
         DbxRequestConfig config = DbxRequestConfig.newBuilder("dropbox/upload").build();
         DbxClientV2 client = new DbxClientV2(config, token);
 
+        try{
+            client.files().deleteV2(filePathConfig.getDropboxPrefix()+path);
+        }catch (Exception e){
+            //do nothing here
+
+        }
+
         try (InputStream in = new FileInputStream(filePathConfig.getLocalPrefix()+path)) {
+
             FileMetadata metadata = client.files().uploadBuilder(filePathConfig.getDropboxPrefix()+path)
                     .uploadAndFinish(in);
         }catch (Exception e){
@@ -52,22 +60,28 @@ public class DropBoxService {
     }
 
 
-    public static void main(String[] args) {
-        String token="aEmzSeB1A9AAAAAAAAAAI3gGJH4Z5kmVIOr0F52x9WjwoIe_NgBbDJtvGSO1kyDJ";
-        if(token==null){
-            throw new GlobalException(NO_UPLOAD_TOKEN);
-        }
-
-        DbxRequestConfig config = DbxRequestConfig.newBuilder("dropbox/upload").build();
-        DbxClientV2 client = new DbxClientV2(config, token);
-
-        try (InputStream in = new FileInputStream("/Users/gunannan/Downloads/ffff.txt")) {
-            FileMetadata metadata = client.files().uploadBuilder("/test/a.txt")
-                    .uploadAndFinish(in);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-    }
+//    public static void main(String[] args) {
+//        String token="aEmzSeB1A9AAAAAAAAAAI3gGJH4Z5kmVIOr0F52x9WjwoIe_NgBbDJtvGSO1kyDJ";
+//        if(token==null){
+//            throw new GlobalException(NO_UPLOAD_TOKEN);
+//        }
+//
+//        DbxRequestConfig config = DbxRequestConfig.newBuilder("dropbox/upload").build();
+//        DbxClientV2 client = new DbxClientV2(config, token);
+//
+//        try{
+//            client.files().deleteV2("/test/b.txt");
+//        }catch (Exception e){
+//
+//        }
+//
+//        try (InputStream in = new FileInputStream("/Users/gunannan/Downloads/ffff.txt")) {
+//            FileMetadata metadata = client.files().uploadBuilder("/test/a.txt")
+//                    .uploadAndFinish(in);
+//        }catch (Exception e){
+//            e.printStackTrace();
+//        }
+//    }
 
 
 }

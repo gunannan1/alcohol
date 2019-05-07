@@ -8,9 +8,7 @@ import com.app.alcohol.vo.DDTRecordVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
+import java.io.*;
 import java.sql.Time;
 import java.util.*;
 
@@ -110,7 +108,9 @@ public class DDTService {
         if(researcherId==null){
             researcherId="NoResearcher";
         }
-        String path= researcherId + "/" + username + "/" + "ddt/" + currentTime+".txt";
+        //use date to be file name, ignore time
+        String fileName=currentTime.substring(0,10);
+        String path= researcherId + "/" + username + "/" + "ddt/" + fileName+".txt";
         String localPath = filePathConfig.getLocalPrefix() + path;
 
         try {
@@ -121,20 +121,38 @@ public class DDTService {
             }
             if (!file.exists()){
                 file.createNewFile();
+                BufferedWriter out = new BufferedWriter(new FileWriter(file));
+
+                out.write("username");
+                for (int i=1;i<=27;i++){
+                    out.write(",Q"+i);
+                }
+                out.write(",updateTime");
+                out.write("\r\n");
+                out.write(username);
+                for (int i=0;i<27;i++){
+                    out.write(","+list.get(i));
+                }
+                out.write(","+currentTime);
+                out.write("\r\n");
+                out.flush();
+                out.close();
             }
-            BufferedWriter out = new BufferedWriter(new FileWriter(file));
-            out.write("username");
-            for (int i=1;i<=27;i++){
-                out.write(",Q"+i);
+
+            //if file exists, write the content to the end
+            else {
+                BufferedWriter out = new BufferedWriter(new OutputStreamWriter(
+                        new FileOutputStream(file, true)));
+                out.write(username);
+                for (int i=0;i<27;i++){
+                    out.write(","+list.get(i));
+                }
+                out.write(","+currentTime);
+                out.write("\r\n");
+                out.flush();
+                out.close();
             }
-            out.write("\r\n");
-            out.write(username);
-            for (int i=0;i<27;i++){
-                out.write(","+list.get(i));
-            }
-            out.write("\r\n");
-            out.flush();
-            out.close();
+
         }catch (Exception e){
             e.printStackTrace();
         }

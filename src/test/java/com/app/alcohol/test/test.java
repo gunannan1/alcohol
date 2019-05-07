@@ -92,12 +92,10 @@ public class test {
 ////        System.out.println(a.substring(0,a.length()));
 
 //        ArrayList<Integer> l1=new ArrayList<>();
-//        l1.add(2);
+//        l1.add(Integer.MAX_VALUE);
 //
 //        ArrayList<Integer> l2=new ArrayList<>();
-//        l2.add(1);
-//        l2.add(7);
-//        l2.add(9);
+//        l2.add(0);
 //
 //        ArrayList<Integer> delta=new ArrayList<>();
 //        int len1=l1.size();
@@ -134,47 +132,68 @@ public class test {
 //        System.out.println(delta.toString());
 
 
+
+//
+//        ArrayList<Integer> l=new ArrayList<>();
+//        l.add(1);
+//        l.add(5);
+//        l.add(9);
+//        l.add(3);
+//        ArrayList<Integer> inc=new ArrayList<>();
+//        inc.add(0);
+//        inc.add(1);
+//        ArrayList<Integer> res=new ArrayList<>();
+//
+//        if(inc.size()>l.size()){
+//            l.add(1);
+//
+//        }
+//        else {
+//            int dif=l.size()-inc.size();
+//            for(int i=0;i<dif;i++){
+//                inc.add(0);
+//            }
+//            System.out.println(inc.toString());
+//            StringBuilder sb1=new StringBuilder();
+//            StringBuilder sb2=new StringBuilder();
+//            for(int i=0;i<l.size();i++){
+//                sb1.append(l.get(i));
+//                sb2.append(inc.get(i));
+//            }
+//            int i1=Integer.valueOf(sb1.toString());
+//            int i2=Integer.valueOf(sb2.toString());
+//            String add=String.valueOf(i1+i2);
+//            for(int i=0;i<add.length();i++){
+//                res.add(Integer.parseInt(String.valueOf(add.charAt(i))));
+//            }
+//        }
+//
+//        System.out.println(res.toString());
+//
+//
+//        ArrayList<Integer> b=new ArrayList<>();
+//        b.add(1);
+//        b.addAll(l);
+//        System.out.println(b.toString());
+
         ArrayList<Integer> l=new ArrayList<>();
         l.add(1);
+        l.add(3);
         l.add(5);
         l.add(9);
-        l.add(3);
-        ArrayList<Integer> inc=new ArrayList<>();
-        inc.add(0);
-        inc.add(1);
-        ArrayList<Integer> res=new ArrayList<>();
-
-        if(inc.size()>l.size()){
-            l.add(1);
-
-        }
-        else {
-            int dif=l.size()-inc.size();
-            for(int i=0;i<dif;i++){
-                inc.add(0);
-            }
-            System.out.println(inc.toString());
-            StringBuilder sb1=new StringBuilder();
-            StringBuilder sb2=new StringBuilder();
-            for(int i=0;i<l.size();i++){
-                sb1.append(l.get(i));
-                sb2.append(inc.get(i));
-            }
-            int i1=Integer.valueOf(sb1.toString());
-            int i2=Integer.valueOf(sb2.toString());
-            String add=String.valueOf(i1+i2);
-            for(int i=0;i<add.length();i++){
-                res.add(Integer.parseInt(String.valueOf(add.charAt(i))));
+        for(int i=0;i<l.size();i++){
+            if(l.get(i)>4){
+                l.add(i,4);
+                break;
             }
         }
+        System.out.println(l.toString());
 
-        System.out.println(res.toString());
 
+        Date date=new Date();
+        String currentTime=DateUtil.convert(date);
 
-        ArrayList<Integer> b=new ArrayList<>();
-        b.add(1);
-        b.addAll(l);
-        System.out.println(b.toString());
+        System.out.println(currentTime.substring(0,10));
 
 
 

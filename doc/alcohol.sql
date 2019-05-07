@@ -17,12 +17,11 @@ CREATE TABLE `user` (
   `researcher_id` varchar(50)  COMMENT ' the special id  for researcher',
   `create_time` DATETIME COMMENT 'create time',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `username` (`username`),
-  UNIQUE KEY `user_id` (`user_id`)
+  UNIQUE KEY `username` (`username`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='user table';
 
 -- insert one user for test
-INSERT INTO user(username,password,name,email,sex,age,researcher_id,user_id) VALUES('test','test','test','test@gmail.com',0,30,'12345');
+INSERT INTO user(username,password,name,email,sex,age,researcher_id) VALUES('test','test','test','test@gmail.com',0,30,'12345');
 
 
 

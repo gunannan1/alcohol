@@ -9,9 +9,7 @@ import com.app.alcohol.vo.SSTRecordVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
+import java.io.*;
 import java.util.Date;
 import java.util.List;
 
@@ -75,8 +73,9 @@ public class SSTRecordService {
         }
 
         String username=sstRecordVO.getUsername();
+        String fileName=currentTime.substring(0,10);
 
-        String path= researcherId + "/" + username + "/" + "sst/" + currentTime+".txt";
+        String path= researcherId + "/" + username + "/" + "sst/" + fileName+".txt";
         String localPath = filePathConfig.getLocalPrefix() + path;
 
         try {
@@ -87,13 +86,24 @@ public class SSTRecordService {
             }
             if (!file.exists()){
                 file.createNewFile();
+                BufferedWriter out = new BufferedWriter(new FileWriter(file));
+                out.write("username,"+"block,"+"trials,"+"incorrect,"+"missed,"+"reaction_time,"+"percentage,"+"updateTime"+"\r\n");
+                out.write(username+","+sstRecordVO.getBlock()+","+sstRecordVO.getTrials()+","+sstRecordVO.getIncorrect()
+                        +","+sstRecordVO.getMissed()+","+sstRecordVO.getReactionTime()+","
+                        +sstRecordVO.getPercentage()+","+currentTime+"\r\n");
+                out.flush();
+                out.close();
             }
-            BufferedWriter out = new BufferedWriter(new FileWriter(file));
-            out.write("username,"+"block,"+"trials,"+"incorrect,"+"missed,"+"reaction_time,"+"percentage\r\n");
-            out.write(username+","+sstRecordVO.getBlock()+","+sstRecordVO.getTrials()+","+sstRecordVO.getIncorrect()
-                    +","+sstRecordVO.getMissed()+","+sstRecordVO.getReactionTime()+","+sstRecordVO.getPercentage()+"\r\n");
-            out.flush();
-            out.close();
+            else {
+                BufferedWriter out = new BufferedWriter(new OutputStreamWriter(
+                        new FileOutputStream(file, true)));
+                out.write(username+","+sstRecordVO.getBlock()+","+sstRecordVO.getTrials()+","+sstRecordVO.getIncorrect()
+                        +","+sstRecordVO.getMissed()+","+sstRecordVO.getReactionTime()+","
+                        +sstRecordVO.getPercentage()+","+currentTime+"\r\n");
+                out.flush();
+                out.close();
+            }
+
         }catch (Exception e){
             e.printStackTrace();
         }

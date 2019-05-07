@@ -4,9 +4,7 @@ package com.app.alcohol.controller;
 import com.app.alcohol.enums.ResultEnum;
 import com.app.alcohol.exception.GlobalException;
 import com.app.alcohol.service.NBackService;
-import com.app.alcohol.vo.NBackRecordVO;
-import com.app.alcohol.vo.ResponseVO;
-import com.app.alcohol.vo.SSTRecordVO;
+import com.app.alcohol.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,5 +26,11 @@ public class NBackController {
         else {
             throw new GlobalException(ResultEnum.Error);
         }
+    }
+
+    @RequestMapping(value = "request",method = RequestMethod.POST)
+    public ResponseVO request(@RequestBody NbackRequestVO nbackRequestVO){
+        NBackResponseVO nBackResponseVO=nBackService.requestNBackInfo(nbackRequestVO);
+        return ResponseVO.success(nBackResponseVO);
     }
 }

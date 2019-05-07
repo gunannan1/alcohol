@@ -1,5 +1,7 @@
 package com.app.alcohol.utils;
 
+import com.app.alcohol.vo.NBackResponseVO;
+
 import java.util.*;
 
 public class NBackUtil {
@@ -12,10 +14,20 @@ public class NBackUtil {
      * @param nback 1 or 2 or 3
      * @param target As required,it is 33% of max size, 33% * 20 =7
      * @param max As required it is 20
-     * @param characters
      * @throws Exception
      */
-    public static void generateOneBack(int nback,int target,int max,List<String> characters) throws Exception{
+    public static NBackResponseVO generateNBack(int nback, int target, int max) throws Exception{
+
+        NBackResponseVO nBackResponseVO=new NBackResponseVO();
+        List<String> characters=new LinkedList<>();
+        characters.add("P");
+        characters.add("Q");
+        characters.add("L");
+        characters.add("K");
+        characters.add("W");
+        characters.add("C");
+        characters.add("V");
+        characters.add("Z");
 
         List<Integer> nums=new ArrayList<>();
         List<Integer> targets=new ArrayList<>();
@@ -174,15 +186,17 @@ public class NBackUtil {
             throw new Exception("Bug:target size not equals 7");
         }
 
+//        System.out.println(targets.size());
+//        System.out.println(targets);
+//        System.out.println(Arrays.toString(traits));
+//        System.out.println(result);
 
-        //Todo inset to the database
+        nBackResponseVO.setAnswers(targets);
+        nBackResponseVO.setPermutation(Arrays.asList(traits));
+//        System.out.println(nBackResponseVO.getAnswers().toString());
+//        System.out.println(nBackResponseVO.getPermutation().toString());
 
-
-//
-        System.out.println(targets.size());
-        System.out.println(targets);
-        System.out.println(Arrays.toString(traits));
-        System.out.println(result);
+        return nBackResponseVO;
 
 
 
@@ -199,12 +213,22 @@ public class NBackUtil {
         characters.add("C");
         characters.add("V");
         characters.add("Z");
+        int min=20;
+        NBackResponseVO nBackResponseVO=new NBackResponseVO();
 
 
         try {
-            for (int i=0;i<12;i++){
-                generateOneBack(1,7,20,characters);
-                System.out.println(i);
+            for (int i=0;i<100000;i++){
+                nBackResponseVO=generateNBack(2,7,20);
+                int temp=nBackResponseVO.getAnswers().get(6);
+                if(temp<min){
+                    min=temp;
+                    System.out.println(min);
+                    System.out.println(nBackResponseVO.getAnswers());
+                }
+
+
+
 
             }
 
