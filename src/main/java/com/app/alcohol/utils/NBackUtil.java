@@ -218,17 +218,14 @@ public class NBackUtil {
 
 
         try {
-            for (int i=0;i<100000;i++){
-                nBackResponseVO=generateNBack(2,7,20);
-                int temp=nBackResponseVO.getAnswers().get(6);
-                if(temp<min){
-                    min=temp;
-                    System.out.println(min);
-                    System.out.println(nBackResponseVO.getAnswers());
-                }
-
-
-
+            for (int i=0;i<10;i++){
+                nBackResponseVO=generateNBack(2,6,20);
+//                int temp=nBackResponseVO.getAnswers().get(5);
+//                if(temp<min){
+//                    min=temp;
+//                    System.out.println(min);
+//                    System.out.println(nBackResponseVO.getAnswers());
+//                }
 
             }
 

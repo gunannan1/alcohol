@@ -6,7 +6,8 @@
         <id column="id" property="id" />
         <result column="username" property="username" />
         <result column="password" property="password" />
-        <result column="name" property="name" />
+        <result column="firstName" property="first_name" />
+        <result column="lastName" property="last_name" />
         <result column="email" property="email" />
         <result column="researcher" property="researcherId" />
         <result column="access_token" property="accessToken" />

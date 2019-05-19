@@ -6,10 +6,12 @@ import com.app.alcohol.dao.SSTRecordMapper;
 import com.app.alcohol.entity.SSTRecord;
 import com.app.alcohol.utils.DateUtil;
 import com.app.alcohol.vo.SSTRecordVO;
+import com.app.alcohol.vo.SSTInfoVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -108,6 +110,12 @@ public class SSTRecordService {
             e.printStackTrace();
         }
         return path;
+
+    }
+
+    public  List<SSTInfoVO> getSSTHistoryInfo(String username, int bound){
+        List<SSTInfoVO> list=sstRecordMapper.selectLatestSSTRecord(username,bound);
+        return list;
 
     }
 

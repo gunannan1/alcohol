@@ -1,13 +1,20 @@
 package com.app.alcohol.service;
 
 import com.app.alcohol.dao.UserMapper;
+import com.app.alcohol.entity.Researcher;
 import com.app.alcohol.entity.User;
 import com.app.alcohol.vo.LoginVO;
+import com.app.alcohol.vo.ResearcherVO;
 import com.app.alcohol.vo.UserVO;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.baomidou.mybatisplus.plugins.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 
 @Service
@@ -96,7 +103,8 @@ public class UserService {
         UserVO userVO=new UserVO();
         userVO.setUsername(user.getUsername());
         userVO.setPassword(user.getPassword());
-        userVO.setName(user.getName());
+        userVO.setFirstName(user.getFirstName());
+        userVO.setLastName(user.getLastName());
         userVO.setEmail(user.getEmail());
         userVO.setSex(user.getSex());
         userVO.setAge(user.getAge());
@@ -113,13 +121,77 @@ public class UserService {
         User user = new User();
         user.setUsername(userVO.getUsername());
         user.setPassword(userVO.getPassword());
-        user.setName(userVO.getName());
+        user.setFirstName(userVO.getFirstName());
+        user.setLastName(userVO.getLastName());
         user.setEmail(userVO.getEmail());
         user.setSex(userVO.getSex());
         user.setAge(userVO.getAge());
         user.setResearcherId(userVO.getResearcherId());
+        user.setCreateTime(new Date());
         return user;
     }
+
+    public Page<User> list(UserVO userVO, Integer pageSize, Integer pageNum) {
+        List<User> userList = new ArrayList<>();
+        Page<User> page = new Page<>(pageNum,pageSize);
+        EntityWrapper<User> entityWrapper = new EntityWrapper<>();
+        if(userVO.getUsername()!=null&&!userVO.getUsername().equals("")){
+            entityWrapper.eq("username",userVO.getUsername());
+        }
+        if(userVO.getEmail()!=null&&!userVO.getEmail().equals("")){
+            entityWrapper.eq("email",userVO.getEmail());
+
+        }
+        if(userVO.getFirstName()!=null&&!userVO.getFirstName().equals("")){
+            entityWrapper.eq("first_name",userVO.getFirstName());
+
+        }
+        if(userVO.getLastName()!=null&&!userVO.getLastName().equals("")){
+            entityWrapper.eq("last_name",userVO.getLastName());
+
+        }
+        if(userVO.getResearcherId()!=null&&!userVO.getResearcherId().equals("")){
+            entityWrapper.eq("researcher_id",userVO.getResearcherId());
+        }
+
+        userList=userMapper.selectPage(page,entityWrapper);
+        long counts = userMapper.selectCount(entityWrapper);
+
+        Page<User> result = new Page<>();
+        result.setRecords(userList);
+        result.setSize(pageSize);
+        result.setTotal(counts);
+        return result;
+
+    }
+
+    public boolean delete(int id){
+        int count=userMapper.deleteById(id);
+        return count>0;
+    }
+
+    public UserVO get(int id){
+        User user=userMapper.selectById(id);
+        UserVO userVO=UserToUserVO(user);
+        return userVO;
+    }
+
+    @Transactional
+    public boolean update(int id,UserVO userVO) {
+        User user=new User();
+        user.setId(id);
+        user.setPassword(userVO.getPassword());
+        user.setSex(userVO.getSex());
+        user.setAge(userVO.getAge());
+        user.setEmail(userVO.getEmail());
+        user.setFirstName(userVO.getFirstName());
+        user.setLastName(userVO.getLastName());
+        user.setResearcherId(userVO.getResearcherId());
+        // insert to the database
+        Integer insert = userMapper.updateById(user);
+        return insert>0;
+    }
+
 
 
 

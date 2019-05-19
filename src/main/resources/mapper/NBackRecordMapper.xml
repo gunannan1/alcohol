@@ -10,6 +10,19 @@
         <result column="createTime" property="create_time" />
     </resultMap>
 
+    <select id="selectLatestNbackRecord"  resultType="com.app.alcohol.entity.NBackRecord">
+        SELECT
+            *
+        FROM
+            NBack_Record r
+        WHERE
+            username=#{username}
+            AND r.level=#{level}
+        ORDER BY create_time DESC
+        LIMIT #{bound}
+    </select>
+
+
 
 
 </mapper>

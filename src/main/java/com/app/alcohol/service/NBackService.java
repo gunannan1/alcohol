@@ -5,14 +5,18 @@ import com.app.alcohol.dao.NBackRecordMapper;
 import com.app.alcohol.entity.NBackRecord;
 import com.app.alcohol.utils.DateUtil;
 import com.app.alcohol.utils.NBackUtil;
+import com.app.alcohol.vo.NBackInfoVO;
 import com.app.alcohol.vo.NBackRecordVO;
 import com.app.alcohol.vo.NBackResponseVO;
 import com.app.alcohol.vo.NbackRequestVO;
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class NBackService {
@@ -121,6 +125,24 @@ public class NBackService {
 
         return nBackResponseVO;
 
+    }
+
+    /**
+     * get the history record of a user to do rank
+     * @param username
+     * @param bound
+     * @param level
+     * @return
+     */
+    public NBackInfoVO getNbackHistoryInfo(String username,int bound,int level){
+        NBackInfoVO nBackInfoVO=new NBackInfoVO();
+        List<Float> arrayList=new ArrayList<>();
+        List<NBackRecord> nBackRecords=nBackRecordMapper.selectLatestNbackRecord(username,level,bound);
+        for(NBackRecord nBackRecord:nBackRecords){
+            arrayList.add(nBackRecord.getPercentage());
+        }
+        nBackInfoVO.setRecords(arrayList);
+        return nBackInfoVO;
     }
 
 

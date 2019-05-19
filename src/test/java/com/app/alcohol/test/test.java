@@ -175,25 +175,30 @@ public class test {
 //        b.add(1);
 //        b.addAll(l);
 //        System.out.println(b.toString());
+//
+//        ArrayList<Integer> l=new ArrayList<>();
+//        l.add(1);
+//        l.add(3);
+//        l.add(5);
+//        l.add(9);
+//        for(int i=0;i<l.size();i++){
+//            if(l.get(i)>4){
+//                l.add(i,4);
+//                break;
+//            }
+//        }
+//        System.out.println(l.toString());
+//
+//
+//        Date date=new Date();
+//        String currentTime=DateUtil.convert(date);
+//
+//        System.out.println(currentTime.substring(0,10));
+//
+//        String a="0100";
+//        System.out.println(Integer.parseInt(a));
 
-        ArrayList<Integer> l=new ArrayList<>();
-        l.add(1);
-        l.add(3);
-        l.add(5);
-        l.add(9);
-        for(int i=0;i<l.size();i++){
-            if(l.get(i)>4){
-                l.add(i,4);
-                break;
-            }
-        }
-        System.out.println(l.toString());
-
-
-        Date date=new Date();
-        String currentTime=DateUtil.convert(date);
-
-        System.out.println(currentTime.substring(0,10));
+        System.out.println("".compareTo(" "));
 
 
 

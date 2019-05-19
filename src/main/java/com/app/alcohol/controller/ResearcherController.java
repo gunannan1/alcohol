@@ -1,17 +1,20 @@
 package com.app.alcohol.controller;
 
+import com.app.alcohol.entity.Researcher;
 import com.app.alcohol.enums.ResultEnum;
 import com.app.alcohol.exception.GlobalException;
 import com.app.alcohol.service.ResearcherService;
-import com.app.alcohol.vo.LoginVO;
 import com.app.alcohol.vo.ResearcherVO;
 import com.app.alcohol.vo.ResponseVO;
-import com.app.alcohol.vo.UserVO;
+import com.baomidou.mybatisplus.plugins.Page;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @RequestMapping("/researcher/")
 @RestController
@@ -26,7 +29,7 @@ public class ResearcherController {
      * @return
      */
     @RequestMapping(value="create",method = RequestMethod.POST)
-    public ResponseVO register( ResearcherVO researcherVO){
+    public ResponseVO register(@RequestBody ResearcherVO researcherVO){
         if(researcherVO.getUsername() == null || researcherVO.getUsername().trim().length()==0){
             throw new GlobalException(ResultEnum.Empty_Username);
         }
@@ -55,6 +58,49 @@ public class ResearcherController {
 
         }
     }
+
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseVO getList(ResearcherVO researcherVO,
+                          @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
+                          @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
+        Page<Researcher> page = researcherService.list(researcherVO, pageSize, pageNum);
+        Map<String, Object> result = new HashMap<>();
+        result.put("total", page.getTotal());
+        result.put("list", page.getRecords());
+        return ResponseVO.success(result);
+    }
+
+    @RequestMapping(value = "/delete", method = RequestMethod.POST)
+    @ResponseBody
+    public Object delete(@RequestParam("id") int id) {
+        boolean isSuccess=researcherService.delete(id);
+        if(isSuccess){
+            return ResponseVO.success(ResultEnum.SUCCESS);
+        }
+        return ResponseVO.error(ResultEnum.Error);
+
+    }
+
+    @RequestMapping(value = "/get/{id}", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseVO get(@PathVariable int id) {
+        ResearcherVO researcherVO=researcherService.get(id);
+        return ResponseVO.success(researcherVO);
+
+    }
+
+    @RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
+    @ResponseBody
+    public Object update(@PathVariable int id, @RequestBody ResearcherVO researcherVO) {
+        boolean isSuccess = researcherService.update(id, researcherVO);
+        if(isSuccess){
+            return ResponseVO.success(ResultEnum.SUCCESS);
+        }
+        return ResponseVO.error(ResultEnum.Error);
+    }
+
+
 
 
 }

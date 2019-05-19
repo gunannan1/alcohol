@@ -10,7 +10,8 @@ CREATE TABLE `user` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT ,
   `username` varchar(20) NOT NULL COMMENT 'username',
   `password` varchar(20) NOT NULL COMMENT 'password',
-  `name` varchar(20) NOT NULL  COMMENT 'name',
+  `first_name` varchar(20) NOT NULL  COMMENT 'first name',
+  `last_name` varchar(20) NOT NULL  COMMENT 'last name',
   `email` varchar(50) NOT NULL COMMENT 'email address',
   `sex` INT NOT NULL COMMENT ' 0-male，1-female',
   `age` INT NOT NULL  COMMENT 'age',
@@ -21,7 +22,7 @@ CREATE TABLE `user` (
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='user table';
 
 -- insert one user for test
-INSERT INTO user(username,password,name,email,sex,age,researcher_id) VALUES('test','test','test','test@gmail.com',0,30,'12345');
+INSERT INTO user(username,password,first_name,last_name,email,sex,age,researcher_id) VALUES('test','test','Nannan','Gu','test@gmail.com',0,30,'12345');
 
 
 
@@ -153,8 +154,8 @@ CREATE TABLE `researcher` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT ,
   `username` varchar(20) NOT NULL COMMENT 'username',
   `password` varchar(20) COMMENT 'password，here only admin can access the system,so other researchers do not have it',
-  `name` varchar(20) NOT NULL  COMMENT 'name',
-  `email` varchar(50) NOT NULL COMMENT 'email address',
+  `first_name` varchar(20) NOT NULL  COMMENT 'first name',
+  `last_name` varchar(20) NOT NULL  COMMENT 'last name',  `email` varchar(50) NOT NULL COMMENT 'email address',
   `researcher_id` varchar(50) NOT NULL COMMENT ' the special id number for researcher',
   `access_token` varchar(100)  COMMENT 'access token for dropbox',
   `create_time` DATETIME COMMENT 'create time',
@@ -164,7 +165,7 @@ CREATE TABLE `researcher` (
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='researcher table';
 
 -- insert one researcher for test
-INSERT INTO researcher(username,password,name,email,researcher_id,access_token) VALUES('admin','alcoholadmin','admin','admin@gmail.com','12345','aEmzSeB1A9AAAAAAAAAAI3gGJH4Z5kmVIOr0F52x9WjwoIe_NgBbDJtvGSO1kyDJ');
+INSERT INTO researcher(username,password,first_name,last_name,email,researcher_id,access_token) VALUES('admin','alcoholadmin','admin','admin','admin@gmail.com','12345','aEmzSeB1A9AAAAAAAAAAI3gGJH4Z5kmVIOr0F52x9WjwoIe_NgBbDJtvGSO1kyDJ');
 
 
 

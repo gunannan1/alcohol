@@ -31,9 +31,14 @@ public class User {
     private String password;
 
     /**
-     * name
+     * first name
      */
-    private String name;
+    private String firstName;
+
+    /**
+     * last name
+     */
+    private String lastName;
 
     /**
      * email address

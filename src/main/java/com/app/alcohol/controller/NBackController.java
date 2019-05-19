@@ -6,10 +6,7 @@ import com.app.alcohol.exception.GlobalException;
 import com.app.alcohol.service.NBackService;
 import com.app.alcohol.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/nback/")
@@ -33,4 +30,13 @@ public class NBackController {
         NBackResponseVO nBackResponseVO=nBackService.requestNBackInfo(nbackRequestVO);
         return ResponseVO.success(nBackResponseVO);
     }
+
+    @RequestMapping(value = "getHistoryInfo",method = RequestMethod.GET)
+    public ResponseVO getHistoryInfo(@RequestParam(name = "username")String username,@RequestParam(name = "level")int level, @RequestParam(name = "bound")int bound){
+        NBackInfoVO nBackInfoVO=nBackService.getNbackHistoryInfo(username, bound, level);
+        return ResponseVO.success(nBackInfoVO);
+    }
+
+
+
 }

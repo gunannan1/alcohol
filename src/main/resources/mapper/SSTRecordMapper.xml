@@ -15,6 +15,21 @@
 
     </resultMap>
 
+    <select id="selectLatestSSTRecord"  resultType="com.app.alcohol.vo.SSTInfoVO">
+        SELECT
+            s.incorrect AS incorrect,
+            s.missed AS missed,
+            s.reaction_time AS reactionTime,
+            s.percentage AS percentage
+
+        FROM
+            SST_Record s
+        WHERE
+            username=#{username}
+        ORDER BY create_time DESC
+        LIMIT #{bound}
+    </select>
+
 
 
 </mapper>

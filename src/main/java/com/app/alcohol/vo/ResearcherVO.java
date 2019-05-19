@@ -10,9 +10,19 @@ public class ResearcherVO {
     private String username;
 
     /**
-     * name
+     * password
      */
-    private String name;
+    private String password;
+
+    /**
+     * first name
+     */
+    private String firstName;
+
+    /**
+     * last name
+     */
+    private String lastName;
 
     /**
      * email address
@@ -28,5 +38,10 @@ public class ResearcherVO {
      * access token for dropbox
      */
     private String accessToken;
+
+
+
+
+
 
 }
