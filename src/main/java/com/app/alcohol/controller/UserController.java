@@ -91,7 +91,7 @@ public class UserController {
 
     }
 
-    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    @RequestMapping(value = "list", method = RequestMethod.GET)
     @ResponseBody
     public ResponseVO getList(UserVO userVO,
                               @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
@@ -103,9 +103,9 @@ public class UserController {
         return ResponseVO.success(result);
     }
 
-    @RequestMapping(value = "/delete", method = RequestMethod.POST)
+    @RequestMapping(value = "delete", method = RequestMethod.POST)
     @ResponseBody
-    public Object delete(@RequestParam("id") int id) {
+    public ResponseVO delete(@RequestParam("id") int id) {
         boolean isSuccess=userService.delete(id);
         if(isSuccess){
             return ResponseVO.success(ResultEnum.SUCCESS);
@@ -114,7 +114,7 @@ public class UserController {
 
     }
 
-    @RequestMapping(value = "/get/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "get/{id}", method = RequestMethod.GET)
     @ResponseBody
     public ResponseVO get(@PathVariable int id) {
         UserVO userVO=userService.get(id);
@@ -122,9 +122,9 @@ public class UserController {
 
     }
 
-    @RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
+    @RequestMapping(value = "update/{id}", method = RequestMethod.POST)
     @ResponseBody
-    public Object update(@PathVariable int id, @RequestBody UserVO userVO) {
+    public ResponseVO update(@PathVariable int id, @RequestBody UserVO userVO) {
         boolean isSuccess = userService.update(id, userVO);
         if(isSuccess){
             return ResponseVO.success(ResultEnum.SUCCESS);

@@ -52,12 +52,12 @@ public class SSTRecord {
     /**
      *Mean reaction time to go stimuli
      */
-    private float reactionTime;
+    private Double reactionTime;
 
     /**
      *Percentage of correctly suppressed responses on stop trials
      */
-    private float percentage;
+    private Double percentage;
 
     /**
      * time to create this record

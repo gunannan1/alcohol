@@ -32,9 +32,9 @@ public class UserVO {
     private String email;
 
     /**
-     * sex 0-male，1-female
+     * gender 0-male，1-female
      */
-    private Integer sex;
+    private Integer gender;
 
     /**
      * age

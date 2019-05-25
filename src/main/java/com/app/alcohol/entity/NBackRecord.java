@@ -32,7 +32,7 @@ public class NBackRecord {
     /**
      *accurate percentage
      */
-    private float percentage;
+    private Double percentage;
 
     /**
      * time to create this record

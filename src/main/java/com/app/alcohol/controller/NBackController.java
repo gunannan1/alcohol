@@ -32,10 +32,31 @@ public class NBackController {
     }
 
     @RequestMapping(value = "getHistoryInfo",method = RequestMethod.GET)
-    public ResponseVO getHistoryInfo(@RequestParam(name = "username")String username,@RequestParam(name = "level")int level, @RequestParam(name = "bound")int bound){
-        NBackInfoVO nBackInfoVO=nBackService.getNbackHistoryInfo(username, bound, level);
+    public ResponseVO getHistoryInfo(@RequestParam(name = "username")String username,@RequestParam(name = "level",required = false)Integer level, @RequestParam(name = "bound")int bound){
+        NBackInfoVO nBackInfoVO;
+        if(level!=null){
+            nBackInfoVO=nBackService.getNbackHistoryInfo(username, bound, level);
+        }
+        else {
+            nBackInfoVO=nBackService.getNbackHistoryInfo(username,bound,0);
+        }
         return ResponseVO.success(nBackInfoVO);
     }
+
+    @RequestMapping(value = "getSortInfo",method = RequestMethod.GET)
+    public ResponseVO getSortInfo(@RequestParam(name = "username")String username,@RequestParam(name = "level",required = false)Integer level){
+        SortVO sortVO;
+        if(level!=null){
+            sortVO=nBackService.getSortInfo(username, level);
+        }
+        else {
+            sortVO=nBackService.getSortInfo(username, 0);
+        }
+
+        return ResponseVO.success(sortVO);
+    }
+
+
 
 
 

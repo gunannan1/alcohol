@@ -6,7 +6,7 @@ import lombok.Data;
 public class SSTInfoVO {
     private Integer incorrect;
     private Integer missed;
-    private Float percentage;
-    private Float reactionTime;
+    private Double percentage;
+    private Double reactionTime;
 
 }

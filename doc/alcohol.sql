@@ -13,7 +13,7 @@ CREATE TABLE `user` (
   `first_name` varchar(20) NOT NULL  COMMENT 'first name',
   `last_name` varchar(20) NOT NULL  COMMENT 'last name',
   `email` varchar(50) NOT NULL COMMENT 'email address',
-  `sex` INT NOT NULL COMMENT ' 0-male，1-female',
+  `gender` INT NOT NULL COMMENT ' 0-male，1-female',
   `age` INT NOT NULL  COMMENT 'age',
   `researcher_id` varchar(50)  COMMENT ' the special id  for researcher',
   `create_time` DATETIME COMMENT 'create time',
@@ -22,7 +22,7 @@ CREATE TABLE `user` (
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='user table';
 
 -- insert one user for test
-INSERT INTO user(username,password,first_name,last_name,email,sex,age,researcher_id) VALUES('test','test','Nannan','Gu','test@gmail.com',0,30,'12345');
+INSERT INTO user(username,password,first_name,last_name,email,gender,age,researcher_id) VALUES('test','test','Nannan','Gu','test@gmail.com',0,30,'12345');
 
 
 
@@ -162,12 +162,40 @@ CREATE TABLE `researcher` (
 
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='researcher table';
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='researcher table';
 
 -- insert one researcher for test
-INSERT INTO researcher(username,password,first_name,last_name,email,researcher_id,access_token) VALUES('admin','alcoholadmin','admin','admin','admin@gmail.com','12345','aEmzSeB1A9AAAAAAAAAAI3gGJH4Z5kmVIOr0F52x9WjwoIe_NgBbDJtvGSO1kyDJ');
+INSERT INTO researcher(username,password,first_name,last_name,email,researcher_id,access_token) VALUES('alcoholproject2019','SwFqNhqk9JkUW88','alcohol','admin','alcoholproject2019@gmail.com','12345','T2ZW21NqqjAAAAAAAAAAC17knFz4aTzALMQpuQ65jOMsFy5S2qRD4asHDh3jIcyr');
 
 
+-- create Admin Table
+
+DROP TABLE IF EXISTS `admin`;
+CREATE TABLE `admin` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT ,
+  `username` varchar(20) NOT NULL COMMENT 'username',
+  `password` varchar(20) COMMENT 'password，here only admin can access the system,so other researchers do not have it',
+  `email` varchar(50) NOT NULL COMMENT 'email address',
+  `create_time` DATETIME COMMENT 'create time',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `username` (`username`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='admin table';
+
+-- insert one researcher for test
+INSERT INTO admin(username,password,email) VALUES('alcoholproject2019','SwFqNhqk9JkUW88','alcoholproject2019@gmail.com');
+
+
+-- create Setting Table
+
+DROP TABLE IF EXISTS `setting`;
+CREATE TABLE `setting` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT ,
+  `show_result` varchar(20) NOT NULL COMMENT 'if show result to the user, 0-show,1-hide',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='setting table';
+
+-- insert one researcher for test
+INSERT INTO setting(show_result) VALUES(0);
 
 
 

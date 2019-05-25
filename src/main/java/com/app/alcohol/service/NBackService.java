@@ -5,18 +5,13 @@ import com.app.alcohol.dao.NBackRecordMapper;
 import com.app.alcohol.entity.NBackRecord;
 import com.app.alcohol.utils.DateUtil;
 import com.app.alcohol.utils.NBackUtil;
-import com.app.alcohol.vo.NBackInfoVO;
-import com.app.alcohol.vo.NBackRecordVO;
-import com.app.alcohol.vo.NBackResponseVO;
-import com.app.alcohol.vo.NbackRequestVO;
+import com.app.alcohol.vo.*;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class NBackService {
@@ -136,14 +131,60 @@ public class NBackService {
      */
     public NBackInfoVO getNbackHistoryInfo(String username,int bound,int level){
         NBackInfoVO nBackInfoVO=new NBackInfoVO();
-        List<Float> arrayList=new ArrayList<>();
-        List<NBackRecord> nBackRecords=nBackRecordMapper.selectLatestNbackRecord(username,level,bound);
+        List<Double> arrayList=new ArrayList<>();
+        List<NBackRecord> nBackRecords;
+        if(level!=0){
+            nBackRecords=nBackRecordMapper.selectLatestNbackRecord(username,level,bound);
+        }
+        else {
+            nBackRecords=nBackRecordMapper.selectAllLatestNbackRecord(username,bound);
+        }
+
         for(NBackRecord nBackRecord:nBackRecords){
             arrayList.add(nBackRecord.getPercentage());
         }
         nBackInfoVO.setRecords(arrayList);
         return nBackInfoVO;
     }
+
+    public SortVO getSortInfo(String username,int level){
+        SortVO sortVO=new SortVO();
+        List<SortElementVO> sortElementVOS;
+        List<Double> res=new ArrayList<>();
+        if(level!=0){
+            sortElementVOS=nBackRecordMapper.selectSortInfo(level);
+        }
+        else {
+            sortElementVOS=nBackRecordMapper.selectAllSortInfo();
+        }
+        System.out.println(sortElementVOS.toString());
+        if(sortElementVOS.size()!=10){
+            int j=0;
+            for(int i=1;i<=10;i++){
+                if(j<sortElementVOS.size()&&sortElementVOS.get(j).getGapId()==i){
+                    res.add(sortElementVOS.get(j).getPercentage());
+                    j++;
+                }
+                else {
+                    res.add(0D);
+                }
+            }
+        }
+        else {
+            for(SortElementVO sortElementVO:sortElementVOS){
+                res.add(sortElementVO.getPercentage());
+            }
+
+        }
+
+
+        sortVO.setList(res);
+
+
+        return sortVO;
+    }
+
+
 
 
 }

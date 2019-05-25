@@ -1,10 +1,8 @@
 package com.app.alcohol.service;
 
 import com.app.alcohol.dao.UserMapper;
-import com.app.alcohol.entity.Researcher;
 import com.app.alcohol.entity.User;
 import com.app.alcohol.vo.LoginVO;
-import com.app.alcohol.vo.ResearcherVO;
 import com.app.alcohol.vo.UserVO;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
@@ -106,7 +104,7 @@ public class UserService {
         userVO.setFirstName(user.getFirstName());
         userVO.setLastName(user.getLastName());
         userVO.setEmail(user.getEmail());
-        userVO.setSex(user.getSex());
+        userVO.setGender(user.getGender());
         userVO.setAge(user.getAge());
         userVO.setResearcherId(user.getResearcherId());
         return userVO;
@@ -124,7 +122,7 @@ public class UserService {
         user.setFirstName(userVO.getFirstName());
         user.setLastName(userVO.getLastName());
         user.setEmail(userVO.getEmail());
-        user.setSex(userVO.getSex());
+        user.setGender(userVO.getGender());
         user.setAge(userVO.getAge());
         user.setResearcherId(userVO.getResearcherId());
         user.setCreateTime(new Date());
@@ -181,7 +179,7 @@ public class UserService {
         User user=new User();
         user.setId(id);
         user.setPassword(userVO.getPassword());
-        user.setSex(userVO.getSex());
+        user.setGender(userVO.getGender());
         user.setAge(userVO.getAge());
         user.setEmail(userVO.getEmail());
         user.setFirstName(userVO.getFirstName());

@@ -30,17 +30,6 @@ public class SSTController {
        }
     }
 
-    @RequestMapping(value = "save2",method = RequestMethod.POST)
-    public ResponseVO save2(SSTRecordVO sstRecordVO){
-        boolean isSuccess= sstRecordService.save(sstRecordVO);
-        if(isSuccess){
-            return ResponseVO.success(ResultEnum.SUCCESS);
-        }
-        else {
-            throw new GlobalException(ResultEnum.Error);
-        }
-    }
-
     @RequestMapping(value = "getHistoryInfo",method = RequestMethod.GET)
     public ResponseVO getHistoryInfo(@RequestParam(name = "username")String username, @RequestParam(name = "bound")int bound){
         List<SSTInfoVO> list=sstRecordService.getSSTHistoryInfo(username, bound);

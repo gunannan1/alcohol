@@ -6,6 +6,6 @@ import java.util.List;
 
 @Data
 public class NBackInfoVO {
-    private List<Float> records;
+    private List<Double> records;
 
 }

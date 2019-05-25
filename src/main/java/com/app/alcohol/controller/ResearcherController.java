@@ -59,7 +59,7 @@ public class ResearcherController {
         }
     }
 
-    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    @RequestMapping(value = "list", method = RequestMethod.GET)
     @ResponseBody
     public ResponseVO getList(ResearcherVO researcherVO,
                           @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
@@ -71,7 +71,7 @@ public class ResearcherController {
         return ResponseVO.success(result);
     }
 
-    @RequestMapping(value = "/delete", method = RequestMethod.POST)
+    @RequestMapping(value = "delete", method = RequestMethod.POST)
     @ResponseBody
     public Object delete(@RequestParam("id") int id) {
         boolean isSuccess=researcherService.delete(id);
@@ -82,7 +82,7 @@ public class ResearcherController {
 
     }
 
-    @RequestMapping(value = "/get/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "get/{id}", method = RequestMethod.GET)
     @ResponseBody
     public ResponseVO get(@PathVariable int id) {
         ResearcherVO researcherVO=researcherService.get(id);
@@ -90,7 +90,7 @@ public class ResearcherController {
 
     }
 
-    @RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
+    @RequestMapping(value = "update/{id}", method = RequestMethod.POST)
     @ResponseBody
     public Object update(@PathVariable int id, @RequestBody ResearcherVO researcherVO) {
         boolean isSuccess = researcherService.update(id, researcherVO);
