@@ -79,8 +79,8 @@ public class AuthFilter extends OncePerRequestFilter {
                 RenderUtil.renderJson(response, ResponseVO.error(ResultEnum.TOKEN_ERROR.getCode(), ResultEnum.TOKEN_ERROR.getMessage()));
                 return;
             }
-            chain.doFilter(request, response);
         }
+        chain.doFilter(request, response);
 
     }
 
