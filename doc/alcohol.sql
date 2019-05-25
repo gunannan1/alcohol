@@ -142,7 +142,7 @@ CREATE TABLE `NBack_Record` (
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='NBack_Record table';
 --
 
-INSERT INTO NBack_Record(username,level,percentage) VALUES('test','1','0.5');
+INSERT INTO NBack_Record(username,level,percentage) VALUES('test','1','66.66');
 
 
 
