@@ -40,7 +40,7 @@ public class AdminController {
         
     }
 
-    @RequestMapping(value = "/logout", method = RequestMethod.POST)
+    @RequestMapping(value = "logout", method = RequestMethod.POST)
     @ResponseBody
     public Object logout() {
         return ResponseVO.success(ResultEnum.SUCCESS);
