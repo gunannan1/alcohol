@@ -1,5 +1,6 @@
 package com.app.alcohol.controller;
 
+import com.app.alcohol.config.CurrentUser;
 import com.app.alcohol.entity.Researcher;
 import com.app.alcohol.entity.User;
 import com.app.alcohol.enums.ResultEnum;
@@ -96,11 +97,17 @@ public class UserController {
     public ResponseVO getList(UserVO userVO,
                               @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
                               @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
-        Page<User> page = userService.list(userVO, pageSize, pageNum);
-        Map<String, Object> result = new HashMap<>();
-        result.put("total", page.getTotal());
-        result.put("list", page.getRecords());
-        return ResponseVO.success(result);
+        if(CurrentUser.getCurrentUser()!=null){
+            Page<User> page = userService.list(userVO, pageSize, pageNum);
+            Map<String, Object> result = new HashMap<>();
+            result.put("total", page.getTotal());
+            result.put("list", page.getRecords());
+            return ResponseVO.success(result);
+        }
+        else {
+            return ResponseVO.error(1,"未登录");
+        }
+
     }
 
     @RequestMapping(value = "delete", method = RequestMethod.POST)
