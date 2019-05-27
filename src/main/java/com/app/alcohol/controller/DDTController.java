@@ -33,16 +33,5 @@ public class DDTController {
         }
     }
 
-    @RequestMapping(value = "save2",method = RequestMethod.POST)
-    public ResponseVO save2( DDTRecordVO ddtRecordVO){
-        boolean isSuccess= ddtService.save(ddtRecordVO);
-        if(isSuccess){
-            return ResponseVO.success(ResultEnum.SUCCESS);
-        }
-        else {
-            throw new GlobalException(ResultEnum.Error);
-        }
-    }
-
 
 }

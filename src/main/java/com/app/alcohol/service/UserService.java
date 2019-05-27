@@ -2,7 +2,10 @@ package com.app.alcohol.service;
 
 import com.app.alcohol.dao.UserMapper;
 import com.app.alcohol.entity.User;
+import com.app.alcohol.enums.ResultEnum;
+import com.app.alcohol.exception.GlobalException;
 import com.app.alcohol.vo.LoginVO;
+import com.app.alcohol.vo.SecretVO;
 import com.app.alcohol.vo.UserVO;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
@@ -51,6 +54,20 @@ public class UserService {
 
         return result!=null && result>0;
     }
+
+    /**
+     * check if the email is repeated
+     * @param email
+     * @return
+     */
+    public boolean repeatedEmail(String email) {
+
+        EntityWrapper<User> entityWrapper = new EntityWrapper<>();
+        entityWrapper.eq("email",email);
+        Integer result = userMapper.selectCount(entityWrapper);
+        return result!=null && result>0;
+    }
+
 
 
     /**
@@ -188,6 +205,41 @@ public class UserService {
         // insert to the database
         Integer insert = userMapper.updateById(user);
         return insert>0;
+    }
+
+    @Transactional
+    public boolean updatePassword(String username, SecretVO secretVO) {
+        User user=new User();
+        user.setUsername(username);
+        user=userMapper.selectOne(user);
+        if(user==null){
+            throw new GlobalException(ResultEnum.User_Not_Exist);
+        }
+        user.setPassword(secretVO.getNewPassword());
+        // insert to the database
+        Integer insert = userMapper.updateById(user);
+        return insert>0;
+    }
+
+
+    public User getByEmail(String email){
+        User user=new User();
+        user.setEmail(email);
+        user=userMapper.selectOne(user);
+        if(user!=null){
+            return user;
+        }
+        return null;
+    }
+
+    public User getByUsername(String username){
+        User user=new User();
+        user.setUsername(username);
+        user=userMapper.selectOne(user);
+        if(user!=null){
+            return user;
+        }
+        return null;
     }
 
 

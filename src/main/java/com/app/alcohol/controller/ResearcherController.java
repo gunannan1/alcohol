@@ -7,13 +7,10 @@ import com.app.alcohol.service.ResearcherService;
 import com.app.alcohol.vo.ResearcherVO;
 import com.app.alcohol.vo.ResponseVO;
 import com.baomidou.mybatisplus.plugins.Page;
-import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @RequestMapping("/researcher/")

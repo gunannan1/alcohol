@@ -1,21 +1,12 @@
 package com.app.alcohol.controller;
 
-import com.app.alcohol.config.CurrentUser;
-import com.app.alcohol.entity.Researcher;
-import com.app.alcohol.entity.User;
 import com.app.alcohol.enums.ResultEnum;
 import com.app.alcohol.exception.GlobalException;
 import com.app.alcohol.service.UserService;
-import com.app.alcohol.vo.LoginVO;
-import com.app.alcohol.vo.ResearcherVO;
-import com.app.alcohol.vo.ResponseVO;
-import com.app.alcohol.vo.UserVO;
-import com.baomidou.mybatisplus.plugins.Page;
+import com.app.alcohol.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.HashMap;
-import java.util.Map;
 
 @RequestMapping("/user/")
 @RestController
@@ -44,16 +35,22 @@ public class UserController {
 
         //if username is repeated,return true
         boolean repeatedUserName=userService.repeatedUserName(userVO.getUsername());
+        boolean repeatedEmail=userService.repeatedEmail(userVO.getEmail());
 
         boolean isSuccess=true;
 
-        //if username is not repeated,it can be registered
-        if(!repeatedUserName){
-            isSuccess = userService.register(userVO);
+        //if username and email is not repeated,it can be registered
+        if(repeatedUserName){
+            throw new GlobalException(ResultEnum.Repeated_Username);
+
+        }
+        else if(repeatedEmail) {
+            throw new GlobalException(ResultEnum.Repeated_Email);
         }
         else {
-            throw new GlobalException(ResultEnum.Repeated_Username);
+            isSuccess = userService.register(userVO);
         }
+
 
         //return the userVo entity to the mobile since they may need cache it locally
         if(isSuccess){
@@ -91,56 +88,6 @@ public class UserController {
         return ResponseVO.success(userVO);
 
     }
-
-    @RequestMapping(value = "list", method = RequestMethod.GET)
-    @ResponseBody
-    public ResponseVO getList(UserVO userVO,
-                              @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
-                              @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
-        if(CurrentUser.getCurrentUser()!=null){
-            Page<User> page = userService.list(userVO, pageSize, pageNum);
-            Map<String, Object> result = new HashMap<>();
-            result.put("total", page.getTotal());
-            result.put("list", page.getRecords());
-            return ResponseVO.success(result);
-        }
-        else {
-            return ResponseVO.error(1,"未登录");
-        }
-
-    }
-
-    @RequestMapping(value = "delete", method = RequestMethod.POST)
-    @ResponseBody
-    public ResponseVO delete(@RequestParam("id") int id) {
-        boolean isSuccess=userService.delete(id);
-        if(isSuccess){
-            return ResponseVO.success(ResultEnum.SUCCESS);
-        }
-        return ResponseVO.error(ResultEnum.Error);
-
-    }
-
-    @RequestMapping(value = "get/{id}", method = RequestMethod.GET)
-    @ResponseBody
-    public ResponseVO get(@PathVariable int id) {
-        UserVO userVO=userService.get(id);
-        return ResponseVO.success(userVO);
-
-    }
-
-    @RequestMapping(value = "update/{id}", method = RequestMethod.POST)
-    @ResponseBody
-    public ResponseVO update(@PathVariable int id, @RequestBody UserVO userVO) {
-        boolean isSuccess = userService.update(id, userVO);
-        if(isSuccess){
-            return ResponseVO.success(ResultEnum.SUCCESS);
-        }
-        return ResponseVO.error(ResultEnum.Error);
-    }
-
-
-
 
 
 

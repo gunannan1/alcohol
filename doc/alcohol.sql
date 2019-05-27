@@ -18,7 +18,8 @@ CREATE TABLE `user` (
   `researcher_id` varchar(50)  COMMENT ' the special id  for researcher',
   `create_time` DATETIME COMMENT 'create time',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `username` (`username`)
+  UNIQUE KEY `username` (`username`),
+  UNIQUE KEY `email` (`email`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='user table';
 
 -- insert one user for test

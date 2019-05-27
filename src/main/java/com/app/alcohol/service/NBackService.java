@@ -157,7 +157,7 @@ public class NBackService {
         else {
             sortElementVOS=nBackRecordMapper.selectAllSortInfo();
         }
-        System.out.println(sortElementVOS.toString());
+
         if(sortElementVOS.size()!=10){
             int j=0;
             for(int i=1;i<=10;i++){

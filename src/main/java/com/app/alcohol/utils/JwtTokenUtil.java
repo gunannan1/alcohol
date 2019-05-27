@@ -21,49 +21,49 @@ public class JwtTokenUtil {
     private JwtProperties jwtProperties;
 
     /**
-     * 获取用户名从token中
+     * get username from token
      */
     public String getUsernameFromToken(String token) {
         return getClaimFromToken(token).getSubject();
     }
 
     /**
-     * 获取jwt发布时间
+     * get jwt create time
      */
     public Date getIssuedAtDateFromToken(String token) {
         return getClaimFromToken(token).getIssuedAt();
     }
 
     /**
-     * 获取jwt失效时间
+     * get jwt expire time
      */
     public Date getExpirationDateFromToken(String token) {
         return getClaimFromToken(token).getExpiration();
     }
 
     /**
-     * 获取jwt接收者
+     * get audience
      */
     public String getAudienceFromToken(String token) {
         return getClaimFromToken(token).getAudience();
     }
 
     /**
-     * 获取私有的jwt claim
+     * get private claim
      */
     public String getPrivateClaimFromToken(String token, String key) {
         return getClaimFromToken(token).get(key).toString();
     }
 
     /**
-     * 获取md5 key从token中
+     * get md5 key
      */
     public String getMd5KeyFromToken(String token) {
         return getPrivateClaimFromToken(token, jwtProperties.getMd5Key());
     }
 
     /**
-     * 获取jwt的payload部分
+     *  get playload part
      */
     public Claims getClaimFromToken(String token) {
         return Jwts.parser()
@@ -73,17 +73,14 @@ public class JwtTokenUtil {
     }
 
     /**
-     * 解析token是否正确,不正确会报异常<br>
+     * parse token
      */
     public void parseToken(String token) throws JwtException {
         Jwts.parser().setSigningKey(jwtProperties.getSecret()).parseClaimsJws(token).getBody();
     }
 
     /**
-     * <pre>
-     *  验证token是否失效
-     *  true:过期   false:没过期
-     * </pre>
+     * check if token is expired,true if expired
      */
     public Boolean isTokenExpired(String token) {
         try {
@@ -95,20 +92,29 @@ public class JwtTokenUtil {
     }
 
     /**
-     * 生成token(通过用户名和签名时候用的随机数)
+     * generate token,default expire time
      */
     public String generateToken(String userName, String randomKey) {
         Map<String, Object> claims = new HashMap<>();
         claims.put(jwtProperties.getMd5Key(), randomKey);
-        return doGenerateToken(claims, userName);
+        return doGenerateToken(claims, userName,jwtProperties.getExpiration() * 1000);
     }
 
     /**
-     * 生成token
+     * generate token,customize expire time
      */
-    private String doGenerateToken(Map<String, Object> claims, String subject) {
+    public String generateToken(String userName, String randomKey,long expiration) {
+        Map<String, Object> claims = new HashMap<>();
+        claims.put(jwtProperties.getMd5Key(), randomKey);
+        return doGenerateToken(claims, userName,expiration);
+    }
+
+    /**
+     * generate token
+     */
+    private String doGenerateToken(Map<String, Object> claims, String subject,long expiration ) {
         final Date createdDate = new Date();
-        final Date expirationDate = new Date(createdDate.getTime() + jwtProperties.getExpiration() * 1000);
+        final Date expirationDate = new Date(createdDate.getTime() + expiration);
 
         return Jwts.builder()
                 .setClaims(claims)
@@ -120,7 +126,7 @@ public class JwtTokenUtil {
     }
 
     /**
-     * 获取混淆MD5签名用的随机字符串
+     * get random key
      */
     public String getRandomKey() {
         return getRandomString(6);

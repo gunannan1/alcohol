@@ -1,0 +1,119 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Reset Password</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    
+    <!-- jquery -->
+    <script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+    <!-- bootstrap -->
+    <link rel="stylesheet" type="text/css" th:href="@{/bootstrap/css/bootstrap.min.css}" />
+    <script type="text/javascript" th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
+    <!-- jquery-validator -->
+    <script type="text/javascript" th:src="@{/jquery-validation/jquery.validate.min.js}"></script>
+    <script type="text/javascript" th:src="@{/jquery-validation/localization/messages_zh.min.js}"></script>
+    <!-- layer -->
+    <script type="text/javascript" th:src="@{/layer/layer.js}"></script>
+    <!-- common.js -->
+    <script type="text/javascript" th:src="@{/js/common.js}"></script>
+    
+</head>
+<body>
+
+<form name="resetForm" id="resetForm" method="post"  style="width:50%; margin:0 auto">
+
+	<h2 style="text-align:center; margin-bottom: 20px">Reset Your Password</h2>
+	
+	<div class="form-group">
+       	<div class="row">
+	       	<label class="form-label col-md-4">New password</label>
+	        <div class="col-md-5">
+	        	<input id="newPassword" name = "newPassword" class="form-control" type="password" required="true"  minlength="6" maxlength="16" />
+	    	</div>
+	    	<div class="col-md-1">
+	    	</div>
+    	</div>
+    </div>
+    
+    <div class="form-group">
+     		<div class="row">
+		        <label class="form-label col-md-4">Confirm new password</label>
+		        <div class="col-md-5">
+		        	<input id="confirmPassword" name="confirmPassword" class="form-control" type="password" required="true" minlength="6" maxlength="16" />
+	       		</div>
+      		</div>
+	</div>
+	
+	<div class="row" >
+	       	 	<div >
+					<button class="btn btn-primary " style="display:block;margin:0 auto" type="submit" onclick="validate()" >Finish</button>
+	       	 	</div>
+
+
+	 </div>
+
+
+</form>
+</body>
+
+
+<script>
+
+	function GetJWTInPath()
+	{
+		var url = document.location.toString();
+		var arrUrl = url.split("//");
+		var arrUrl2 = arrUrl[1].split("/");
+		var len=arrUrl2.length
+		var relUrl = arrUrl2[len-1];
+		return relUrl;
+	}
+
+	function validate(){
+		var word1= document.getElementById("newPassword").value;
+		var word2 = document.getElementById("confirmPassword").value;
+		if(word1 != word2){
+			alert("The two password are not equal");
+			confirmPassword.focus();
+			return false;
+		}
+		doReset()
+	}
+
+
+	function doReset(){
+		g_showLoading();
+
+		$.ajax({
+			url: "/resetpassword/do_reset/"+GetJWTInPath(),
+			type: "POST",
+			data:{
+				newPassword:$("#newPassword").val(),
+				confirmPassword:$("#confirmPassword").val()
+			},
+			success:function(data){
+				// layer.closeAll();
+				console.log(data.code);
+				if(data.code == 200){
+					window.location.href="/resetpassword/success";
+					// window.event.returnValue=false;
+				}
+				else if(data.code == 401){
+					window.location.href="/resetpassword/expire"
+				}
+
+				else{
+					layer.msg(data.message);
+
+				}
+			},
+			error:function(){
+				layer.closeAll();
+
+			}
+		});
+	}
+</script>
+
+
+</html>
