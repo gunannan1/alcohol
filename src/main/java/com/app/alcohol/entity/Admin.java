@@ -11,7 +11,7 @@ import java.util.Date;
  *Admin entity
  */
 @Data
-@TableName("admin")
+@TableName("administrator")
 public class Admin {
 
     /**

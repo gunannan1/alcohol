@@ -39,6 +39,10 @@ public class NBackService {
 
         NBackRecord nBackRecord=new NBackRecord();
         nBackRecord.setUsername(nBackRecordVO.getUsername());
+        nBackRecord.setBlock(nBackRecordVO.getBlock());
+        nBackRecord.setIncorrect(nBackRecordVO.getIncorrect());
+        nBackRecord.setMissed(nBackRecordVO.getMissed());
+        nBackRecord.setTrials(nBackRecordVO.getTrials());
         nBackRecord.setLevel(nBackRecordVO.getLevel());
         nBackRecord.setPercentage(nBackRecordVO.getPercentage());
         nBackRecord.setCreateTime(date);

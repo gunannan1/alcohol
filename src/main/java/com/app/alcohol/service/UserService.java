@@ -4,6 +4,7 @@ import com.app.alcohol.dao.UserMapper;
 import com.app.alcohol.entity.User;
 import com.app.alcohol.enums.ResultEnum;
 import com.app.alcohol.exception.GlobalException;
+import com.app.alcohol.utils.MD5Util;
 import com.app.alcohol.vo.LoginVO;
 import com.app.alcohol.vo.SecretVO;
 import com.app.alcohol.vo.UserVO;
@@ -86,7 +87,7 @@ public class UserService {
 
 
         if(user!=null && user.getId()>0){
-            if(user.getPassword().equals(password)){
+            if(user.getPassword().equals(MD5Util.encrypt(password))){
                 return UserToUserVO(user);
             }else {
                 return null;
@@ -135,7 +136,7 @@ public class UserService {
     private User UserVOToUser(UserVO userVO){
         User user = new User();
         user.setUsername(userVO.getUsername());
-        user.setPassword(userVO.getPassword());
+        user.setPassword(MD5Util.encrypt(userVO.getPassword()));
         user.setFirstName(userVO.getFirstName());
         user.setLastName(userVO.getLastName());
         user.setEmail(userVO.getEmail());
@@ -195,7 +196,7 @@ public class UserService {
     public boolean update(int id,UserVO userVO) {
         User user=new User();
         user.setId(id);
-        user.setPassword(userVO.getPassword());
+        user.setPassword(MD5Util.encrypt(userVO.getPassword()));
         user.setGender(userVO.getGender());
         user.setAge(userVO.getAge());
         user.setEmail(userVO.getEmail());
@@ -215,7 +216,7 @@ public class UserService {
         if(user==null){
             throw new GlobalException(ResultEnum.User_Not_Exist);
         }
-        user.setPassword(secretVO.getNewPassword());
+        user.setPassword(MD5Util.encrypt(secretVO.getNewPassword()));
         // insert to the database
         Integer insert = userMapper.updateById(user);
         return insert>0;

@@ -3,6 +3,7 @@ package com.app.alcohol.service;
 import com.app.alcohol.dao.ResearcherMapper;
 import com.app.alcohol.entity.Researcher;
 import com.app.alcohol.entity.User;
+import com.app.alcohol.utils.MD5Util;
 import com.app.alcohol.vo.ResearcherVO;
 import com.app.alcohol.vo.UserVO;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
@@ -31,7 +32,7 @@ public class ResearcherService {
 
         Researcher researcher=new Researcher();
         researcher.setUsername(researcherVO.getUsername());
-        researcher.setPassword(researcherVO.getPassword());
+        researcher.setPassword(MD5Util.encrypt(researcherVO.getPassword()));
         researcher.setAccessToken(researcherVO.getAccessToken());
         researcher.setEmail(researcherVO.getEmail());
         researcher.setFirstName(researcherVO.getFirstName());
@@ -77,7 +78,7 @@ public class ResearcherService {
     public boolean update(int id,ResearcherVO researcherVO) {
         Researcher researcher=new Researcher();
         researcher.setId(id);
-        researcher.setPassword(researcherVO.getPassword());
+        researcher.setPassword(MD5Util.encrypt(researcherVO.getPassword()));
         researcher.setAccessToken(researcherVO.getAccessToken());
         researcher.setEmail(researcherVO.getEmail());
         researcher.setFirstName(researcherVO.getFirstName());

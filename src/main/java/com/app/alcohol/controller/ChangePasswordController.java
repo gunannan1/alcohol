@@ -29,12 +29,12 @@ public class ChangePasswordController {
     @Autowired
     JwtTokenUtil jwtTokenUtil;
 
-    @RequestMapping(value="success")
+    @RequestMapping(value="success",method = RequestMethod.GET)
     public String success(){
         return "success";
     }
 
-    @RequestMapping(value="expire")
+    @RequestMapping(value="expire",method = RequestMethod.GET)
     public String expire(){
         return "expire";
     }

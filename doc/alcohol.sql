@@ -9,7 +9,7 @@ DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT ,
   `username` varchar(20) NOT NULL COMMENT 'username',
-  `password` varchar(20) NOT NULL COMMENT 'password',
+  `password` varchar(50) NOT NULL COMMENT 'password',
   `first_name` varchar(20) NOT NULL  COMMENT 'first name',
   `last_name` varchar(20) NOT NULL  COMMENT 'last name',
   `email` varchar(50) NOT NULL COMMENT 'email address',
@@ -23,7 +23,7 @@ CREATE TABLE `user` (
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='user table';
 
 -- insert one user for test
-INSERT INTO user(username,password,first_name,last_name,email,gender,age,researcher_id) VALUES('test','test','Nannan','Gu','test@gmail.com',0,30,'12345');
+INSERT INTO user(username,password,first_name,last_name,email,gender,age,researcher_id) VALUES('test','df352f37d6d606903a666bd14c2cac05','Nannan','Gu','test@gmail.com',0,30,'12345');
 
 
 
@@ -136,6 +136,10 @@ DROP TABLE IF EXISTS `NBack_Record`;
 CREATE TABLE `NBack_Record` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT ,
   `username` varchar(20) NOT NULL COMMENT 'username of user',
+  `block` int NOT NULL  COMMENT '0 - practice block, 1- first experiment block, 2- second, 3 third,4 fourth  ',
+  `trials` INT  NOT NULL COMMENT 'trails of every block, in practice it is 10, in experiment it is 20',
+  `incorrect` INT NOT NULL  COMMENT 'num of incorrect response of the test',
+  `missed` INT NOT NULL  COMMENT 'num of missed response of the test',
   `level` int NOT NULL  COMMENT '1 -back，2-back or 3-back',
   `percentage` FLOAT NOT NULL  COMMENT 'Percentage of correct answer',
   `create_time` DATETIME COMMENT 'create time',
@@ -154,7 +158,7 @@ DROP TABLE IF EXISTS `researcher`;
 CREATE TABLE `researcher` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT ,
   `username` varchar(20) NOT NULL COMMENT 'username',
-  `password` varchar(20) COMMENT 'password，here only admin can access the system,so other researchers do not have it',
+  `password` varchar(50) COMMENT 'password，here only admin can access the system,so other researchers do not have it',
   `first_name` varchar(20) NOT NULL  COMMENT 'first name',
   `last_name` varchar(20) NOT NULL  COMMENT 'last name',  `email` varchar(50) NOT NULL COMMENT 'email address',
   `researcher_id` varchar(50) NOT NULL COMMENT ' the special id number for researcher',
@@ -166,16 +170,16 @@ CREATE TABLE `researcher` (
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='researcher table';
 
 -- insert one researcher for test
-INSERT INTO researcher(username,password,first_name,last_name,email,researcher_id,access_token) VALUES('alcoholproject2019','SwFqNhqk9JkUW88','alcohol','admin','alcoholproject2019@gmail.com','12345','T2ZW21NqqjAAAAAAAAAAC17knFz4aTzALMQpuQ65jOMsFy5S2qRD4asHDh3jIcyr');
+INSERT INTO researcher(username,password,first_name,last_name,email,researcher_id,access_token) VALUES('alcoholproject2019','727928dc759026565dd81c63376ace03','alcohol','admin','alcoholproject2019@gmail.com','12345','T2ZW21NqqjAAAAAAAAAAC17knFz4aTzALMQpuQ65jOMsFy5S2qRD4asHDh3jIcyr');
 
 
 -- create Admin Table
 
-DROP TABLE IF EXISTS `admin`;
-CREATE TABLE `admin` (
+DROP TABLE IF EXISTS `administrator`;
+CREATE TABLE `administrator` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT ,
   `username` varchar(20) NOT NULL COMMENT 'username',
-  `password` varchar(20) COMMENT 'password，here only admin can access the system,so other researchers do not have it',
+  `password` varchar(50) COMMENT 'password，here only admin can access the system,so other researchers do not have it',
   `email` varchar(50) NOT NULL COMMENT 'email address',
   `create_time` DATETIME COMMENT 'create time',
   PRIMARY KEY (`id`),
@@ -183,7 +187,7 @@ CREATE TABLE `admin` (
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='admin table';
 
 -- insert one researcher for test
-INSERT INTO admin(username,password,email) VALUES('alcoholproject2019','SwFqNhqk9JkUW88','alcoholproject2019@gmail.com');
+INSERT INTO administrator(username,password,email) VALUES('alcoholproject2019','727928dc759026565dd81c63376ace03','alcoholproject2019@gmail.com');
 
 
 -- create Setting Table
