@@ -50,18 +50,57 @@
         ORDER BY gapId
     </select>
 
-    <select id="selectSortInfo"  resultType="com.app.alcohol.vo.SortElementVO">
-        SELECT
+    <select id="getCorrectnessRank"  resultType="com.app.alcohol.vo.SortElementVO">
+      SELECT
             elt(INTERVAL(percentage, 0, 10,20,30,40,50, 60, 70, 80, 90, 101), '0-10','10-20','20-30','30-40','40-50', '50-60', '60-70', '70-80', '80-90', '90-100') as gap,
             	INTERVAL(percentage, 0, 10,20,30,40,50, 60, 70, 80, 90, 101) as gapId,
-            	count(username)/(select count(t.username) as totalnum from (select * from NBack_Record where NBack_Record.level=#{level}) t)*100 as percentage
+            	round(count(username)/(select count(t.username) as totalnum from (select avg(percentage) as percentage,username,create_time from NBack_Record where NBack_Record.level=#{level} group by username,create_time) t)*100,2) as percentage
         FROM
-            (select * from NBack_Record where NBack_Record.level=#{level}) r
+            (select avg(percentage) as percentage,username,create_time,level from NBack_Record where NBack_Record.level=#{level} group by username,create_time) r
 
         where r.level=#{level}
         group by gap,gapId
-        ORDER BY gapId
+        ORDER BY gapId;
+
     </select>
+
+    <select id="getMyCorrectnessRank"  resultType="com.app.alcohol.vo.MyRankVO">
+
+        SELECT
+            round(obj_new.percentage,2) as myScore,
+            round(obj_new.rownum/(select count(t.username) as totalnum from
+                        (select avg(percentage) as percentage,username,create_time from NBack_Record where NBack_Record.level=#{level} group by username,create_time ) t)*100,2) as myPercentage
+        FROM
+            (
+                SELECT
+                    obj.username,
+                    obj.percentage,
+                    obj.create_time,
+                    obj.level,
+                    @rownum := @rownum + 1 AS num_tmp,
+                    @incrnum := CASE
+                WHEN @rowtotal = obj.percentage THEN
+                    @incrnum
+                WHEN @rowtotal := obj.percentage THEN
+                    @rownum
+                END AS rownum
+                FROM
+                    (
+                     select avg(percentage) as percentage,username,create_time,level from NBack_Record where NBack_Record.level=#{level} group by username,create_time order by percentage desc
+                    ) AS obj,
+                    (
+                        SELECT
+                            @rownum := 0 ,@rowtotal := NULL ,@incrnum := 0
+                    ) r
+            ) AS obj_new
+        where username=#{username} and level=#{level}
+        order by create_time desc
+        limit 1;
+
+    </select>
+
+
+
 
 
 

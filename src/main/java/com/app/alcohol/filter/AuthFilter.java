@@ -21,6 +21,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.util.Enumeration;
 
 /**
  *filter requests without token
@@ -55,6 +56,14 @@ public class AuthFilter extends OncePerRequestFilter {
                 chain.doFilter(request, response);
                 return;
             }
+
+//            Enumeration er = request.getHeaderNames();
+//            while(er.hasMoreElements()){
+//                String name	=(String) er.nextElement();
+//                String value = request.getHeader(name);
+//                System.out.println(name+"="+value);
+//            }
+
 
             final String requestHeader = request.getHeader(jwtProperties.getTokenHeader());
 //            System.out.println(requestHeader);

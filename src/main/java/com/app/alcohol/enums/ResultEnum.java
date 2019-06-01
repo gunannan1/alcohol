@@ -20,7 +20,7 @@ public enum  ResultEnum {
     Login_Failed(500,"login failed,wrong username or password"),
     NO_UPLOAD_TOKEN(500,"no token for upload the file"),
     Passworrd_Not_Match(500,"Confirm password don't match"),
-    Wrong_Email(500,"The email address is not exist"),
+    Wrong_Email(500,"The email address does not exist"),
     Send_Email_Error(500,"Error when sending email"),
     User_Not_Exist(500,"user not exist"),
 

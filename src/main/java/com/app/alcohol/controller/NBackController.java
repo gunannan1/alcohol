@@ -25,6 +25,20 @@ public class NBackController {
         }
     }
 
+    @RequestMapping(value = "saveall",method = RequestMethod.POST)
+    public ResponseVO saveall(@RequestBody NBackRecordListVO nBackRecordListVO){
+        boolean isSuccess= nBackService.save(nBackRecordListVO);
+        if(isSuccess){
+            return ResponseVO.success(ResultEnum.SUCCESS);
+        }
+        else {
+            throw new GlobalException(ResultEnum.Error);
+        }
+    }
+
+
+
+
     @RequestMapping(value = "request",method = RequestMethod.POST)
     public ResponseVO request(@RequestBody NbackRequestVO nbackRequestVO){
         NBackResponseVO nBackResponseVO=nBackService.requestNBackInfo(nbackRequestVO);
@@ -43,15 +57,9 @@ public class NBackController {
         return ResponseVO.success(nBackInfoVO);
     }
 
-    @RequestMapping(value = "getSortInfo",method = RequestMethod.GET)
-    public ResponseVO getSortInfo(@RequestParam(name = "username")String username,@RequestParam(name = "level",required = false)Integer level){
-        SortVO sortVO;
-        if(level!=null){
-            sortVO=nBackService.getSortInfo(username, level);
-        }
-        else {
-            sortVO=nBackService.getSortInfo(username, 0);
-        }
+    @RequestMapping(value = "getCorrectnessRank",method = RequestMethod.GET)
+    public ResponseVO getSortInfo(@RequestParam(name = "username")String username,@RequestParam(name = "level")Integer level){
+        SortVO sortVO=nBackService.getCorrectnessRank(username, level);
 
         return ResponseVO.success(sortVO);
     }

@@ -4,6 +4,7 @@ import com.app.alcohol.dao.ResearcherMapper;
 import com.app.alcohol.entity.Researcher;
 import com.app.alcohol.entity.User;
 import com.app.alcohol.utils.MD5Util;
+import com.app.alcohol.vo.ResearcherChooseVO;
 import com.app.alcohol.vo.ResearcherVO;
 import com.app.alcohol.vo.UserVO;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
@@ -91,6 +92,13 @@ public class ResearcherService {
         return insert>0;
     }
 
+    /**
+     * this is for show researcher info in management system,
+     * @param researcherVO
+     * @param pageSize
+     * @param pageNum
+     * @return
+     */
     public Page<Researcher> list(ResearcherVO researcherVO, Integer pageSize, Integer pageNum) {
         List<Researcher> researcherList = new ArrayList<>();
         Page<Researcher> page = new Page<>(pageNum,pageSize);
@@ -142,6 +150,25 @@ public class ResearcherService {
         researcherVO.setResearcherId(researcher.getResearcherId());
 
         return researcherVO;
+    }
+
+    /**
+     * this is for user to choose list
+     * @return
+     */
+    public List<ResearcherChooseVO> getAllResearcherList(){
+        List<Researcher> list=researcherMapper.selectList(new EntityWrapper<Researcher>());
+        List<ResearcherChooseVO> res=new ArrayList<>();
+        for(Researcher researcher:list){
+            ResearcherChooseVO rc=new ResearcherChooseVO();
+            rc.setFirstName(researcher.getFirstName());
+            rc.setLastName(researcher.getLastName());
+            rc.setResearcherId(researcher.getResearcherId());
+            rc.setUsername(researcher.getUsername());
+            res.add(rc);
+        }
+        return res;
+
     }
 
 

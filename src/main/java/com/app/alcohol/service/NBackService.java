@@ -86,15 +86,19 @@ public class NBackService {
             if (!file.exists()){
                 file.createNewFile();
                 BufferedWriter out = new BufferedWriter(new FileWriter(file));
-                out.write("username,"+"level,"+"percentage,"+"updateTime"+"\r\n");
-                out.write(username+","+nBackRecordVO.getLevel()+","+nBackRecordVO.getPercentage()+","+currentTime+"\r\n");
+                out.write("username,"+"block,"+"trials,"+"level,"+"missed,"+"incorrect,"+"percentage,"+"updateTime"+"\r\n");
+                out.write(username+","+nBackRecordVO.getBlock()+","+nBackRecordVO.getTrials()+","
+                        +nBackRecordVO.getLevel()+","+nBackRecordVO.getMissed()+","+nBackRecordVO.getIncorrect()
+                        +","+nBackRecordVO.getPercentage()+","+currentTime+"\r\n");
                 out.flush();
                 out.close();
             }
             else {
                 BufferedWriter out = new BufferedWriter(new OutputStreamWriter(
                         new FileOutputStream(file, true)));
-                out.write(username+","+nBackRecordVO.getLevel()+","+nBackRecordVO.getPercentage()+","+currentTime+"\r\n");
+                out.write(username+","+nBackRecordVO.getBlock()+","+nBackRecordVO.getTrials()+","
+                        +nBackRecordVO.getLevel()+","+nBackRecordVO.getMissed()+","+nBackRecordVO.getIncorrect()
+                        +","+nBackRecordVO.getPercentage()+","+currentTime+"\r\n");
                 out.flush();
                 out.close();
             }
@@ -151,16 +155,12 @@ public class NBackService {
         return nBackInfoVO;
     }
 
-    public SortVO getSortInfo(String username,int level){
+    public SortVO getCorrectnessRank(String username,int level){
         SortVO sortVO=new SortVO();
-        List<SortElementVO> sortElementVOS;
+        List<SortElementVO> sortElementVOS=nBackRecordMapper.getCorrectnessRank(level);
+        ;
         List<Double> res=new ArrayList<>();
-        if(level!=0){
-            sortElementVOS=nBackRecordMapper.selectSortInfo(level);
-        }
-        else {
-            sortElementVOS=nBackRecordMapper.selectAllSortInfo();
-        }
+
 
         if(sortElementVOS.size()!=10){
             int j=0;
@@ -178,15 +178,101 @@ public class NBackService {
             for(SortElementVO sortElementVO:sortElementVOS){
                 res.add(sortElementVO.getPercentage());
             }
+        }
 
+        MyRankVO myRankVO=nBackRecordMapper.getMyCorrectnessRank(username,level);
+        for(int i=0;i<10;i++){
+            if(myRankVO.getMyScore()==100){
+                sortVO.setMyGapPosition(9);
+                break;
+            }
+            else if(myRankVO.getMyScore()<(i+1)*10&&myRankVO.getMyScore()>=i*10){
+                sortVO.setMyGapPosition(i);
+                break;
+            }
+        }
+
+        sortVO.setMyPercentage(myRankVO.getMyPercentage());
+        sortVO.setMyScore(myRankVO.getMyScore());
+        sortVO.setList(res);
+        return sortVO;
+    }
+
+
+    public boolean save(NBackRecordListVO nBackRecordListVO){
+        Date date=new Date();
+        String currentTime= DateUtil.convert(date);
+        List<NBackRecordVO> list=nBackRecordListVO.getRecords();
+
+        try{
+            for (int i=0;i<list.size();i++){
+                NBackRecord nBackRecord=new NBackRecord();
+                nBackRecord.setUsername(list.get(i).getUsername());
+                nBackRecord.setBlock(list.get(i).getBlock());
+                nBackRecord.setIncorrect(list.get(i).getIncorrect());
+                nBackRecord.setMissed(list.get(i).getMissed());
+                nBackRecord.setTrials(list.get(i).getTrials());
+                nBackRecord.setLevel(list.get(i).getLevel());
+                nBackRecord.setPercentage(list.get(i).getPercentage());
+                nBackRecord.setCreateTime(date);
+                nBackRecordMapper.insert(nBackRecord);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            return false;
         }
 
 
-        sortVO.setList(res);
+        String researcherId=userService.getResearcherId(list.get(0).getUsername());
+        String path=createLocalFile(researcherId,list,currentTime);
+        if(researcherId!=null){
+            dropBoxService.upload(path,researcherId);
+        }
 
-
-        return sortVO;
+        return true;
     }
+
+    private String createLocalFile(String researcherId, List<NBackRecordVO> list, String currentTime){
+
+        if(researcherId==null){
+            researcherId="NoResearcher";
+        }
+
+        String username=list.get(0).getUsername();
+
+        String path= researcherId + "/" + username + "/" + "nback.txt";
+        String localPath = filePathConfig.getLocalPrefix() + path;
+
+        try {
+            File file = new File(localPath);
+            if (!file.getParentFile().exists()){
+                file.getParentFile().mkdirs();
+
+            }
+            if (!file.exists()){
+                file.createNewFile();
+                BufferedWriter out = new BufferedWriter(new FileWriter(file));
+                out.write("username,"+"block,"+"trials,"+"level,"+"missed,"+"incorrect,"+"percentage,"+"updateTime"+"\r\n");
+                out.flush();
+                out.close();
+            }
+
+            BufferedWriter out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file, true)));
+            for(int i=0;i<list.size();i++){
+                out.write(username+","+list.get(i).getBlock()+","+list.get(i).getTrials()+","+list.get(i).getLevel()
+                        +","+list.get(i).getMissed()+","+list.get(i).getIncorrect()+","
+                        +list.get(i).getPercentage()+","+currentTime+"\r\n");
+            }
+            out.flush();
+            out.close();
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return path;
+
+    }
+
 
 
 

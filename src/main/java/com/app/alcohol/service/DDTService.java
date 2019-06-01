@@ -110,7 +110,9 @@ public class DDTService {
         }
         //use date to be file name, ignore time
         String fileName=currentTime.substring(0,10);
-        String path= researcherId + "/" + username + "/" + "ddt/" + fileName+".txt";
+//        String path= researcherId + "/" + username + "/" + "ddt/" + fileName+".txt";
+        String path= researcherId + "/" + username + "/" + "ddt.txt";
+
         String localPath = filePathConfig.getLocalPrefix() + path;
 
         try {

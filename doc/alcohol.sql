@@ -138,16 +138,19 @@ CREATE TABLE `NBack_Record` (
   `username` varchar(20) NOT NULL COMMENT 'username of user',
   `block` int NOT NULL  COMMENT '0 - practice block, 1- first experiment block, 2- second, 3 third,4 fourth  ',
   `trials` INT  NOT NULL COMMENT 'trails of every block, in practice it is 10, in experiment it is 20',
+  `level` int NOT NULL  COMMENT '1 -back，2-back or 3-back',
   `incorrect` INT NOT NULL  COMMENT 'num of incorrect response of the test',
   `missed` INT NOT NULL  COMMENT 'num of missed response of the test',
-  `level` int NOT NULL  COMMENT '1 -back，2-back or 3-back',
   `percentage` FLOAT NOT NULL  COMMENT 'Percentage of correct answer',
   `create_time` DATETIME COMMENT 'create time',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='NBack_Record table';
 --
 
-INSERT INTO NBack_Record(username,level,percentage) VALUES('test','1','66.66');
+INSERT INTO NBack_Record(username,block,trials,level,incorrect,missed,percentage) VALUES('test','1','20','1','2','2','88.88');
+INSERT INTO NBack_Record(username,block,trials,level,incorrect,missed,percentage) VALUES('test','1','20','2','2','2','88.88');
+INSERT INTO NBack_Record(username,block,trials,level,incorrect,missed,percentage) VALUES('test','1','20','2','2','2','88.88');
+INSERT INTO NBack_Record(username,block,trials,level,incorrect,missed,percentage) VALUES('test','1','20','3','2','2','88.88');
 
 
 
@@ -160,7 +163,8 @@ CREATE TABLE `researcher` (
   `username` varchar(20) NOT NULL COMMENT 'username',
   `password` varchar(50) COMMENT 'password，here only admin can access the system,so other researchers do not have it',
   `first_name` varchar(20) NOT NULL  COMMENT 'first name',
-  `last_name` varchar(20) NOT NULL  COMMENT 'last name',  `email` varchar(50) NOT NULL COMMENT 'email address',
+  `last_name` varchar(20) NOT NULL  COMMENT 'last name',
+  `email` varchar(50) NOT NULL COMMENT 'email address',
   `researcher_id` varchar(50) NOT NULL COMMENT ' the special id number for researcher',
   `access_token` varchar(100)  COMMENT 'access token for dropbox',
   `create_time` DATETIME COMMENT 'create time',
@@ -173,7 +177,7 @@ CREATE TABLE `researcher` (
 INSERT INTO researcher(username,password,first_name,last_name,email,researcher_id,access_token) VALUES('alcoholproject2019','727928dc759026565dd81c63376ace03','alcohol','admin','alcoholproject2019@gmail.com','12345','T2ZW21NqqjAAAAAAAAAAC17knFz4aTzALMQpuQ65jOMsFy5S2qRD4asHDh3jIcyr');
 
 
--- create Admin Table
+-- create administrator Table
 
 DROP TABLE IF EXISTS `administrator`;
 CREATE TABLE `administrator` (

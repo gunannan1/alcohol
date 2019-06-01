@@ -2,11 +2,14 @@ package com.app.alcohol.controller;
 
 import com.app.alcohol.enums.ResultEnum;
 import com.app.alcohol.exception.GlobalException;
+import com.app.alcohol.service.ResearcherService;
 import com.app.alcohol.service.UserService;
 import com.app.alcohol.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RequestMapping("/user/")
 @RestController
@@ -14,6 +17,9 @@ public class UserController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    ResearcherService researcherService;
 
 
     /**
@@ -86,6 +92,14 @@ public class UserController {
         }
 
         return ResponseVO.success(userVO);
+
+    }
+
+    @RequestMapping(value = "getResearcherList", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseVO getResearcherList() {
+        List<ResearcherChooseVO> list=researcherService.getAllResearcherList();
+        return ResponseVO.success(list);
 
     }
 
