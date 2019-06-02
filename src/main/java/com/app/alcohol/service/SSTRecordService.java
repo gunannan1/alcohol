@@ -4,6 +4,9 @@ package com.app.alcohol.service;
 import com.app.alcohol.config.FilePathConfig;
 import com.app.alcohol.dao.SSTRecordMapper;
 import com.app.alcohol.entity.SSTRecord;
+import com.app.alcohol.entity.User;
+import com.app.alcohol.enums.ResultEnum;
+import com.app.alcohol.exception.GlobalException;
 import com.app.alcohol.utils.DateUtil;
 import com.app.alcohol.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +40,12 @@ public class SSTRecordService {
      * @return
      */
     public boolean save(SSTRecordVO sstRecordVO){
+        String username=sstRecordVO.getUsername();
+        User user=userService.getByUsername(username);
+        if(user==null){
+            throw new GlobalException(ResultEnum.User_Not_Exist);
+        }
+
         Date date=new Date();
         String currentTime= DateUtil.convert(date);
 
@@ -124,14 +133,20 @@ public class SSTRecordService {
 
     @Transactional
     public boolean save(SSTRecordListVO sstRecordListVO){
+
+        List<SSTRecordVO> list=sstRecordListVO.getRecords();
+        String username=list.get(0).getUsername();
+        User user=userService.getByUsername(username);
+        if(user==null){
+            throw new GlobalException(ResultEnum.User_Not_Exist);
+        }
         Date date=new Date();
         String currentTime= DateUtil.convert(date);
-        List<SSTRecordVO> list=sstRecordListVO.getRecords();
 
         try {
             for (int i=0;i<list.size();i++){
                 SSTRecord sstRecord=new SSTRecord();
-                sstRecord.setUsername(list.get(i).getUsername());
+                sstRecord.setUsername(username);
                 sstRecord.setBlock(list.get(i).getBlock());
                 sstRecord.setTrials(list.get(i).getTrials());
                 sstRecord.setIncorrect(list.get(i).getIncorrect());
@@ -146,7 +161,7 @@ public class SSTRecordService {
             return false;
         }
 
-        String researcherId=userService.getResearcherId(list.get(0).getUsername());
+        String researcherId=userService.getResearcherId(username);
         String path=createLocalFile(researcherId,list,currentTime);
         if(researcherId!=null){
             dropBoxService.upload(path,researcherId);

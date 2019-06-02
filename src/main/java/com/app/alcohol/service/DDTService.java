@@ -3,6 +3,9 @@ package com.app.alcohol.service;
 import com.app.alcohol.config.FilePathConfig;
 import com.app.alcohol.dao.DDTRecordMapper;
 import com.app.alcohol.entity.DDTRecord;
+import com.app.alcohol.entity.User;
+import com.app.alcohol.enums.ResultEnum;
+import com.app.alcohol.exception.GlobalException;
 import com.app.alcohol.utils.DateUtil;
 import com.app.alcohol.vo.DDTRecordVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,12 +29,20 @@ public class DDTService {
     @Autowired
     DropBoxService dropBoxService;
 
+
+
     /**
      * save ddt data
      * @param ddtRecordVO
      * @return
      */
     public boolean save(DDTRecordVO ddtRecordVO){
+        String username=ddtRecordVO.getUsername();
+        User user=userService.getByUsername(username);
+        if(user==null){
+            throw new GlobalException(ResultEnum.User_Not_Exist);
+        }
+
         DDTRecord ddtRecord=new DDTRecord();
         List<List<Integer>> input=ddtRecordVO.getAnswers();
         Queue<List<Integer>> record=new PriorityQueue<>((o1,o2)->o1.get(0)-o2.get(0));

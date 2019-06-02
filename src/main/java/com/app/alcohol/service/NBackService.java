@@ -3,6 +3,9 @@ package com.app.alcohol.service;
 import com.app.alcohol.config.FilePathConfig;
 import com.app.alcohol.dao.NBackRecordMapper;
 import com.app.alcohol.entity.NBackRecord;
+import com.app.alcohol.entity.User;
+import com.app.alcohol.enums.ResultEnum;
+import com.app.alcohol.exception.GlobalException;
 import com.app.alcohol.utils.DateUtil;
 import com.app.alcohol.utils.NBackUtil;
 import com.app.alcohol.vo.*;
@@ -34,6 +37,12 @@ public class NBackService {
      * @return
      */
     public boolean save(NBackRecordVO nBackRecordVO){
+        String username=nBackRecordVO.getUsername();
+        User user=userService.getByUsername(username);
+        if(user==null){
+            throw new GlobalException(ResultEnum.User_Not_Exist);
+        }
+
         Date date=new Date();
         String currentTime= DateUtil.convert(date);
 
@@ -204,15 +213,22 @@ public class NBackService {
 
 
     public boolean save(NBackRecordListVO nBackRecordListVO){
+        List<NBackRecordVO> list=nBackRecordListVO.getRecords();
+        String username=list.get(0).getUsername();
+        User user=userService.getByUsername(username);
+        if(user==null){
+            throw new GlobalException(ResultEnum.User_Not_Exist);
+        }
+
+
         Date date=new Date();
         String currentTime= DateUtil.convert(date);
 
-        List<NBackRecordVO> list=nBackRecordListVO.getRecords();
 
         try{
             for (int i=0;i<list.size();i++){
                 NBackRecord nBackRecord=new NBackRecord();
-                nBackRecord.setUsername(list.get(i).getUsername());
+                nBackRecord.setUsername(username);
                 nBackRecord.setBlock(list.get(i).getBlock());
                 nBackRecord.setIncorrect(list.get(i).getIncorrect());
                 nBackRecord.setMissed(list.get(i).getMissed());
@@ -228,7 +244,7 @@ public class NBackService {
         }
 
 
-        String researcherId=userService.getResearcherId(list.get(0).getUsername());
+        String researcherId=userService.getResearcherId(username);
 
         String path=createLocalFile(researcherId,list,currentTime);
         if(researcherId!=null){
