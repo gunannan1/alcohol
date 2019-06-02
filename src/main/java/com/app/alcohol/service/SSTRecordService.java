@@ -220,7 +220,11 @@ public class SSTRecordService {
                 res.add(sortElementVO.getPercentage());
             }
         }
+        sortVO.setList(res);
         MyRankVO myRankVO=sstRecordMapper.getMyReactionTimeRank(username);
+        if(myRankVO==null){
+            return sortVO;
+        }
         for(int i=0;i<10;i++){
             if(myRankVO.getMyScore()==1000){
                 sortVO.setMyGapPosition(9);
@@ -234,7 +238,7 @@ public class SSTRecordService {
 
         sortVO.setMyPercentage(myRankVO.getMyPercentage());
         sortVO.setMyScore(myRankVO.getMyScore());
-        sortVO.setList(res);
+
 
         return sortVO;
 
@@ -263,7 +267,11 @@ public class SSTRecordService {
                 res.add(sortElementVO.getPercentage());
             }
         }
+        sortVO.setList(res);
         MyRankVO myRankVO=sstRecordMapper.getMyStopSignalRank(username);
+        if(myRankVO==null){
+            return sortVO;
+        }
         for(int i=0;i<10;i++){
             if(myRankVO.getMyScore()==100){
                 sortVO.setMyGapPosition(9);
@@ -277,7 +285,7 @@ public class SSTRecordService {
 
         sortVO.setMyPercentage(myRankVO.getMyPercentage());
         sortVO.setMyScore(myRankVO.getMyScore());
-        sortVO.setList(res);
+
         return sortVO;
 
     }
@@ -305,7 +313,11 @@ public class SSTRecordService {
                 res.add(sortElementVO.getPercentage());
             }
         }
+        sortVO.setList(res);
         MyRankVO myRankVO=sstRecordMapper.getMyGoStimuliRank(username);
+        if(myRankVO==null){
+            return sortVO;
+        }
         for(int i=0;i<10;i++){
             if(myRankVO.getMyScore()==100){
                 sortVO.setMyGapPosition(9);
@@ -318,7 +330,7 @@ public class SSTRecordService {
         }
         sortVO.setMyPercentage(myRankVO.getMyPercentage());
         sortVO.setMyScore(myRankVO.getMyScore());
-        sortVO.setList(res);
+
         return sortVO;
 
     }

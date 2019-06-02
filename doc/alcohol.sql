@@ -147,10 +147,10 @@ CREATE TABLE `NBack_Record` (
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='NBack_Record table';
 --
 
-INSERT INTO NBack_Record(username,block,trials,level,incorrect,missed,percentage) VALUES('test','1','20','1','2','2','88.88');
-INSERT INTO NBack_Record(username,block,trials,level,incorrect,missed,percentage) VALUES('test','1','20','2','2','2','88.88');
-INSERT INTO NBack_Record(username,block,trials,level,incorrect,missed,percentage) VALUES('test','1','20','2','2','2','88.88');
-INSERT INTO NBack_Record(username,block,trials,level,incorrect,missed,percentage) VALUES('test','1','20','3','2','2','88.88');
+-- INSERT INTO NBack_Record(username,block,trials,level,incorrect,missed,percentage) VALUES('test','1','20','1','2','2','88.88');
+-- INSERT INTO NBack_Record(username,block,trials,level,incorrect,missed,percentage) VALUES('test','1','20','2','2','2','88.88');
+-- INSERT INTO NBack_Record(username,block,trials,level,incorrect,missed,percentage) VALUES('test','1','20','2','2','2','88.88');
+-- INSERT INTO NBack_Record(username,block,trials,level,incorrect,missed,percentage) VALUES('test','1','20','3','2','2','88.88');
 
 
 

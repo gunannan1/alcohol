@@ -13,7 +13,7 @@ import java.util.*;
 public class test {
     public static void main(String[] args) {
 //        List<List<Integer>> lists=new ArrayList<>();
-//        Queue<List<Integer>> queue=new PriorityQueue<>((o1,o2)->o1.get(0)-o2.get(0));
+//        Queue<List<Integer>> queue=new PriorityQueue<>((o1,o2)->o1.getById(0)-o2.getById(0));
 //        Queue<Integer> queue1=new PriorityQueue<>((o1,o2)->o1-o2);
 //        List<Integer> list1=new ArrayList<>();
 //        List<Integer> list2=new ArrayList<>();
@@ -105,17 +105,17 @@ public class test {
 //        StringBuilder sb2=new StringBuilder();
 //        for(int i=0;i<size;i++){
 //            if(i<len1&&i<len2){
-//                sb1.append(l1.get(i));
-//                sb2.append(l2.get(i));
+//                sb1.append(l1.getById(i));
+//                sb2.append(l2.getById(i));
 //            }
 //            else if(i>=len1){
 //                l1.add(0);
 //                sb1.append(0);
-//                sb2.append(l2.get(i));
+//                sb2.append(l2.getById(i));
 //            }
 //            else {
 //                l2.add(0);
-//                sb1.append(l1.get(i));
+//                sb1.append(l1.getById(i));
 //                sb2.append(0);
 //            }
 //        }
@@ -157,8 +157,8 @@ public class test {
 //            StringBuilder sb1=new StringBuilder();
 //            StringBuilder sb2=new StringBuilder();
 //            for(int i=0;i<l.size();i++){
-//                sb1.append(l.get(i));
-//                sb2.append(inc.get(i));
+//                sb1.append(l.getById(i));
+//                sb2.append(inc.getById(i));
 //            }
 //            int i1=Integer.valueOf(sb1.toString());
 //            int i2=Integer.valueOf(sb2.toString());
@@ -182,7 +182,7 @@ public class test {
 //        l.add(5);
 //        l.add(9);
 //        for(int i=0;i<l.size();i++){
-//            if(l.get(i)>4){
+//            if(l.getById(i)>4){
 //                l.add(i,4);
 //                break;
 //            }
@@ -198,7 +198,15 @@ public class test {
 //        String a="0100";
 //        System.out.println(Integer.parseInt(a));
 
-        System.out.println("".compareTo(" "));
+//        System.out.println("".compareTo(" "));
+
+//        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm");
+//        Date d = new Date();
+//        System.setProperty(“user.timezone”,”GMT +08″);
+//        simpleDateFormat.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
+////        simpleDateFormat.setTimeZone(TimeZone.getTimeZone("Australia/Melbourne"));
+//        String date = simpleDateFormat.format(d);
+//        System.out.println(date);
 
 
 

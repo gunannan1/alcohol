@@ -180,7 +180,11 @@ public class NBackService {
             }
         }
 
+        sortVO.setList(res);
         MyRankVO myRankVO=nBackRecordMapper.getMyCorrectnessRank(username,level);
+        if(myRankVO==null){
+            return sortVO;
+        }
         for(int i=0;i<10;i++){
             if(myRankVO.getMyScore()==100){
                 sortVO.setMyGapPosition(9);
@@ -194,7 +198,7 @@ public class NBackService {
 
         sortVO.setMyPercentage(myRankVO.getMyPercentage());
         sortVO.setMyScore(myRankVO.getMyScore());
-        sortVO.setList(res);
+
         return sortVO;
     }
 
@@ -202,6 +206,7 @@ public class NBackService {
     public boolean save(NBackRecordListVO nBackRecordListVO){
         Date date=new Date();
         String currentTime= DateUtil.convert(date);
+
         List<NBackRecordVO> list=nBackRecordListVO.getRecords();
 
         try{
@@ -224,6 +229,7 @@ public class NBackService {
 
 
         String researcherId=userService.getResearcherId(list.get(0).getUsername());
+
         String path=createLocalFile(researcherId,list,currentTime);
         if(researcherId!=null){
             dropBoxService.upload(path,researcherId);

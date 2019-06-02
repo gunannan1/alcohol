@@ -82,7 +82,7 @@ public class ResearcherController {
     @RequestMapping(value = "get/{id}", method = RequestMethod.GET)
     @ResponseBody
     public ResponseVO get(@PathVariable int id) {
-        ResearcherVO researcherVO=researcherService.get(id);
+        ResearcherVO researcherVO=researcherService.getById(id);
         return ResponseVO.success(researcherVO);
 
     }

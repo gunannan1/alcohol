@@ -65,8 +65,11 @@ public class ResearcherService {
         Researcher researcher=new Researcher();
         researcher.setResearcherId(researcherId);
         researcher=researcherMapper.selectOne(researcher);
+        if(researcher!=null){
+            return researcher.getAccessToken();
+        }
 
-        return researcher.getAccessToken();
+        return null;
 
     }
 
@@ -138,7 +141,12 @@ public class ResearcherService {
         return count>0;
     }
 
-    public ResearcherVO get(int id){
+    /**
+     * get researcher by id
+     * @param id
+     * @return
+     */
+    public ResearcherVO getById(int id){
         Researcher researcher=researcherMapper.selectById(id);
         ResearcherVO researcherVO=new ResearcherVO();
         researcherVO.setAccessToken(researcher.getAccessToken());
@@ -151,6 +159,32 @@ public class ResearcherService {
 
         return researcherVO;
     }
+
+    /**
+     * get researcher by researcher id
+     * @param researcherId
+     * @return
+     */
+    public ResearcherVO getByResearcherId(String researcherId){
+        Researcher researcher=new Researcher();
+        researcher.setResearcherId(researcherId);
+        researcher=researcherMapper.selectOne(researcher);
+        if(researcher==null){
+            return null;
+        }
+        ResearcherVO researcherVO=new ResearcherVO();
+        researcherVO.setAccessToken(researcher.getAccessToken());
+        researcherVO.setEmail(researcher.getEmail());
+        researcherVO.setFirstName(researcher.getFirstName());
+        researcherVO.setLastName(researcher.getLastName());
+        researcherVO.setPassword(researcher.getPassword());
+        researcherVO.setUsername(researcher.getUsername());
+        researcherVO.setResearcherId(researcher.getResearcherId());
+
+        return researcherVO;
+    }
+
+
 
     /**
      * this is for user to choose list

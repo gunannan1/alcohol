@@ -1,11 +1,13 @@
 package com.app.alcohol.service;
 
 import com.app.alcohol.dao.UserMapper;
+import com.app.alcohol.entity.Researcher;
 import com.app.alcohol.entity.User;
 import com.app.alcohol.enums.ResultEnum;
 import com.app.alcohol.exception.GlobalException;
 import com.app.alcohol.utils.MD5Util;
 import com.app.alcohol.vo.LoginVO;
+import com.app.alcohol.vo.ResearcherVO;
 import com.app.alcohol.vo.SecretVO;
 import com.app.alcohol.vo.UserVO;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
@@ -25,6 +27,9 @@ public class UserService {
     @Autowired
     UserMapper userMapper;
 
+    @Autowired
+    ResearcherService researcherService;
+
     /**
      * register
      * @param userVO
@@ -32,6 +37,11 @@ public class UserService {
      */
     @Transactional
     public boolean register(UserVO userVO) {
+        String researcherId=userVO.getResearcherId();
+        ResearcherVO researcherVO=researcherService.getByResearcherId(researcherId);
+        if(researcherVO==null){
+            throw new GlobalException(ResultEnum.Researcher_Not_Exist);
+        }
 
         User user = UserVOToUser(userVO);
 
