@@ -7,7 +7,7 @@ import com.app.alcohol.service.EmailService;
 import com.app.alcohol.service.UserService;
 import com.app.alcohol.utils.JwtTokenUtil;
 import com.app.alcohol.vo.ResponseVO;
-import com.app.alcohol.vo.SecretVO;
+import com.app.alcohol.vo.PasswordVO;
 import io.jsonwebtoken.JwtException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,6 +17,9 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Controller for resetting password
+ */
 @Controller
 @RequestMapping("/resetpassword/")
 public class ChangePasswordController {
@@ -29,11 +32,19 @@ public class ChangePasswordController {
     @Autowired
     JwtTokenUtil jwtTokenUtil;
 
+    /**
+     * Go to success page
+     * @return
+     */
     @RequestMapping(value="success",method = RequestMethod.GET)
     public String success(){
         return "success";
     }
 
+    /**
+     * Go to expiration page
+     * @return
+     */
     @RequestMapping(value="expire",method = RequestMethod.GET)
     public String expire(){
         return "expire";
@@ -41,15 +52,16 @@ public class ChangePasswordController {
 
 
     /**
-     * change password
+     * Do resetting password
      * @param
      * @return
      */
     @RequestMapping(value="do_reset/{jwt}",method = RequestMethod.POST)
     @ResponseBody
-    public ResponseVO resetSecret(SecretVO secretVO,@PathVariable String jwt){
+    public ResponseVO resetSecret(PasswordVO passwordVO, @PathVariable String jwt){
 
         try {
+            //check if jwt is expired
             boolean flag = jwtTokenUtil.isTokenExpired(jwt);
             if (flag) {
                 throw new GlobalException(ResultEnum.TOKEN_EXPIRED);
@@ -58,14 +70,14 @@ public class ChangePasswordController {
             throw new GlobalException(ResultEnum.TOKEN_ERROR);
         }
 
-        String newPassword=secretVO.getNewPassword();
-        String repeatPassword=secretVO.getConfirmPassword();
+        String newPassword= passwordVO.getNewPassword();
+        String repeatPassword= passwordVO.getConfirmPassword();
         if(!newPassword.equals(repeatPassword)){
             throw new GlobalException(ResultEnum.Passworrd_Not_Match);
         }
         String username=jwtTokenUtil.getUsernameFromToken(jwt);
 
-        boolean success=userService.updatePassword(username,secretVO);
+        boolean success=userService.updatePassword(username, passwordVO);
         if(success){
             return ResponseVO.success(ResultEnum.SUCCESS);
         }
@@ -75,7 +87,7 @@ public class ChangePasswordController {
     }
 
     /**
-     * to the reset password page
+     * Go to the resetting password page
      * @param
      * @return
      */
@@ -108,7 +120,7 @@ public class ChangePasswordController {
     }
 
     /**
-     * send reset password email
+     * Send resetting password email
      * @param
      * @return
      */
@@ -127,6 +139,7 @@ public class ChangePasswordController {
         Map<String, Object> params = new HashMap<>();
         String randomKey=jwtTokenUtil.getRandomKey();
         String jwt = jwtTokenUtil.generateToken(""+username, randomKey,1800*1000);
+        //Generate resetting password link
         String path=request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+"/resetpassword/"+jwt;
         params.put("path",path);
 
@@ -139,10 +152,5 @@ public class ChangePasswordController {
         return ResponseVO.success(ResultEnum.SUCCESS);
 
     }
-
-
-
-
-
 
 }

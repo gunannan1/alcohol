@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * sst controller
+ */
 @RestController
 @RequestMapping("/sst/")
 public class SSTController {
@@ -49,13 +52,23 @@ public class SSTController {
     }
 
 
-
+    /**
+     * get a user's history records
+     * @param username
+     * @param bound
+     * @return
+     */
     @RequestMapping(value = "getHistoryInfo",method = RequestMethod.GET)
     public ResponseVO getHistoryInfo(@RequestParam(name = "username")String username, @RequestParam(name = "bound")int bound){
         List<SSTInfoVO> list=sstRecordService.getSSTHistoryInfo(username, bound);
         return ResponseVO.success(list);
     }
 
+    /**
+     * get reaction time rank
+     * @param username
+     * @return
+     */
     @RequestMapping(value = "getReactionTimeRank",method = RequestMethod.GET)
     public ResponseVO getReactionTimeRank(@RequestParam(name = "username")String username){
         SortVO sortVO=sstRecordService.getReactionTimeRank(username);
@@ -63,6 +76,11 @@ public class SSTController {
         return ResponseVO.success(sortVO);
     }
 
+    /**
+     * get stop signal correctness rank
+     * @param username
+     * @return
+     */
     @RequestMapping(value = "getStopSignalRank",method = RequestMethod.GET)
     public ResponseVO getStopSignalRank(@RequestParam(name = "username")String username){
         SortVO sortVO=sstRecordService.getStopSignalRank(username);
@@ -70,6 +88,11 @@ public class SSTController {
         return ResponseVO.success(sortVO);
     }
 
+    /**
+     * get go stimuli correctness rank
+     * @param username
+     * @return
+     */
     @RequestMapping(value = "getGoStimuliRank",method = RequestMethod.GET)
     public ResponseVO getGoStimuliRank(@RequestParam(name = "username")String username){
         SortVO sortVO=sstRecordService.getGoStimuliRank(username);

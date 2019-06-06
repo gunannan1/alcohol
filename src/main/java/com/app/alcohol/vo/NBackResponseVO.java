@@ -4,6 +4,9 @@ import lombok.Data;
 
 import java.util.List;
 
+/**
+ * used in generating n-back
+ */
 @Data
 public class NBackResponseVO {
 

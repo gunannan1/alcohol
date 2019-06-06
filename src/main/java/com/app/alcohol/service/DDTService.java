@@ -15,6 +15,9 @@ import java.io.*;
 import java.sql.Time;
 import java.util.*;
 
+/**
+ * DDT service
+ */
 @Service
 public class DDTService {
     @Autowired
@@ -126,6 +129,7 @@ public class DDTService {
 
         String localPath = filePathConfig.getLocalPrefix() + path;
 
+        //create local file
         try {
             File file = new File(localPath);
             if (!file.getParentFile().exists()){

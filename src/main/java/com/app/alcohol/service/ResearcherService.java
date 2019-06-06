@@ -2,22 +2,22 @@ package com.app.alcohol.service;
 
 import com.app.alcohol.dao.ResearcherMapper;
 import com.app.alcohol.entity.Researcher;
-import com.app.alcohol.entity.User;
 import com.app.alcohol.utils.MD5Util;
 import com.app.alcohol.vo.ResearcherChooseVO;
 import com.app.alcohol.vo.ResearcherVO;
-import com.app.alcohol.vo.UserVO;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * researcher service
+ */
 @Service
 public class ResearcherService {
     @Autowired
@@ -61,6 +61,11 @@ public class ResearcherService {
         return result!=null && result>0;
     }
 
+    /**
+     * get access token of the researcer
+     * @param researcherId
+     * @return
+     */
     public String getToken(String researcherId){
         Researcher researcher=new Researcher();
         researcher.setResearcherId(researcherId);
@@ -106,6 +111,7 @@ public class ResearcherService {
         List<Researcher> researcherList = new ArrayList<>();
         Page<Researcher> page = new Page<>(pageNum,pageSize);
         EntityWrapper<Researcher> entityWrapper = new EntityWrapper<>();
+        //according key words to searcher researcher
         if(researcherVO.getUsername()!=null&&!researcherVO.getUsername().equals("")){
             entityWrapper.eq("username",researcherVO.getUsername());
         }
@@ -136,6 +142,11 @@ public class ResearcherService {
 
     }
 
+    /**
+     * delete researcher from database
+     * @param id
+     * @return
+     */
     public boolean delete(int id){
         int count=researcherMapper.deleteById(id);
         return count>0;

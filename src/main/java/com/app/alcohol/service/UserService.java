@@ -1,14 +1,13 @@
 package com.app.alcohol.service;
 
 import com.app.alcohol.dao.UserMapper;
-import com.app.alcohol.entity.Researcher;
 import com.app.alcohol.entity.User;
 import com.app.alcohol.enums.ResultEnum;
 import com.app.alcohol.exception.GlobalException;
 import com.app.alcohol.utils.MD5Util;
 import com.app.alcohol.vo.LoginVO;
 import com.app.alcohol.vo.ResearcherVO;
-import com.app.alcohol.vo.SecretVO;
+import com.app.alcohol.vo.PasswordVO;
 import com.app.alcohol.vo.UserVO;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
@@ -110,6 +109,11 @@ public class UserService {
 
     }
 
+    /**
+     * get a user's researcher id
+     * @param username
+     * @return
+     */
     public String getResearcherId(String username){
         User user=new User();
         user.setUsername(username);
@@ -157,10 +161,18 @@ public class UserService {
         return user;
     }
 
+    /**
+     * list user info in management system
+     * @param userVO
+     * @param pageSize
+     * @param pageNum
+     * @return
+     */
     public Page<User> list(UserVO userVO, Integer pageSize, Integer pageNum) {
         List<User> userList = new ArrayList<>();
         Page<User> page = new Page<>(pageNum,pageSize);
         EntityWrapper<User> entityWrapper = new EntityWrapper<>();
+        //according key words to searcher user
         if(userVO.getUsername()!=null&&!userVO.getUsername().equals("")){
             entityWrapper.eq("username",userVO.getUsername());
         }
@@ -191,17 +203,33 @@ public class UserService {
 
     }
 
+    /**
+     * delete a user
+     * @param id
+     * @return
+     */
     public boolean delete(int id){
         int count=userMapper.deleteById(id);
         return count>0;
     }
 
+    /**
+     * get a user by id
+     * @param id
+     * @return
+     */
     public UserVO get(int id){
         User user=userMapper.selectById(id);
         UserVO userVO=UserToUserVO(user);
         return userVO;
     }
 
+    /**
+     * update user info
+     * @param id
+     * @param userVO
+     * @return
+     */
     @Transactional
     public boolean update(int id,UserVO userVO) {
         User user=new User();
@@ -218,21 +246,32 @@ public class UserService {
         return insert>0;
     }
 
+    /**
+     * update password,used in resetting passowrd
+     * @param username
+     * @param passwordVO
+     * @return
+     */
     @Transactional
-    public boolean updatePassword(String username, SecretVO secretVO) {
+    public boolean updatePassword(String username, PasswordVO passwordVO) {
         User user=new User();
         user.setUsername(username);
         user=userMapper.selectOne(user);
         if(user==null){
             throw new GlobalException(ResultEnum.User_Not_Exist);
         }
-        user.setPassword(MD5Util.encrypt(secretVO.getNewPassword()));
+        user.setPassword(MD5Util.encrypt(passwordVO.getNewPassword()));
         // insert to the database
         Integer insert = userMapper.updateById(user);
         return insert>0;
     }
 
 
+    /**
+     * get a user by his emial
+     * @param email
+     * @return
+     */
     public User getByEmail(String email){
         User user=new User();
         user.setEmail(email);
@@ -243,6 +282,11 @@ public class UserService {
         return null;
     }
 
+    /**
+     * hrt a user by his username
+     * @param username
+     * @return
+     */
     public User getByUsername(String username){
         User user=new User();
         user.setUsername(username);

@@ -3,6 +3,9 @@ package com.app.alcohol.exception;
 import com.app.alcohol.enums.ResultEnum;
 import lombok.Data;
 
+/**
+ * Define global exception
+ */
 @Data
 public class GlobalException extends RuntimeException {
     private Integer status;

@@ -2,10 +2,9 @@ package com.app.alcohol.config;
 
 
 /**
- * save current from request
+ * Save current from request
  */
 public class CurrentUser {
-
 
     private static final InheritableThreadLocal<String> threadLocal = new InheritableThreadLocal<>();
     public static void saveUserId(String username){

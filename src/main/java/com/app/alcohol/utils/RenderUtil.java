@@ -13,7 +13,7 @@ import java.io.PrintWriter;
 public class RenderUtil {
 
     /**
-     * 渲染json对象
+     *Render json
      */
     public static void renderJson(HttpServletResponse response, Object jsonObject) {
         try {

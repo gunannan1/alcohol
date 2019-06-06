@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-
+/**
+ * Controller for ddt test
+ */
 @RestController
 @RequestMapping("/ddt/")
 public class DDTController {
@@ -20,9 +22,13 @@ public class DDTController {
     @Autowired
     DDTService ddtService;
 
+    /**
+     * save ddt result
+     * @param ddtRecordVO
+     * @return
+     */
     @RequestMapping(value = "save",method = RequestMethod.POST)
     public ResponseVO save(@RequestBody DDTRecordVO ddtRecordVO){
-
 
         boolean isSuccess= ddtService.save(ddtRecordVO);
         if(isSuccess){

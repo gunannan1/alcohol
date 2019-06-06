@@ -13,6 +13,9 @@ import com.app.alcohol.vo.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+/**
+ * admin service
+ */
 @Service
 public class AdminService {
     @Autowired
@@ -25,7 +28,7 @@ public class AdminService {
     private JwtTokenUtil jwtTokenUtil;
 
     /**
-     * Here only let admin user login, if needed, it can be changed
+     * Administrator login to the system
      * @param username
      * @param password
      * @return

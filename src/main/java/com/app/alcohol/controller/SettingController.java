@@ -8,12 +8,20 @@ import com.app.alcohol.vo.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * Application setting controleer
+ */
 @RequestMapping("/setting")
 @RestController
 public class SettingController {
     @Autowired
     SettingService settingService;
 
+    /**
+     * change setting of application
+     * @param settingVO
+     * @return
+     */
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     @ResponseBody
     public ResponseVO update(@RequestBody SettingVO settingVO) {
@@ -24,6 +32,10 @@ public class SettingController {
         return ResponseVO.error(ResultEnum.Error);
     }
 
+    /**
+     * get application's setting infomation
+     * @return
+     */
     @RequestMapping(value = "/get", method = RequestMethod.GET)
     @ResponseBody
     public ResponseVO getStatus() {

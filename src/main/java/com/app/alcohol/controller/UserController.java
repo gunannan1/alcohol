@@ -95,6 +95,10 @@ public class UserController {
 
     }
 
+    /**
+     * get researcher list for application end to do register
+     * @return
+     */
     @RequestMapping(value = "getResearcherList", method = RequestMethod.GET)
     @ResponseBody
     public ResponseVO getResearcherList() {

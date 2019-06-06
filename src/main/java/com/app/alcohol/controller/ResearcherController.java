@@ -13,6 +13,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Controller for researcher
+ */
 @RequestMapping("/researcher/")
 @RestController
 public class ResearcherController {
@@ -56,6 +59,13 @@ public class ResearcherController {
         }
     }
 
+    /**
+     * show researcher list
+     * @param researcherVO
+     * @param pageSize
+     * @param pageNum
+     * @return
+     */
     @RequestMapping(value = "list", method = RequestMethod.GET)
     @ResponseBody
     public ResponseVO getList(ResearcherVO researcherVO,
@@ -68,6 +78,11 @@ public class ResearcherController {
         return ResponseVO.success(result);
     }
 
+    /**
+     * delete
+     * @param id
+     * @return
+     */
     @RequestMapping(value = "delete", method = RequestMethod.POST)
     @ResponseBody
     public Object delete(@RequestParam("id") int id) {
@@ -79,6 +94,11 @@ public class ResearcherController {
 
     }
 
+    /**
+     * get one researcher info
+     * @param id
+     * @return
+     */
     @RequestMapping(value = "get/{id}", method = RequestMethod.GET)
     @ResponseBody
     public ResponseVO get(@PathVariable int id) {
@@ -87,6 +107,12 @@ public class ResearcherController {
 
     }
 
+    /**
+     * update researcher info
+     * @param id
+     * @param researcherVO
+     * @return
+     */
     @RequestMapping(value = "update/{id}", method = RequestMethod.POST)
     @ResponseBody
     public Object update(@PathVariable int id, @RequestBody ResearcherVO researcherVO) {

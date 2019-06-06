@@ -23,6 +23,7 @@ public enum  ResultEnum {
     Wrong_Email(500,"The email address does not exist"),
     Send_Email_Error(500,"Error when sending email"),
     User_Not_Exist(500,"User not exist"),
+    Not_Login(500,"Please login"),
     Researcher_Not_Exist(500,"Researcher not exist"),
     Write_Error(500,"Write Error"),
     TOKEN_EXPIRED(401, "token expired"),

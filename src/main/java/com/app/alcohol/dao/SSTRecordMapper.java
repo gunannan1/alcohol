@@ -1,6 +1,5 @@
 package com.app.alcohol.dao;
 
-import com.app.alcohol.entity.NBackRecord;
 import com.app.alcohol.entity.SSTRecord;
 import com.app.alcohol.vo.MyRankVO;
 import com.app.alcohol.vo.SSTInfoVO;

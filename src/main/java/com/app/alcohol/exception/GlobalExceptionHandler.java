@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import java.util.List;
 
 
+/**
+ * Global exception handler
+ */
 @RestControllerAdvice
 public class GlobalExceptionHandler {
     private static Logger logger =  LoggerFactory.getLogger(GlobalExceptionHandler.class);
@@ -19,6 +22,7 @@ public class GlobalExceptionHandler {
     public ResponseVO handle(Exception e){
         e.printStackTrace();
         logger.error(e.getMessage());
+        //if globalException, return error message
         if(e instanceof GlobalException){
             GlobalException ex= (GlobalException)e;
             return ResponseVO.error(ex.getStatus(),ex.getMessage());

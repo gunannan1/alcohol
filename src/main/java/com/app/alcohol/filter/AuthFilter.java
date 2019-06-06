@@ -39,6 +39,7 @@ public class AuthFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
 
+        //Cross-domain config
         response.addHeader("Access-Control-Allow-Origin", "*");
         response.addHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
         String allowHeaders = "Origin, No-Cache, X-Requested-With, If-Modified-Since, Pragma, Last-Modified, Cache-Control, Expires, Content-Type, X-E4M-With, Authorization";
@@ -47,38 +48,29 @@ public class AuthFilter extends OncePerRequestFilter {
 
 
 
-        //The management system need token to use
+        //The management system，researcher service and updating setting need jwt token to do authorization
         if(request.getServletPath().startsWith("/management")||request.getServletPath().startsWith("/researcher")
         ||request.getServletPath().startsWith("/setting/update")){
-            //login or logout function do not need token
 
+            //but login or logout function do not need token
             if (request.getServletPath().startsWith("/management/admin")) {
                 chain.doFilter(request, response);
                 return;
             }
 
-//            Enumeration er = request.getHeaderNames();
-//            while(er.hasMoreElements()){
-//                String name	=(String) er.nextElement();
-//                String value = request.getHeader(name);
-//                System.out.println(name+"="+value);
-//            }
 
-
+            //get jwt content
             final String requestHeader = request.getHeader(jwtProperties.getTokenHeader());
-//            System.out.println(requestHeader);
             String authToken = null;
             if (requestHeader != null && requestHeader.startsWith("Bearer ")) {
                 authToken = requestHeader.substring(7);
-
                 String username = jwtTokenUtil.getUsernameFromToken(authToken);
+                //if username exists, save it to current user
                 if(username == null){
                     return;
                 } else {
                     CurrentUser.saveUserId(username);
-//                    System.out.println(username);
                 }
-
 
                 //check if token is expired or is invalid
                 try {
@@ -96,6 +88,7 @@ public class AuthFilter extends OncePerRequestFilter {
                 return;
             }
         }
+        //pass when some requests do not need authorization
         chain.doFilter(request, response);
 
     }

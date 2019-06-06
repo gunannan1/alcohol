@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * web config
+ * Web config, add filter
  */
 @Configuration
 public class WebConfig {

@@ -3,6 +3,9 @@ package com.app.alcohol.utils;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * define date format
+ */
 public class DateUtil {
     public static String getCurrentTime(){
         Date currentTime = new Date();

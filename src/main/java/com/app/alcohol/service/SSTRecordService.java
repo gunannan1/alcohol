@@ -18,6 +18,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * sst service
+ */
 @Service
 public class SSTRecordService {
 
@@ -35,7 +38,276 @@ public class SSTRecordService {
 
 
     /**
-     * save sst data
+     * get a user's history sst records
+     * @param username
+     * @param bound
+     * @return
+     */
+    public  List<SSTInfoVO> getSSTHistoryInfo(String username, int bound){
+        List<SSTInfoVO> list=sstRecordMapper.selectLatestSSTRecord(username,bound);
+        return list;
+
+    }
+
+
+    /**
+     * save sst records after all  blocks are finished,we use this in application end
+     * @param sstRecordListVO
+     * @return
+     */
+    @Transactional
+    public boolean save(SSTRecordListVO sstRecordListVO){
+
+        List<SSTRecordVO> list=sstRecordListVO.getRecords();
+        String username=list.get(0).getUsername();
+        User user=userService.getByUsername(username);
+        if(user==null){
+            throw new GlobalException(ResultEnum.User_Not_Exist);
+        }
+        Date date=new Date();
+        String currentTime= DateUtil.convert(date);
+
+        try {
+            for (int i=0;i<list.size();i++){
+                SSTRecord sstRecord=new SSTRecord();
+                sstRecord.setUsername(username);
+                sstRecord.setBlock(list.get(i).getBlock());
+                sstRecord.setTrials(list.get(i).getTrials());
+                sstRecord.setIncorrect(list.get(i).getIncorrect());
+                sstRecord.setMissed(list.get(i).getMissed());
+                sstRecord.setReactionTime(list.get(i).getReactionTime());
+                sstRecord.setPercentage(list.get(i).getPercentage());
+                sstRecord.setCreateTime(date);
+                sstRecordMapper.insert(sstRecord);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
+
+        String researcherId=userService.getResearcherId(username);
+        String path=createLocalFile(researcherId,list,currentTime);
+        if(researcherId!=null){
+            dropBoxService.upload(path,researcherId);
+        }
+
+        return true;
+
+    }
+
+    /**
+     * create local file
+     * @param researcherId
+     * @param sstRecordList
+     * @param currentTime
+     * @return
+     */
+    private String createLocalFile(String researcherId,List<SSTRecordVO> sstRecordList,String currentTime){
+
+        if(researcherId==null){
+            researcherId="NoResearcher";
+        }
+
+        String username=sstRecordList.get(0).getUsername();
+
+        String path= researcherId + "/" + username + "/" + "sst.txt";
+        String localPath = filePathConfig.getLocalPrefix() + path;
+
+        try {
+            File file = new File(localPath);
+            if (!file.getParentFile().exists()){
+                file.getParentFile().mkdirs();
+
+            }
+            if (!file.exists()){
+                file.createNewFile();
+                BufferedWriter out = new BufferedWriter(new FileWriter(file));
+                out.write("username,"+"block,"+"trials,"+"incorrect,"+"missed,"+"reaction_time,"+"percentage,"+"updateTime"+"\r\n");
+                out.flush();
+                out.close();
+            }
+            BufferedWriter out = new BufferedWriter(new OutputStreamWriter(
+                    new FileOutputStream(file, true)));
+            for(int i=0;i<sstRecordList.size();i++){
+                out.write(username+","+sstRecordList.get(i).getBlock()+","+sstRecordList.get(i).getTrials()+","+sstRecordList.get(i).getIncorrect()
+                        +","+sstRecordList.get(i).getMissed()+","+sstRecordList.get(i).getReactionTime()+","
+                        +sstRecordList.get(i).getPercentage()+","+currentTime+"\r\n");
+            }
+            out.flush();
+            out.close();
+
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return path;
+
+    }
+
+    /**
+     * get reaction time rank
+     * @param username
+     * @return
+     */
+    public SortVO getReactionTimeRank(String username){
+        SortVO sortVO=new SortVO();
+        List<SortElementVO> sortElementVOS;
+        List<Double> res=new ArrayList<>();
+        sortElementVOS=sstRecordMapper.getReactionTimeRankInfo();
+
+        //fill 0 if some gaps have no information
+        if(sortElementVOS.size()!=10){
+            int j=0;
+            for(int i=1;i<=10;i++){
+                if(j<sortElementVOS.size()&&sortElementVOS.get(j).getGapId()==i){
+                    res.add(sortElementVOS.get(j).getPercentage());
+                    j++;
+                }
+                else {
+                    res.add(0D);
+                }
+            }
+        }
+        else {
+            for(SortElementVO sortElementVO:sortElementVOS){
+                res.add(sortElementVO.getPercentage());
+            }
+        }
+        sortVO.setList(res);
+        MyRankVO myRankVO=sstRecordMapper.getMyReactionTimeRank(username);
+        if(myRankVO==null){
+            return sortVO;
+        }
+
+        //find the position of my score in all gaps
+        for(int i=0;i<10;i++){
+            if(myRankVO.getMyScore()==1000){
+                sortVO.setMyGapPosition(9);
+                break;
+            }
+            else if(myRankVO.getMyScore()<(i+1)*100&&myRankVO.getMyScore()>=i*100){
+                sortVO.setMyGapPosition(i);
+                break;
+            }
+        }
+
+        sortVO.setMyPercentage(myRankVO.getMyPercentage());
+        sortVO.setMyScore(myRankVO.getMyScore());
+
+
+        return sortVO;
+
+    }
+
+    /**
+     * get stop signal correctness rank
+     * @param username
+     * @return
+     */
+    public SortVO getStopSignalRank(String username){
+        SortVO sortVO=new SortVO();
+        List<SortElementVO> sortElementVOS;
+        List<Double> res=new ArrayList<>();
+        sortElementVOS=sstRecordMapper.getStopSignalRankInfo();
+
+        //fill 0 if some gaps have no information
+        if(sortElementVOS.size()!=10){
+            int j=0;
+            for(int i=1;i<=10;i++){
+                if(j<sortElementVOS.size()&&sortElementVOS.get(j).getGapId()==i){
+                    res.add(sortElementVOS.get(j).getPercentage());
+                    j++;
+                }
+                else {
+                    res.add(0D);
+                }
+            }
+        }
+        else {
+            for(SortElementVO sortElementVO:sortElementVOS){
+                res.add(sortElementVO.getPercentage());
+            }
+        }
+        sortVO.setList(res);
+        MyRankVO myRankVO=sstRecordMapper.getMyStopSignalRank(username);
+        if(myRankVO==null){
+            return sortVO;
+        }
+
+        //find the position of my score in all gaps
+        for(int i=0;i<10;i++){
+            if(myRankVO.getMyScore()==100){
+                sortVO.setMyGapPosition(9);
+                break;
+            }
+            else if(myRankVO.getMyScore()<(i+1)*10&&myRankVO.getMyScore()>=i*10){
+                sortVO.setMyGapPosition(i);
+                break;
+            }
+        }
+
+        sortVO.setMyPercentage(myRankVO.getMyPercentage());
+        sortVO.setMyScore(myRankVO.getMyScore());
+
+        return sortVO;
+
+    }
+
+    /**
+     * get to stimuli rank info
+     * @param username
+     * @return
+     */
+    public SortVO getGoStimuliRank(String username){
+        SortVO sortVO=new SortVO();
+        List<SortElementVO> sortElementVOS;
+        List<Double> res=new ArrayList<>();
+        sortElementVOS=sstRecordMapper.getGoStimuliRankInfo();
+
+        //fill 0 if some gaps have no information
+        if(sortElementVOS.size()!=10){
+            int j=0;
+            for(int i=1;i<=10;i++){
+                if(j<sortElementVOS.size()&&sortElementVOS.get(j).getGapId()==i){
+                    res.add(sortElementVOS.get(j).getPercentage());
+                    j++;
+                }
+                else {
+                    res.add(0D);
+                }
+            }
+        }
+        else {
+            for(SortElementVO sortElementVO:sortElementVOS){
+                res.add(sortElementVO.getPercentage());
+            }
+        }
+        sortVO.setList(res);
+        MyRankVO myRankVO=sstRecordMapper.getMyGoStimuliRank(username);
+        if(myRankVO==null){
+            return sortVO;
+        }
+
+        //find the position of my score in all gaps
+        for(int i=0;i<10;i++){
+            if(myRankVO.getMyScore()==100){
+                sortVO.setMyGapPosition(9);
+                break;
+            }
+            else if(myRankVO.getMyScore()<(i+1)*10&&myRankVO.getMyScore()>=i*10){
+                sortVO.setMyGapPosition(i);
+                break;
+            }
+        }
+        sortVO.setMyPercentage(myRankVO.getMyPercentage());
+        sortVO.setMyScore(myRankVO.getMyScore());
+
+        return sortVO;
+
+    }
+
+    /**
+     * save sst data once a block is finished,now this is not used,but maybe you want to change save methods
      * @param sstRecordVO
      * @return
      */
@@ -72,9 +344,8 @@ public class SSTRecordService {
     }
 
 
-
     /**
-     * create local file
+     * create local file,not used
      * @param sstRecordVO
      * @return
      */
@@ -123,232 +394,6 @@ public class SSTRecordService {
 
     }
 
-    public  List<SSTInfoVO> getSSTHistoryInfo(String username, int bound){
-        List<SSTInfoVO> list=sstRecordMapper.selectLatestSSTRecord(username,bound);
-        return list;
-
-    }
-
-
-
-    @Transactional
-    public boolean save(SSTRecordListVO sstRecordListVO){
-
-        List<SSTRecordVO> list=sstRecordListVO.getRecords();
-        String username=list.get(0).getUsername();
-        User user=userService.getByUsername(username);
-        if(user==null){
-            throw new GlobalException(ResultEnum.User_Not_Exist);
-        }
-        Date date=new Date();
-        String currentTime= DateUtil.convert(date);
-
-        try {
-            for (int i=0;i<list.size();i++){
-                SSTRecord sstRecord=new SSTRecord();
-                sstRecord.setUsername(username);
-                sstRecord.setBlock(list.get(i).getBlock());
-                sstRecord.setTrials(list.get(i).getTrials());
-                sstRecord.setIncorrect(list.get(i).getIncorrect());
-                sstRecord.setMissed(list.get(i).getMissed());
-                sstRecord.setReactionTime(list.get(i).getReactionTime());
-                sstRecord.setPercentage(list.get(i).getPercentage());
-                sstRecord.setCreateTime(date);
-                sstRecordMapper.insert(sstRecord);
-            }
-        }catch (Exception e){
-            e.printStackTrace();
-            return false;
-        }
-
-        String researcherId=userService.getResearcherId(username);
-        String path=createLocalFile(researcherId,list,currentTime);
-        if(researcherId!=null){
-            dropBoxService.upload(path,researcherId);
-        }
-
-        return true;
-
-    }
-    private String createLocalFile(String researcherId,List<SSTRecordVO> sstRecordList,String currentTime){
-
-        if(researcherId==null){
-            researcherId="NoResearcher";
-        }
-
-        String username=sstRecordList.get(0).getUsername();
-
-        String path= researcherId + "/" + username + "/" + "sst.txt";
-        String localPath = filePathConfig.getLocalPrefix() + path;
-
-        try {
-            File file = new File(localPath);
-            if (!file.getParentFile().exists()){
-                file.getParentFile().mkdirs();
-
-            }
-            if (!file.exists()){
-                file.createNewFile();
-                BufferedWriter out = new BufferedWriter(new FileWriter(file));
-                out.write("username,"+"block,"+"trials,"+"incorrect,"+"missed,"+"reaction_time,"+"percentage,"+"updateTime"+"\r\n");
-                out.flush();
-                out.close();
-            }
-            BufferedWriter out = new BufferedWriter(new OutputStreamWriter(
-                    new FileOutputStream(file, true)));
-            for(int i=0;i<sstRecordList.size();i++){
-                out.write(username+","+sstRecordList.get(i).getBlock()+","+sstRecordList.get(i).getTrials()+","+sstRecordList.get(i).getIncorrect()
-                        +","+sstRecordList.get(i).getMissed()+","+sstRecordList.get(i).getReactionTime()+","
-                        +sstRecordList.get(i).getPercentage()+","+currentTime+"\r\n");
-            }
-            out.flush();
-            out.close();
-
-
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        return path;
-
-    }
-
-    public SortVO getReactionTimeRank(String username){
-        SortVO sortVO=new SortVO();
-        List<SortElementVO> sortElementVOS;
-        List<Double> res=new ArrayList<>();
-        sortElementVOS=sstRecordMapper.getReactionTimeRankInfo();
-
-        if(sortElementVOS.size()!=10){
-            int j=0;
-            for(int i=1;i<=10;i++){
-                if(j<sortElementVOS.size()&&sortElementVOS.get(j).getGapId()==i){
-                    res.add(sortElementVOS.get(j).getPercentage());
-                    j++;
-                }
-                else {
-                    res.add(0D);
-                }
-            }
-        }
-        else {
-            for(SortElementVO sortElementVO:sortElementVOS){
-                res.add(sortElementVO.getPercentage());
-            }
-        }
-        sortVO.setList(res);
-        MyRankVO myRankVO=sstRecordMapper.getMyReactionTimeRank(username);
-        if(myRankVO==null){
-            return sortVO;
-        }
-        for(int i=0;i<10;i++){
-            if(myRankVO.getMyScore()==1000){
-                sortVO.setMyGapPosition(9);
-                break;
-            }
-            else if(myRankVO.getMyScore()<(i+1)*100&&myRankVO.getMyScore()>=i*100){
-                sortVO.setMyGapPosition(i);
-                break;
-            }
-        }
-
-        sortVO.setMyPercentage(myRankVO.getMyPercentage());
-        sortVO.setMyScore(myRankVO.getMyScore());
-
-
-        return sortVO;
-
-    }
-
-    public SortVO getStopSignalRank(String username){
-        SortVO sortVO=new SortVO();
-        List<SortElementVO> sortElementVOS;
-        List<Double> res=new ArrayList<>();
-        sortElementVOS=sstRecordMapper.getStopSignalRankInfo();
-
-        if(sortElementVOS.size()!=10){
-            int j=0;
-            for(int i=1;i<=10;i++){
-                if(j<sortElementVOS.size()&&sortElementVOS.get(j).getGapId()==i){
-                    res.add(sortElementVOS.get(j).getPercentage());
-                    j++;
-                }
-                else {
-                    res.add(0D);
-                }
-            }
-        }
-        else {
-            for(SortElementVO sortElementVO:sortElementVOS){
-                res.add(sortElementVO.getPercentage());
-            }
-        }
-        sortVO.setList(res);
-        MyRankVO myRankVO=sstRecordMapper.getMyStopSignalRank(username);
-        if(myRankVO==null){
-            return sortVO;
-        }
-        for(int i=0;i<10;i++){
-            if(myRankVO.getMyScore()==100){
-                sortVO.setMyGapPosition(9);
-                break;
-            }
-            else if(myRankVO.getMyScore()<(i+1)*10&&myRankVO.getMyScore()>=i*10){
-                sortVO.setMyGapPosition(i);
-                break;
-            }
-        }
-
-        sortVO.setMyPercentage(myRankVO.getMyPercentage());
-        sortVO.setMyScore(myRankVO.getMyScore());
-
-        return sortVO;
-
-    }
-
-    public SortVO getGoStimuliRank(String username){
-        SortVO sortVO=new SortVO();
-        List<SortElementVO> sortElementVOS;
-        List<Double> res=new ArrayList<>();
-        sortElementVOS=sstRecordMapper.getGoStimuliRankInfo();
-
-        if(sortElementVOS.size()!=10){
-            int j=0;
-            for(int i=1;i<=10;i++){
-                if(j<sortElementVOS.size()&&sortElementVOS.get(j).getGapId()==i){
-                    res.add(sortElementVOS.get(j).getPercentage());
-                    j++;
-                }
-                else {
-                    res.add(0D);
-                }
-            }
-        }
-        else {
-            for(SortElementVO sortElementVO:sortElementVOS){
-                res.add(sortElementVO.getPercentage());
-            }
-        }
-        sortVO.setList(res);
-        MyRankVO myRankVO=sstRecordMapper.getMyGoStimuliRank(username);
-        if(myRankVO==null){
-            return sortVO;
-        }
-        for(int i=0;i<10;i++){
-            if(myRankVO.getMyScore()==100){
-                sortVO.setMyGapPosition(9);
-                break;
-            }
-            else if(myRankVO.getMyScore()<(i+1)*10&&myRankVO.getMyScore()>=i*10){
-                sortVO.setMyGapPosition(i);
-                break;
-            }
-        }
-        sortVO.setMyPercentage(myRankVO.getMyPercentage());
-        sortVO.setMyScore(myRankVO.getMyScore());
-
-        return sortVO;
-
-    }
 
 
 
@@ -356,5 +401,4 @@ public class SSTRecordService {
 
 
 
-
-    }
+}

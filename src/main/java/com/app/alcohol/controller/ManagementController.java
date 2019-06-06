@@ -18,6 +18,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 
+/**
+ * Controller for management system
+ */
 @RestController
 @RequestMapping("/management")
 public class ManagementController {
@@ -29,6 +32,11 @@ public class ManagementController {
     UserService userService;
 
 
+    /**
+     * Login
+     * @param loginVO
+     * @return
+     */
     @RequestMapping(value="/admin/login",method = RequestMethod.POST)
     public ResponseVO login(@RequestBody LoginVO loginVO){
         String username=loginVO.getUsername();
@@ -51,12 +59,23 @@ public class ManagementController {
         
     }
 
+    /**
+     * Logout
+     * @return
+     */
     @RequestMapping(value = "/admin/logout", method = RequestMethod.POST)
     @ResponseBody
     public Object logout() {
         return ResponseVO.success(ResultEnum.SUCCESS);
     }
 
+    /**
+     * Show user list
+     * @param userVO
+     * @param pageSize
+     * @param pageNum
+     * @return
+     */
     @RequestMapping(value = "/user/list", method = RequestMethod.GET)
     @ResponseBody
     public ResponseVO getList(UserVO userVO,
@@ -70,11 +89,16 @@ public class ManagementController {
             return ResponseVO.success(result);
         }
         else {
-            return ResponseVO.error(1,"未登录");
+            return ResponseVO.error(ResultEnum.Not_Login);
         }
 
     }
 
+    /**
+     * delete user
+     * @param id
+     * @return
+     */
     @RequestMapping(value = "/user/delete", method = RequestMethod.POST)
     @ResponseBody
     public ResponseVO delete(@RequestParam("id") int id) {
@@ -86,6 +110,11 @@ public class ManagementController {
 
     }
 
+    /**
+     * get one user's information
+     * @param id
+     * @return
+     */
     @RequestMapping(value = "/user/get/{id}", method = RequestMethod.GET)
     @ResponseBody
     public ResponseVO get(@PathVariable int id) {
@@ -93,6 +122,12 @@ public class ManagementController {
         return ResponseVO.success(userVO);
     }
 
+    /**
+     * update one user's information
+     * @param id
+     * @param userVO
+     * @return
+     */
     @RequestMapping(value = "/user/update/{id}", method = RequestMethod.POST)
     @ResponseBody
     public ResponseVO update(@PathVariable int id, @RequestBody UserVO userVO) {

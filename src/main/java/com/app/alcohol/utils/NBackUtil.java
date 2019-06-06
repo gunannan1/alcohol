@@ -4,13 +4,14 @@ import com.app.alcohol.vo.NBackResponseVO;
 
 import java.util.*;
 
+/**
+ * generate n-back trials and answer position
+ */
 public class NBackUtil {
 
 
     /**
-     * this algorithm is stupid and  have some bugs
-     * so i recommend to generate thousands of theses character string before experiment and save them to the database
-     * when doing the experiments, we can randomly choose the strings in the database, it also saves time
+     *generate n-back trials and answer position
      * @param nback 1 or 2 or 3
      * @param target As required,it is 33% of max size, 33% * 20 =7
      * @param max As required it is 20
@@ -20,6 +21,8 @@ public class NBackUtil {
 
         NBackResponseVO nBackResponseVO=new NBackResponseVO();
         List<String> characters=new LinkedList<>();
+
+        //n-back only need theses characters
         characters.add("P");
         characters.add("Q");
         characters.add("L");
@@ -32,6 +35,8 @@ public class NBackUtil {
         List<Integer> nums=new ArrayList<>();
         List<Integer> targets=new ArrayList<>();
         String[] traits=new String[max];
+
+        //fill A in all position first
         Arrays.fill(traits,"A");
         Random random=new Random();
 
@@ -49,7 +54,6 @@ public class NBackUtil {
                     count++;
                 }
             }
-
 
 //            System.out.println(Arrays.toString(traits));
 //            System.out.println(nums);
@@ -71,6 +75,7 @@ public class NBackUtil {
             String character=characters.get(random.nextInt(characters.size()));
 
 
+            //if trait in this num
             if(traits[num].equals("A")||traits[num].equals(character)){
                 if(num+nback<max&&traits[num+nback].equals("A")){
                     if(count==target-1){

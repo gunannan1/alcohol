@@ -19,6 +19,9 @@ import java.io.InputStream;
 
 import static com.app.alcohol.enums.ResultEnum.NO_UPLOAD_TOKEN;
 
+/**
+ * service for uploading file to dropbox
+ */
 @Service
 public class DropBoxService {
     @Autowired
@@ -34,6 +37,7 @@ public class DropBoxService {
      */
     @Async("asyncExecutor")
     public void upload(String path,String researcherId){
+        //uploading need access token
         String token=researcherService.getToken(researcherId);
         if(token==null){
             throw new GlobalException(NO_UPLOAD_TOKEN);
@@ -42,15 +46,16 @@ public class DropBoxService {
         DbxRequestConfig config = DbxRequestConfig.newBuilder("dropbox/upload").build();
         DbxClientV2 client = new DbxClientV2(config, token);
 
+        //if file exists, delete original one
         try{
             client.files().deleteV2(filePathConfig.getDropboxPrefix()+path);
         }catch (Exception e){
             //do nothing here
-
         }
 
         try (InputStream in = new FileInputStream(filePathConfig.getLocalPrefix()+path)) {
 
+            //uploading
             FileMetadata metadata = client.files().uploadBuilder(filePathConfig.getDropboxPrefix()+path)
                     .uploadAndFinish(in);
         }catch (Exception e){
