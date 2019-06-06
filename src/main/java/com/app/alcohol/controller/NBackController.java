@@ -58,7 +58,7 @@ public class NBackController {
     }
 
     @RequestMapping(value = "getCorrectnessRank",method = RequestMethod.GET)
-    public ResponseVO getSortInfo(@RequestParam(name = "username")String username,@RequestParam(name = "level")Integer level){
+    public ResponseVO getCorrectnessRank(@RequestParam(name = "username")String username,@RequestParam(name = "level")Integer level){
         SortVO sortVO=nBackService.getCorrectnessRank(username, level);
 
         return ResponseVO.success(sortVO);
