@@ -37,18 +37,30 @@ public class ResearcherController {
             throw new GlobalException(ResultEnum.Empty_Email);
         }
 
-        //if username is repeated,return true
+        //check repeated username or email
         boolean repeatedUserName=researcherService.repeatedUserName(researcherVO.getUsername());
+        boolean repeatedEmail=researcherService.repeatedEmail(researcherVO.getEmail());
+        boolean repeatedId=researcherService.repeatedResearcherId(researcherVO.getResearcherId());
+
 
         boolean isSuccess=true;
+        //if username and email is not repeated,it can be registered
+        if(repeatedUserName){
+            throw new GlobalException(ResultEnum.Repeated_Username);
 
-        //if username is not repeated,it can be registered
-        if(!repeatedUserName){
-            isSuccess = researcherService.create(researcherVO);
+        }
+        else if(repeatedEmail) {
+            throw new GlobalException(ResultEnum.Repeated_Email);
+        }
+        else if(repeatedId){
+            throw new GlobalException(ResultEnum.Repeated_ResearcherId);
+
         }
         else {
-            throw new GlobalException(ResultEnum.Repeated_Username);
+            isSuccess = researcherService.create(researcherVO);
         }
+
+
 
         //return the userVo entity to the mobile since they may need cache it locally
         if(isSuccess){

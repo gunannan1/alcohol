@@ -2,7 +2,6 @@ package com.app.alcohol.service;
 
 import com.app.alcohol.dao.ResearcherMapper;
 import com.app.alcohol.entity.Researcher;
-import com.app.alcohol.utils.MD5Util;
 import com.app.alcohol.vo.ResearcherChooseVO;
 import com.app.alcohol.vo.ResearcherVO;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
@@ -33,7 +32,6 @@ public class ResearcherService {
 
         Researcher researcher=new Researcher();
         researcher.setUsername(researcherVO.getUsername());
-        researcher.setPassword(MD5Util.encrypt(researcherVO.getPassword()));
         researcher.setAccessToken(researcherVO.getAccessToken());
         researcher.setEmail(researcherVO.getEmail());
         researcher.setFirstName(researcherVO.getFirstName());
@@ -87,7 +85,6 @@ public class ResearcherService {
     public boolean update(int id,ResearcherVO researcherVO) {
         Researcher researcher=new Researcher();
         researcher.setId(id);
-        researcher.setPassword(MD5Util.encrypt(researcherVO.getPassword()));
         researcher.setAccessToken(researcherVO.getAccessToken());
         researcher.setEmail(researcherVO.getEmail());
         researcher.setFirstName(researcherVO.getFirstName());
@@ -164,7 +161,6 @@ public class ResearcherService {
         researcherVO.setEmail(researcher.getEmail());
         researcherVO.setFirstName(researcher.getFirstName());
         researcherVO.setLastName(researcher.getLastName());
-        researcherVO.setPassword(researcher.getPassword());
         researcherVO.setUsername(researcher.getUsername());
         researcherVO.setResearcherId(researcher.getResearcherId());
 
@@ -188,7 +184,6 @@ public class ResearcherService {
         researcherVO.setEmail(researcher.getEmail());
         researcherVO.setFirstName(researcher.getFirstName());
         researcherVO.setLastName(researcher.getLastName());
-        researcherVO.setPassword(researcher.getPassword());
         researcherVO.setUsername(researcher.getUsername());
         researcherVO.setResearcherId(researcher.getResearcherId());
 
@@ -215,6 +210,34 @@ public class ResearcherService {
         return res;
 
     }
+
+    /**
+     * check if the email is repeated
+     * @param email
+     * @return
+     */
+    public boolean repeatedEmail(String email) {
+
+        EntityWrapper<Researcher> entityWrapper = new EntityWrapper<>();
+        entityWrapper.eq("email",email);
+        Integer result = researcherMapper.selectCount(entityWrapper);
+        return result!=null && result>0;
+    }
+
+
+    /**
+     * check if the email is repeated
+     * @param
+     * @return
+     */
+    public boolean repeatedResearcherId(String researcherId) {
+
+        EntityWrapper<Researcher> entityWrapper = new EntityWrapper<>();
+        entityWrapper.eq("researcher_id",researcherId);
+        Integer result = researcherMapper.selectCount(entityWrapper);
+        return result!=null && result>0;
+    }
+
 
 
 

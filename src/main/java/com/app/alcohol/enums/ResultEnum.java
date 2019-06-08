@@ -17,6 +17,7 @@ public enum  ResultEnum {
     Empty_Email(500,"Email can't be empty"),
     Repeated_Username(500,"Username is repeated"),
     Repeated_Email(500,"Email is repeated"),
+    Repeated_ResearcherId(500,"ResearcherId is repeated"),
     Login_Failed(500,"Login failed,wrong username or password"),
     NO_UPLOAD_TOKEN(500,"No token for upload the file"),
     Passworrd_Not_Match(500,"Confirm password don't match"),

@@ -39,7 +39,7 @@ public class UserController {
             throw new GlobalException(ResultEnum.Empty_Email);
         }
 
-        //if username is repeated,return true
+        //check repeated username or email
         boolean repeatedUserName=userService.repeatedUserName(userVO.getUsername());
         boolean repeatedEmail=userService.repeatedEmail(userVO.getEmail());
 

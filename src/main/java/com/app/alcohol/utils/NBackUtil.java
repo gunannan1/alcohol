@@ -13,8 +13,8 @@ public class NBackUtil {
     /**
      *generate n-back trials and answer position
      * @param nback 1 or 2 or 3
-     * @param target As required,it is 33% of max size, 33% * 20 =7
-     * @param max As required it is 20
+     * @param target As required,it is 33% of max size, 33% * 20 =7,can be changed if needed
+     * @param max As required it is 20,can be changed if needed
      * @throws Exception
      */
     public static NBackResponseVO generateNBack(int nback, int target, int max) throws Exception{

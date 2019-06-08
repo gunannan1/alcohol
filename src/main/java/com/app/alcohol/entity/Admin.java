@@ -35,9 +35,5 @@ public class Admin {
      */
     private String email;
 
-    /**
-     * time to create
-     */
-    private Date createTime;
 
 }

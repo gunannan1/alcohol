@@ -10,11 +10,6 @@ public class ResearcherVO {
     private String username;
 
     /**
-     * password
-     */
-    private String password;
-
-    /**
      * first name
      */
     private String firstName;
