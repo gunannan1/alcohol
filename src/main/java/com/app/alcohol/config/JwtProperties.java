@@ -22,6 +22,14 @@ public class JwtProperties {
 
     private String md5Key;
 
-    private String filterUrl;
+    /**
+     * url that need intercept
+     */
+    private String interceptUrl;
+
+    /**
+     * url that need ignore, these url often has same start with interceptUrl.
+     */
+    private String ignoreUrl;
 
 }

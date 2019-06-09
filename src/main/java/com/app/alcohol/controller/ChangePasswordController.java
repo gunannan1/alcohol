@@ -91,7 +91,7 @@ public class ChangePasswordController {
      * @param
      * @return
      */
-    @RequestMapping(value="{jwt}")
+    @RequestMapping(value="{jwt}",method = RequestMethod.GET)
     public String changeSecret(@PathVariable String jwt){
 
         try {

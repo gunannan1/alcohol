@@ -69,7 +69,7 @@
 
 10. Open the dist folder ,copy index.html and static to /usr/local/tomcat9/webapps/index/ .  /usr/local/tomcat9 is the root directory of tomcat and yours may different from mine. Folder index is not exist at beginning, you must create it firdt but it can have any name. 
 
-11. Start tomcat.Input <http://45.113.232.152/index> in your local browser to see if the management system is run(Change 45.113.232.152 to your cloud server's ip).
+11. Start tomcat.Input <http://45.113.232.152/index> in your local browser to see if the management system is run(Change 45.113.232.152 to your cloud server's ip). The local url of the system is  <http://localhost:8090. 
 
 12. Before you deploy it ,you can also run the project locally and use postman to test it. It's very easy.  In fact, my deployment approach is simple but not good. I recommend you to use Nginx and you can package the java program to war and put it under Tomcat. Some steps is not very detailed, if you meet problems, you can google it or contact me gunannan1@qq.com. I also learned the knowledge of how to deploy a project from google.
 
@@ -81,7 +81,8 @@ If you want every researcher user their own dropbox, you must create access toke
 
 
 
-## Notice
+# Notice
 
 1. If you meet some errors when using management system, you can try logout and login again.
-2. at(mine is 9.0). 
+
+ system, you can try logout and login again.

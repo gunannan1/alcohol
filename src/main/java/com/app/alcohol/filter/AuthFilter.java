@@ -49,13 +49,17 @@ public class AuthFilter extends OncePerRequestFilter {
 
 
         //The management system，researcher service and updating setting need jwt token to do authorization
-        if(request.getServletPath().startsWith("/management")||request.getServletPath().startsWith("/researcher")
-        ||request.getServletPath().startsWith("/setting/update")){
+        if(request.getServletPath().startsWith("/user")||request.getServletPath().startsWith("/researcher")
+        ||request.getServletPath().startsWith("/setting")){
 
-            //but login or logout function do not need token
-            if (request.getServletPath().startsWith("/management/admin")) {
-                chain.doFilter(request, response);
-                return;
+            //ignore some urls in them
+            String ignoreUrl=jwtProperties.getIgnoreUrl();
+            String[] ignoreUrls = ignoreUrl.split(",");
+            for(int i=0;i<ignoreUrls.length;i++) {
+                if (request.getServletPath().startsWith(ignoreUrls[i])) {
+                    chain.doFilter(request, response);
+                    return;
+                }
             }
 
 
