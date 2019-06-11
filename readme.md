@@ -96,5 +96,5 @@ If you want every researcher user their own dropbox, you must create access toke
 # Notice
 
 1. If you meet some errors when using management system, you can try logout and login again.
-2. The project is now deployed in netcar research server 45.113.232.152, it can work now. But this server has 6 months limit, so it will expire Sep 2019. So maybe you need to deploy it on a new server.
+2. The project is now deployed in Netcar research server 45.113.232.152, it can work now. But this server has 6 months limit, so it will expire on Sep 2019. So maybe you need to deploy it on a new server.
 3. Please be careful about the security of the  database. Our database has ever been attacked by hacker. So please set a strong password and limit the authority of remote access.
