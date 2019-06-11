@@ -1,3 +1,15 @@
+# About
+
+This is the back end code of alcohol application. 
+
+The Link of ios application <https://github.com/yudongl/Project>
+
+The Link of Android application <https://github.com/PuKaiShen/HesterLab>
+
+The link of management system  https://github.com/gunannan1/alcohol-management
+
+
+
 # How to deploy the project
 
 1. Apply for a cloud server(mine is ubuntu 18.04),install Java(more than 1.8) and 
